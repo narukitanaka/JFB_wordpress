@@ -1,0 +1,69 @@
+@use "variable" as v;
+@use "common" as c;
+/*************************************************
+footer
+*************************************************/
+footer {
+  position: sticky;
+  top: 100%;
+  background-color: #fff;
+  padding-bottom: 2rem;
+  @include c.mq() {
+    padding-bottom: 1rem;
+  }
+  p {
+    &:has(small) {
+      text-align: center;
+    }
+  }
+  .footer-inner {
+    @include c.flex(between, top);
+    padding: 8rem v.pxtovw(60) 2rem v.pxtovw(300);
+    @include c.mq() {
+      flex-direction: column;
+      width: 90%;
+      margin: 0 auto;
+      padding: 4rem 0;
+    }
+    .footerNav-wrap {
+      width: 70%;
+      @include c.flex(between, top);
+      margin-bottom: 4rem;
+      @include c.mq() {
+        width: 100%;
+        flex-wrap: wrap;
+        margin-bottom: 0;
+      }
+      .fnav_list {
+        margin-bottom: 2rem;
+        &:not(:has(nav)) {
+          a {
+            font-weight: 600;
+          }
+        }
+        p {
+          font-size: 1.3rem;
+          font-weight: 600;
+          margin-bottom: 0.3rem;
+          @include c.mq() {
+            font-size: 1.2rem;
+          }
+        }
+        li {
+          a {
+            font-size: 1.3rem;
+            @include c.mq() {
+              font-size: 1.2rem;
+            }
+          }
+        }
+      }
+    }
+    .logo {
+      width: 22rem;
+      @include c.mq() {
+        margin-bottom: 3rem;
+      }
+    }
+  }
+}

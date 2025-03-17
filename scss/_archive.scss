@@ -1,0 +1,192 @@
+@use "variable" as v;
+@use "common" as c;
+/*************************************************
+archive
+*************************************************/
+// 商品、メーカー、バイヤー 一覧
+#archiveProducts,
+#archiveMaker,
+#archiveBuyer {
+  h2 {
+    font-size: 2.4rem;
+    font-weight: 800;
+    margin-bottom: 2.5rem;
+  }
+  .inner {
+    padding: 2rem 0;
+  }
+  .products_wrap,
+  .maker-list_wrap,
+  .buyer-list_wrap {
+    margin-bottom: 10rem;
+    @include c.mq() {
+      margin-bottom: 6rem;
+    }
+  }
+}
+
+.filter_wrap {
+  margin-bottom: 10rem;
+  @include c.mq() {
+    margin-bottom: 6rem;
+  }
+  form {
+    > div {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 30px 100px;
+      padding: 30px clamp(20px, v.pxtovw(100), 100px);
+      margin-bottom: 2rem;
+      @include c.mq() {
+        padding: 30px 15px 15px;
+      }
+    }
+    .btn {
+      max-width: 25rem;
+      margin: 0 auto;
+    }
+  }
+  fieldset {
+    margin-bottom: 4rem;
+    border-bottom: 1.5px solid #ccc;
+    @include c.mq() {
+      margin-bottom: 3rem;
+    }
+    &:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+    .ttl {
+      display: inline-block;
+      position: relative;
+      margin-bottom: 20px;
+      @include c.mq() {
+        padding-bottom: 3rem;
+      }
+      h3 {
+        display: inline-block;
+        font-size: 2rem;
+        font-weight: 600;
+        line-height: 1;
+        @include c.mq() {
+          font-size: 1.6rem;
+        }
+      }
+      .clear {
+        position: absolute;
+        bottom: 0;
+        right: -12rem;
+        font-size: 1.4rem;
+        color: v.$color-re;
+        text-decoration: underline;
+        @include c.mq() {
+          right: auto;
+          left: 0;
+          font-size: 1.2rem;
+        }
+      }
+    }
+    .sp_accordion-trigger {
+      position: relative;
+      &::before {
+        @include c.mq() {
+          content: "";
+          width: 14px;
+          aspect-ratio: 1/1;
+          background-color: #000;
+          position: absolute;
+          top: 0;
+          right: 1rem;
+          transition: all 0.3s;
+        }
+      }
+      &.open {
+        &::before {
+          rotate: 180deg;
+        }
+      }
+    }
+    .sp_accordion-hide {
+      margin-bottom: 2rem;
+    }
+    .search-form {
+      max-width: 65rem;
+      background-color: #f5f5f5;
+      padding: 1.5rem 2.5rem;
+      margin: 0 auto;
+      @include c.mq() {
+        padding: 1.5rem;
+      }
+      input {
+        font-size: 1.6rem;
+        &::placeholder {
+          @include c.mq() {
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+  }
+}
+#archiveProducts {
+  .filter_wrap {
+    fieldset {
+      .ttl {
+        .clear {
+          @include c.mq() {
+            width: 200%;
+          }
+        }
+      }
+    }
+  }
+}
+
+.categories {
+  @include c.flex(between, center);
+  @include c.mq() {
+    align-items: start;
+  }
+  &.flex-column05 {
+    row-gap: 20px;
+    @include c.mq() {
+      row-gap: 10px;
+    }
+  }
+}
+.category-group {
+  ul {
+    padding-left: 1.5rem;
+    @include c.mq() {
+      padding-left: 1rem;
+    }
+  }
+  > label {
+    font-weight: 600;
+  }
+  label {
+    display: block;
+    margin-bottom: 1rem;
+    @include c.mq() {
+      display: flex;
+      align-items: start;
+      gap: 5px;
+      line-height: 1.4;
+    }
+    input {
+      @include c.mq() {
+        margin-top: 2px;
+      }
+    }
+  }
+  &.area {
+    .flex-column05 {
+      @include c.mq() {
+        row-gap: 5px;
+      }
+    }
+    label {
+      font-weight: 600;
+    }
+  }
+}

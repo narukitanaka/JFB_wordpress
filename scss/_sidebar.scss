@@ -1,0 +1,107 @@
+@use "variable" as v;
+@use "common" as c;
+/*************************************************
+sidebar
+*************************************************/
+aside {
+  width: 17%;
+  max-width: 300px;
+  flex-shrink: 0;
+  box-shadow: v.$shadow01;
+  padding: 2rem;
+  background-color: #fff;
+  z-index: 0;
+  position: fixed;
+  height: 100vh;
+  z-index: 998;
+  @include c.mq() {
+    display: none;
+  }
+  .sidebar-wrapper {
+    position: sticky;
+    top: 10rem;
+  }
+  .snav_list {
+    margin-bottom: 2rem;
+    padding-left: 2rem;
+    &:not(:has(nav)) {
+      a {
+        font-weight: 600;
+      }
+    }
+    p {
+      position: relative;
+      font-weight: 600;
+      margin-bottom: 5px;
+      &::before {
+        content: "";
+        width: 10px;
+        aspect-ratio: 1/1;
+        background-color: #333;
+        position: absolute;
+        @include c.center(false, true);
+        left: -2rem;
+      }
+    }
+    li {
+      margin-bottom: 5px;
+      a {
+        font-size: 1.4rem;
+      }
+    }
+  }
+  .side-btnArea {
+    margin-top: 4rem;
+  }
+  .btn-wrap {
+    margin-bottom: 1.2rem;
+  }
+  &.snav_maker-buyer {
+    // width: 28rem;
+    // max-width: 32rem;
+    width: auto;
+    max-width: none;
+    padding-top: 0;
+    padding-right: 0;
+    padding-left: v.pxtovw(60);
+    background-color: transparent;
+    box-shadow: none;
+    > div {
+      width: 25rem;
+      background-color: #fff;
+      padding: 0 1.5rem 2rem;
+      border-radius: 5px;
+      box-shadow: v.$shadow01;
+      &:not(:has(.btn-wrap)) {
+        padding-bottom: 0;
+      }
+    }
+    nav {
+      ul {
+        li {
+          padding: 2.5rem 0;
+          border-bottom: 1px solid #aaa;
+          &:last-of-type {
+            border-bottom: none;
+          }
+          a {
+            @include c.flex(start, center);
+            gap: 1rem;
+            line-height: 1;
+            font-weight: 600;
+          }
+          img {
+            width: 15px;
+          }
+        }
+      }
+    }
+  }
+}
+.content_maker-buyer {
+  aside {
+    position: static;
+    height: auto;
+    padding-bottom: 8rem;
+  }
+}

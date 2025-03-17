@@ -1,0 +1,431 @@
+@use "variable" as v;
+@use "common" as c;
+/*************************************************
+component
+*************************************************/
+// トンマナ
+.bgc-wh {
+  background-color: #fff;
+}
+.bgc-bl {
+  background-color: v.$color-bl;
+  color: #fff;
+}
+.bgc-re {
+  background-color: v.$color-re;
+  color: #fff;
+}
+
+// 検索バー
+.search-form {
+  background-color: #fff;
+  padding: 1rem 2rem;
+  border-radius: 100vmax;
+  .search-input-wrapper {
+    @include c.flex($justify: between, $align: center);
+  }
+  input {
+    width: 100%;
+    font-size: 1.4rem;
+  }
+  button {
+    img {
+      width: 18px;
+    }
+  }
+}
+
+// ボタン
+.btn {
+  width: 100%;
+  aspect-ratio: 1/0.2;
+  border-radius: 100vmax;
+  @include c.flex(center, center);
+  font-size: 1.4rem;
+  font-weight: 700;
+  box-shadow: v.$shadow01;
+}
+
+// アイテムカード
+.itemCard {
+  .img-box {
+    width: 100%;
+    aspect-ratio: 1/1;
+    background-color: #333;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+  }
+  .cate {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 5px;
+    span {
+      font-size: 1.1rem;
+      border-radius: 100vmax;
+      padding: 3px 5px 2px;
+      @include c.mq() {
+        line-height: 1;
+        padding: 3px 5px 4px;
+      }
+    }
+    .parent {
+      color: #fff;
+      background-color: #333;
+      border: 1px solid #333;
+    }
+    .child {
+      border: 1px solid #333;
+    }
+  }
+  .name {
+    font-size: 1.7rem;
+    font-weight: 700;
+    margin-bottom: 7px;
+    @include c.mq() {
+      font-size: 1.5rem;
+    }
+  }
+  .maker {
+    font-size: 1.1rem;
+    color: #aaa;
+    margin-bottom: 5px;
+  }
+  .region {
+    @include c.flex(start, center);
+    gap: 5px;
+    margin-bottom: 8px;
+    @include c.mq() {
+      margin-bottom: 1.2rem;
+    }
+    img {
+      width: 12px;
+      height: 15px;
+      background-color: #333;
+    }
+    span {
+      font-size: 1.1rem;
+    }
+  }
+  .link-area {
+    .btn {
+      margin-bottom: 5px;
+      @include c.mq() {
+        font-size: 1.3rem;
+        margin-bottom: 8px;
+      }
+    }
+  }
+}
+
+// カンパニーカード
+.companyCard01 {
+  padding-left: 2rem;
+  margin-bottom: 3rem;
+  transition: all 0.3s;
+  @include c.mq() {
+    padding-left: 0;
+    margin-bottom: 2rem;
+  }
+  &:has(.info a:hover) {
+    background-color: #fff;
+    > div {
+      border-bottom: 1.5px solid transparent;
+    }
+  }
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+  > div {
+    display: flex;
+    padding: 3rem 2rem 3rem 0;
+    border-bottom: 1.5px solid #aaa;
+    transition: all 0.3s;
+    @include c.mq() {
+      flex-direction: column;
+      gap: 1.5rem;
+      padding: 2rem 0 3rem 0;
+    }
+    .left {
+      width: 50%;
+      flex-shrink: 0;
+      padding-right: 3rem;
+      @include c.mq() {
+        width: 100%;
+        padding-right: 0;
+      }
+      .img-box {
+        aspect-ratio: 1/0.65;
+        border-radius: 5px;
+        overflow: hidden;
+      }
+    }
+    .right {
+      flex-grow: 1;
+      min-width: 0;
+      .info {
+        margin-bottom: 4rem;
+        @include c.mq() {
+          margin-bottom: 2rem;
+        }
+        .cate {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 5px;
+          margin-bottom: 5px;
+          margin-bottom: 1.5rem;
+          span {
+            font-size: 1.1rem;
+            border-radius: 100vmax;
+            padding: 3px 5px 2px;
+            @include c.mq() {
+              line-height: 1;
+              padding: 3px 5px 4px;
+            }
+          }
+          .parent {
+            color: #fff;
+            background-color: #333;
+            border: 1px solid #333;
+          }
+          .child {
+            border: 1px solid #333;
+          }
+        }
+        .name {
+          display: flex;
+          align-items: center;
+          gap: 1.5rem;
+          font-size: 3.2rem;
+          font-weight: 700;
+          line-height: 1;
+          margin-bottom: 1rem;
+          @include c.mq() {
+            font-size: 2rem;
+          }
+          .logo {
+            display: block;
+            width: 3.5rem;
+            @include c.mq() {
+              width: 2.5rem;
+            }
+          }
+        }
+        .txt {
+          width: 100%;
+          overflow-wrap: break-word;
+          line-height: 1.5;
+          margin-bottom: 5px;
+        }
+        .region {
+          @include c.flex(start, center);
+          gap: 5px;
+          margin-bottom: 8px;
+          img {
+            width: 12px;
+            height: 15px;
+            background-color: #333;
+          }
+          span {
+            font-size: 1.2rem;
+          }
+        }
+      }
+      .links {
+        max-width: 25rem;
+        @include c.mq() {
+          max-width: 100%;
+        }
+        .btn-wrap {
+          margin-bottom: 0.7rem;
+          &:last-of-type {
+            margin-bottom: 0;
+          }
+          .btn {
+            aspect-ratio: 1/0.15;
+          }
+        }
+      }
+    }
+  }
+}
+
+.companyCard02 {
+  position: relative;
+  padding: 3rem 3rem;
+  margin-bottom: 3rem;
+  background-color: #fff;
+  border-radius: 5px;
+  @include c.mq() {
+    padding: 3rem 2rem;
+  }
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+  .btn-wrap {
+    position: absolute;
+    top: 3rem;
+    right: 3rem;
+    width: 12.5rem;
+    @include c.mq() {
+      top: 4rem;
+    }
+    .btn {
+      aspect-ratio: 1/0.25;
+    }
+  }
+  a {
+    > div {
+      display: flex;
+      @include c.mq() {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+      .left {
+        width: 32%;
+        flex-shrink: 0;
+        padding-right: 4rem;
+        @include c.mq() {
+          width: 100%;
+          padding-right: 0;
+        }
+        .img-box {
+          aspect-ratio: 1/0.65;
+          border-radius: 5px;
+          overflow: hidden;
+          @include c.mq() {
+            aspect-ratio: 1/0.55;
+          }
+        }
+      }
+      .right {
+        flex-grow: 1;
+        min-width: 0;
+        .cate {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+          margin-bottom: 2rem;
+          @include c.mq() {
+            margin-bottom: 1.5rem;
+          }
+          div {
+            max-width: 42rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            @include c.mq() {
+              row-gap: 5px;
+            }
+            span {
+              font-size: 1.2rem;
+              border-radius: 100vmax;
+              padding: 3px 5px 2px;
+            }
+          }
+          .parent {
+            color: #fff;
+            background-color: #333;
+            border: 1px solid #333;
+          }
+          .child {
+            border: 1px solid #333;
+          }
+        }
+        .name {
+          display: flex;
+          align-items: center;
+          gap: 1.5rem;
+          font-size: 2.2rem;
+          font-weight: 600;
+          line-height: 1;
+          margin-bottom: 1.5rem;
+          @include c.mq() {
+            font-size: 2rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+          }
+          .logo {
+            display: block;
+            width: 3.5rem;
+          }
+        }
+        .txt {
+          width: 100%;
+          overflow-wrap: break-word;
+          line-height: 1.5;
+          margin-bottom: 2rem;
+          overflow: hidden;
+          display: -webkit-box;
+          text-overflow: ellipsis;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 3;
+          @include c.mq() {
+            margin-bottom: 1rem;
+          }
+        }
+        .region {
+          @include c.flex(start, center);
+          gap: 5px;
+          img {
+            width: 12px;
+            height: 15px;
+            background-color: #333;
+          }
+          span {
+            font-size: 1.2rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+// パンクズリスト
+.breadcrumbs {
+  margin-bottom: 4rem;
+  nav {
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 3.5rem;
+      row-gap: 1rem;
+      @include c.mq() {
+        gap: 2.5rem;
+        row-gap: 0.7rem;
+      }
+      li,
+      a {
+        font-size: 1.2rem;
+        font-weight: 500;
+      }
+      li {
+        &:not(:last-child) {
+          position: relative;
+          &::after {
+            content: "";
+            width: 5px;
+            aspect-ratio: 1/2;
+            background: url(images/icon-arrow_b.svg) no-repeat top/contain;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: -2rem;
+            @include c.mq() {
+              right: -1.5rem;
+            }
+          }
+        }
+        &:not(:has(a)) {
+          @include c.mq() {
+            max-width: 8rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+      }
+    }
+  }
+}

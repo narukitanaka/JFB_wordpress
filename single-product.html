@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <!-- favicon -->
+  <link rel="icon" type="image/png" href="images/fav.png" />
+  <!-- <meta name="robots" content="index, follow"> -->
+  <meta name="format-detection" content="telephone=no">
+  <!-- css -->
+  <link rel="stylesheet" type="text/css" href="css/reset.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/yakuhanjp@4.0.1/dist/css/yakuhanjp.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
+
+  <title>J-FOOD HUB</title>
+  <meta name="description" content="" />
+  <meta name="keywords" content="" />
+</head>
+
+<body>
+
+  <header>
+    <div class="header-inner">
+
+      <div class="logo img-box">
+        <a href="./"><img src="images/jfh-logo_y_wh.png" alt=""></a>
+      </div>
+
+      <div class="serch header-serch">
+        <form class="search-form">
+          <div class="search-input-wrapper">
+            <input type="text" class="search-input" placeholder="What are you looking fore? ex) sweets, okinawa">
+            <button type="submit" class="search-icon-button">
+              <img src="images/noimage01.png" alt="">
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div class="header-acount">
+        <div class="acount-wrapper">
+          <div class="mylist">
+            <a href="#"><img src="#" alt="">My List</a>
+          </div>
+          <div class="user">
+            <div class="u-name">AAA BBB Inc.</div>
+            <a href="#" class="acount-link">
+              <img src="#" alt="">
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <main>
+
+    <div class="contents-wrap">
+
+      <aside>
+
+        <div class="sidebar-wrapper">
+          <div class="snav_list">
+            <p><a href="#">Home</a></p>
+          </div>
+
+          <div class="snav_list">
+            <p>Categories</p>
+            <nav>
+              <ul>
+                <li><a href="#">cate-menue01</a></li>
+                <li><a href="#">cate-menue02</a></li>
+                <li><a href="#">cate-menue03</a></li>
+                <li><a href="#">cate-menue04</a></li>
+                <li><a href="#">cate-menue05</a></li>
+                <li><a href="#">cate-menue06</a></li>
+              </ul>
+            </nav>
+          </div>
+
+          <div class="snav_list">
+            <p>Region</p>
+            <nav>
+              <ul>
+                <li><a href="#">Okinawa</a></li>
+                <li><a href="#">Kyoto</a></li>
+                <li><a href="#">Fukuoka</a></li>
+              </ul>
+            </nav>
+          </div>
+
+          <div class="sidebar-accordion">
+            <div class="snav_list">
+              <p>Maker</p>
+              <nav class="nav-accordion">
+                <ul>
+                  <li><a href="#">maker-name01</a></li>
+                  <li><a href="#">maker-name02</a></li>
+                  <li><a href="#">maker-name03</a></li>
+                  <li><a href="#">maker-name04</a></li>
+                  <li><a href="#">maker-name05</a></li>
+                  <li><a href="#">maker-name06</a></li>
+                  <li><a href="#">maker-name07</a></li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+
+          <div class="side-btnArea">
+            <div class="btn-wrap side-btn">
+              <a class="btn bgc-bl" href="#">Serch Products</a>
+            </div>
+
+            <div class="btn-wrap side-btn">
+              <a class="btn bgc-bl" href="#">My Page</a>
+            </div>
+          </div>
+        </div>
+
+      </aside>
+
+      <div class="contents" id="singleProduct">
+        <div class="inner">
+
+          <div class="breadcrumbs">
+            <nav>
+              <ul>
+                <li><a href="/">HOME</a></li>
+                <li><a href="/">Parent cate</a></li>
+                <li><a href="/">Child cate</a></li>
+                <li>Product name</li>
+              </ul>
+            </nav>
+          </div>
+
+
+          <div class="product-content">
+
+            <div class="img-content">
+              <div class="img-wrapper">
+
+                <div class="swiper-item single-productSwiper">
+                  <div class="swiper-wrapper">
+
+                    <div class="swiper-slide">
+                      <div class="img-box">
+                        <img src="images/noimage01.png" alt="">
+                      </div>
+                    </div>
+                    <div class="swiper-slide">
+                      <div class="img-box">
+                        <img src="images/noimage01.png" alt="">
+                      </div>
+                    </div>
+                    <div class="swiper-slide">
+                      <div class="img-box">
+                        <img src="images/noimage01.png" alt="">
+                      </div>
+                    </div>
+                    <div class="swiper-slide">
+                      <div class="img-box">
+                        <img src="images/noimage01.png" alt="">
+                      </div>
+                    </div>
+
+                  </div><!-- /.swiper-wrapper -->
+                </div><!-- /.swiper-item -->
+
+                <div class="thumb-list">
+                  <div class="thumb-item">
+                    <a class="thumb-link" href="javascript:void(0);" onclick="thumbnail(1)">
+                      <img src="images/noimage01.png" alt="">
+                    </a>
+                  </div>
+                  <div class="thumb-item">
+                    <a class="thumb-link" href="javascript:void(0);" onclick="thumbnail(2)">
+                      <img src="images/noimage01.png" alt="">
+                    </a>
+                  </div>
+                  <div class="thumb-item">
+                    <a class="thumb-link" href="javascript:void(0);" onclick="thumbnail(3)">
+                      <img src="images/noimage01.png" alt="">
+                    </a>
+                  </div>
+                  <div class="thumb-item">
+                    <a class="thumb-link" href="javascript:void(0);" onclick="thumbnail(4)">
+                      <img src="images/noimage01.png" alt="">
+                    </a>
+                  </div>
+                </div><!-- /.thumb-list -->
+              </div><!-- /.img-wrapper -->
+            </div><!-- /.img-content -->
+
+            <div class="detail-content">
+
+              <p class="number">Item No. <span>A-1</span></p>
+              <p class="name">Product Name Product Name Product Name</p>
+
+              <div class="download">
+                <div class="btn-wrap"><a class="btn bgc-bl" href="images/dummy_pdf.pdf" download>QUOTATION</a></div>
+                <div class="btn-wrap"><a class="btn bgc-bl" href="images/dummy_pdf.pdf" download>Standards Document</a>
+                </div>
+                <div class="btn-wrap"><a class="btn bgc-bl" href="images/dummy_pdf.pdf" download>Company info</a></div>
+                <div class="btn-wrap"><a class="btn bgc-re" href="images/dummy_pdf.pdf">Contact the manufacturer</a>
+                </div>
+              </div>
+
+              <p class="txt">
+                texttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttext<br>
+                texttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttext<br>
+                texttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttext<br>
+                texttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttext
+              </p>
+
+              <div class="custom-fields">
+                <table>
+                  <tr>
+                    <th>Item No.</th>
+                    <td>A-1</td>
+                  </tr>
+                  <tr>
+                    <th>Size(Qty)/<br>Dimensions</th>
+                    <td>256g/20cm×10cm×5cm</td>
+                  </tr>
+                  <tr>
+                    <th>MOQ</th>
+                    <td>〇〇case</td>
+                  </tr>
+                  <tr>
+                    <th>Case size/<br>Pakking size(cm)</th>
+                    <td>00cm×00cm×00cm</td>
+                  </tr>
+                  <tr>
+                    <th>Raw meterial name</th>
+                    <td>
+                      texttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttext
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>Allergy</th>
+                    <td>Soybeans,pork,mackerel</td>
+                  </tr>
+                  <tr>
+                    <th>Best-before date</th>
+                    <td>1 year after production</td>
+                  </tr>
+                  <tr>
+                    <th>Preservation methods</th>
+                    <td>naormal or average or fixed temperature</td>
+                  </tr>
+                </table>
+              </div>
+
+            </div><!-- /.detail-content -->
+
+          </div><!-- /.product-content -->
+
+
+          <div class="products_wrap">
+            <h2>More to love</h2>
+            <ul class="flex-column05">
+              <li class="itemCard">
+                <a href="#">
+                  <div class="img-box">
+                    <img src="#" alt="">
+                  </div>
+                  <div class="cate">
+                    <span class="parent">parentCate01</span>
+                    <span class="child">childCate01</span>
+                  </div>
+                  <div class="name">Product-name</div>
+                  <div class="maker">Maker-name</div>
+                  <div class="region">
+                    <img src="#" alt="">
+                    <span>Region-name</span>
+                  </div>
+                </a>
+              </li>
+              <li class="itemCard">
+                <a href="#">
+                  <div class="img-box">
+                    <img src="#" alt="">
+                  </div>
+                  <div class="cate">
+                    <span class="parent">parentCate01</span>
+                    <span class="child">childCate01</span>
+                  </div>
+                  <div class="name">Product-name</div>
+                  <div class="maker">Maker-name</div>
+                  <div class="region">
+                    <img src="#" alt="">
+                    <span>Region-name</span>
+                  </div>
+                </a>
+              </li>
+              <li class="itemCard">
+                <a href="#">
+                  <div class="img-box">
+                    <img src="#" alt="">
+                  </div>
+                  <div class="cate">
+                    <span class="parent">parentCate01</span>
+                    <span class="child">childCate01</span>
+                  </div>
+                  <div class="name">Product-name</div>
+                  <div class="maker">Maker-name</div>
+                  <div class="region">
+                    <img src="#" alt="">
+                    <span>Region-name</span>
+                  </div>
+                </a>
+              </li>
+              <li class="itemCard">
+                <a href="#">
+                  <div class="img-box">
+                    <img src="#" alt="">
+                  </div>
+                  <div class="cate">
+                    <span class="parent">parentCate01</span>
+                    <span class="child">childCate01</span>
+                  </div>
+                  <div class="name">Product-name</div>
+                  <div class="maker">Maker-name</div>
+                  <div class="region">
+                    <img src="#" alt="">
+                    <span>Region-name</span>
+                  </div>
+                </a>
+              </li>
+              <li class="itemCard">
+                <a href="#">
+                  <div class="img-box">
+                    <img src="#" alt="">
+                  </div>
+                  <div class="cate">
+                    <span class="parent">parentCate01</span>
+                    <span class="child">childCate01</span>
+                  </div>
+                  <div class="name">Product-name</div>
+                  <div class="maker">Maker-name</div>
+                  <div class="region">
+                    <img src="#" alt="">
+                    <span>Region-name</span>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+        </div><!-- /.inner -->
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+
+      <div class="logo img-box u-sp"><img src="images/jfh-logo_yoko.png" alt=""></div>
+
+
+      <div class="footerNav-wrap">
+        <div class="fnav_list">
+          <p>Categories</p>
+          <nav>
+            <ul>
+              <li><a href="#">cate-menue01</a></li>
+              <li><a href="#">Processed Food</a></li>
+              <li><a href="#">cate-menue03</a></li>
+              <li><a href="#">cate-menue04</a></li>
+              <li><a href="#">cate-menue05</a></li>
+              <li><a href="#">cate-menue06</a></li>
+            </ul>
+          </nav>
+        </div>
+
+        <div class="fnav_list">
+          <p>Region</p>
+          <nav>
+            <ul>
+              <li><a href="#">Okinawa</a></li>
+              <li><a href="#">Kyoto</a></li>
+              <li><a href="#">Fukuoka</a></li>
+            </ul>
+          </nav>
+        </div>
+
+        <div class="fnav_list">
+          <p>Maker</p>
+          <nav class="nav-accordion">
+            <ul>
+              <li><a href="#">maker-name01</a></li>
+              <li><a href="#">maker-name02</a></li>
+              <li><a href="#">maker-name03</a></li>
+              <li><a href="#">maker-name04</a></li>
+              <li><a href="#">maker-name05</a></li>
+              <li><a href="#">maker-name06</a></li>
+              <li><a href="#">maker-name07</a></li>
+            </ul>
+          </nav>
+        </div>
+
+        <div class="fnav_list">
+          <p>Get to know us</p>
+          <nav class="nav-accordion">
+            <ul>
+              <li><a href="#">Inquiries about J-FOOD HUB</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Operating company</a></li>
+            </ul>
+          </nav>
+        </div>
+
+      </div>
+
+      <div class="logo img-box u-pc"><img src="images/jfh-logo_yoko.png" alt=""></div>
+
+    </div>
+    <p><small>@2025 J-FOOD HUB</small></p>
+  </footer>
+
+  <!-- js -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="js/swiper-bundle.min.js"></script>
+  <script type="text/javascript" src="js/main.js"></script>
+  <script>
+    //商品詳細サムネイルスライダー
+    const thumbnailSwiperInstance = new Swiper(".single-productSwiper", {
+      loop: true,
+    });
+    function thumbnail(index) {
+      thumbnailSwiperInstance.slideTo(index);
+    }
+  </script>
+
+</body>
+
+</html>

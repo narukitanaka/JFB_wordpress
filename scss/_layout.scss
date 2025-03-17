@@ -1,0 +1,99 @@
+@use "variable" as v;
+@use "common" as c;
+/*************************************************
+layout
+*************************************************/
+.contents-wrap {
+  display: flex;
+  padding-top: 6.8rem;
+  @include c.mq() {
+    padding-top: 6rem;
+  }
+  &:has(aside) {
+    .contents {
+      flex: 1;
+      min-width: 0;
+      margin-left: 17%;
+      @include c.mq() {
+        margin-left: 0;
+      }
+    }
+  }
+  &:not(:has(.breadcrumbs)) {
+    .content {
+      padding-top: 1rem;
+    }
+  }
+  &.content_maker-buyer {
+    max-width: 155rem;
+    &:has(aside) {
+      .contents {
+        margin-left: 0;
+      }
+    }
+  }
+  &.content_maker-buyer {
+    padding-top: 4rem;
+  }
+  &.content_mypage {
+    padding-top: 6.8rem;
+  }
+}
+
+.swiper {
+  position: relative;
+  padding-bottom: 20px;
+  .swiper-pagination {
+    bottom: 0 !important;
+  }
+}
+.swiper-button-prev,
+.swiper-button-next {
+  width: 4rem;
+  aspect-ratio: 1/1;
+  height: auto;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: v.$shadow01;
+  &::after {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #333;
+  }
+}
+
+// FlexBox-4カラム
+.flex-column04 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  row-gap: 20px;
+  @include c.mq() {
+    gap: 10px;
+    row-gap: 10px;
+  }
+  > * {
+    width: calc((100% / 4) - (9rem / 4));
+    @include c.mq() {
+      width: calc((100% / 2) - (10px / 2));
+    }
+  }
+}
+
+// FlexBox-5カラム
+.flex-column05 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  row-gap: 60px;
+  @include c.mq() {
+    gap: 15px;
+    row-gap: 30px;
+  }
+  > * {
+    width: calc((100% / 5) - (10rem / 5));
+    @include c.mq() {
+      width: calc((100% / 2) - (15px / 2));
+    }
+  }
+}
