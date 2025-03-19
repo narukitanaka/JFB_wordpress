@@ -1,21 +1,14 @@
 <aside>
 
   <div class="sidebar-wrapper">
-    <div class="snav_list">
+    
+    <div class="snav_list home">
       <p><a href="<?php echo home_url('/'); ?>">Home</a></p>
     </div>
 
-    <div class="snav_list">
+    <div class="snav_list food">
       <p>Categories</p>
       <nav>
-        <!-- <ul>
-          <li><a href="#">Fresh Products</a></li>
-          <li><a href="#">cate-menue02</a></li>
-          <li><a href="#">cate-menue03</a></li>
-          <li><a href="#">cate-menue04</a></li>
-          <li><a href="#">cate-menue05</a></li>
-          <li><a href="#">cate-menue06</a></li>
-        </ul> -->
         <ul>
           <?php
           // product-catの親カテゴリー（parent=0）を取得
@@ -43,7 +36,7 @@
       </nav>
     </div>
 
-    <div class="snav_list">
+    <div class="snav_list region">
       <p>Region</p>
       <nav>
         <ul>
@@ -54,21 +47,8 @@
       </nav>
     </div>
 
-    <div class="sidebar-accordion">
-      <div class="snav_list">
-        <p>Maker</p>
-        <nav class="nav-accordion">
-          <ul>
-            <li><a href="#">maker-name01</a></li>
-            <li><a href="#">maker-name02</a></li>
-            <li><a href="#">maker-name03</a></li>
-            <li><a href="#">maker-name04</a></li>
-            <li><a href="#">maker-name05</a></li>
-            <li><a href="#">maker-name06</a></li>
-            <li><a href="#">maker-name07</a></li>
-          </ul>
-        </nav>
-      </div>
+    <div class="snav_list maker">
+      <p><a href="#">Maker</a></p>
     </div>
 
     <div class="side-btnArea">

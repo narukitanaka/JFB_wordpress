@@ -27,11 +27,23 @@ html {
 
 body {
   scroll-behavior: smooth;
-  font-family: YakuHanJP, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", Meiryo, sans-serif;
+  font-family: YakuHanJP, "Arial", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", Meiryo, sans-serif;
   min-height: 100dvh;
   background-color: #f7f5f3;
 }
 
+@font-face {
+  font-family: "Arial";
+  src: url("fonts/Arial.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Arial";
+  src: url("fonts/Arial Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
 .clearfix:after {
   content: "";
   display: block;
@@ -73,6 +85,10 @@ input[type=button]:focus {
     width: 90%;
     max-width: 600px;
   }
+}
+
+h2 {
+  font-family: "Poppins", sans-serif;
 }
 
 h3,
@@ -937,7 +953,8 @@ component
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.4rem;
+  font-family: "Poppins", sans-serif;
+  font-size: 1.5rem;
   font-weight: 700;
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.16);
 }
@@ -945,9 +962,10 @@ component
 .itemCard .img-box {
   width: 100%;
   aspect-ratio: 1/1;
-  background-color: #333;
   border-radius: 5px;
   margin-bottom: 1rem;
+  border-radius: 5px;
+  overflow: hidden;
 }
 .itemCard .cate {
   display: flex;
@@ -956,9 +974,9 @@ component
   margin-bottom: 5px;
 }
 .itemCard .cate span {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   border-radius: 100vmax;
-  padding: 3px 5px 2px;
+  padding: 2px 5px 1px;
 }
 @media screen and (max-width: 768px) {
   .itemCard .cate span {
@@ -973,11 +991,13 @@ component
 }
 .itemCard .cate .child {
   border: 1px solid #333;
+  background-color: #fff;
 }
 .itemCard .name {
-  font-size: 1.7rem;
+  font-size: 2rem;
   font-weight: 700;
-  margin-bottom: 7px;
+  line-height: 1.2;
+  margin-bottom: 5px;
 }
 @media screen and (max-width: 768px) {
   .itemCard .name {
@@ -985,9 +1005,9 @@ component
   }
 }
 .itemCard .maker {
-  font-size: 1.1rem;
-  color: #aaa;
-  margin-bottom: 5px;
+  font-size: 1.2rem;
+  color: #606060;
+  margin-bottom: 2px;
 }
 .itemCard .region {
   display: flex;
@@ -1004,12 +1024,13 @@ component
 .itemCard .region img {
   width: 12px;
   height: 15px;
-  background-color: #333;
 }
 .itemCard .region span {
-  font-size: 1.1rem;
+  font-size: 1.3rem;
 }
 .itemCard .link-area .btn {
+  font-weight: 500;
+  color: #606060;
   margin-bottom: 5px;
 }
 @media screen and (max-width: 768px) {
@@ -1088,7 +1109,7 @@ component
   margin-bottom: 1.5rem;
 }
 .companyCard01 > div .right .info .cate span {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   border-radius: 100vmax;
   padding: 3px 5px 2px;
 }
@@ -1145,7 +1166,6 @@ component
 .companyCard01 > div .right .info .region img {
   width: 12px;
   height: 15px;
-  background-color: #333;
 }
 .companyCard01 > div .right .info .region span {
   font-size: 1.2rem;
@@ -1311,7 +1331,6 @@ component
 .companyCard02 a > div .right .region img {
   width: 12px;
   height: 15px;
-  background-color: #333;
 }
 .companyCard02 a > div .right .region span {
   font-size: 1.2rem;
@@ -1371,8 +1390,7 @@ header
 header {
   position: fixed;
   width: 100%;
-  background-color: #888;
-  background-color: rgba(0, 0, 0, 0.9);
+  background: linear-gradient(90deg, rgb(69, 69, 69) 0%, rgb(0, 0, 0) 90%);
   z-index: 999;
 }
 header .header-inner {
@@ -1448,7 +1466,6 @@ header .header-inner .header-acount .acount-wrapper .mylist::after {
 header .header-inner .header-acount .acount-wrapper .mylist img {
   width: 18px;
   height: 18px;
-  background-color: #333;
   margin-right: 1rem;
 }
 header .header-inner .header-acount .acount-wrapper .user {
@@ -1474,7 +1491,6 @@ header .header-inner .header-acount .acount-wrapper .user .u-name {
 header .header-inner .header-acount .acount-wrapper .user a img {
   width: 20px;
   height: 25px;
-  background-color: #333;
 }
 @media screen and (max-width: 768px) {
   header .header-inner .header-acount .acount-wrapper .user a img {
@@ -1790,37 +1806,61 @@ aside .sidebar-wrapper {
 }
 aside .snav_list {
   margin-bottom: 2rem;
-  padding-left: 2rem;
+  padding-left: 3rem;
 }
 aside .snav_list:not(:has(nav)) a {
   font-weight: 600;
 }
 aside .snav_list p {
+  font-family: "Poppins", sans-serif;
   position: relative;
+  font-size: 1.6rem;
   font-weight: 600;
   margin-bottom: 5px;
 }
 aside .snav_list p::before {
   content: "";
-  width: 10px;
+  width: 20px;
   aspect-ratio: 1/1;
   background-color: #333;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  left: -2rem;
+  left: -3rem;
+}
+aside .snav_list p a {
+  font-size: 1.6rem;
 }
 aside .snav_list li {
   margin-bottom: 5px;
 }
 aside .snav_list li a {
-  font-size: 1.4rem;
+  font-family: "Poppins", sans-serif;
+  font-size: 1.5rem;
+}
+aside .snav_list.home p::before {
+  background: url(images/icon-home.svg) no-repeat;
+}
+aside .snav_list.food p::before {
+  background: url(images/icon-food.svg) no-repeat;
+}
+aside .snav_list.food p::before {
+  background: url(images/icon-food.svg) no-repeat;
+}
+aside .snav_list.region p::before {
+  background: url(images/icon-pin_sidebar.svg) no-repeat;
+}
+aside .snav_list.maker p::before {
+  background: url(images/icon-maker.svg);
 }
 aside .side-btnArea {
   margin-top: 4rem;
 }
 aside .btn-wrap {
   margin-bottom: 1.2rem;
+}
+aside .btn-wrap .btn {
+  font-size: 1.7rem;
 }
 aside.snav_maker-buyer {
   width: auto;
@@ -1974,8 +2014,9 @@ layout
 top
 *************************************************/
 #topPage h2 {
+  font-family: "Poppins", sans-serif;
   font-size: 2.4rem;
-  font-weight: 800;
+  font-weight: 700;
   margin-bottom: 2.5rem;
 }
 @media screen and (max-width: 768px) {
@@ -2048,7 +2089,7 @@ section.categories {
 section.categories ul {
   display: flex;
   flex-wrap: wrap;
-  gap: 3rem;
+  gap: 2.6rem;
 }
 @media screen and (max-width: 768px) {
   section.categories ul {
@@ -2056,7 +2097,7 @@ section.categories ul {
   }
 }
 section.categories ul li {
-  width: calc(16.6666666667% - 2.5rem);
+  width: calc(16.6666666667% - 2.1666666667rem);
 }
 @media screen and (max-width: 768px) {
   section.categories ul li {
@@ -2114,6 +2155,7 @@ section.about {
 section.about .about-wrap {
   padding: 6.9444444444vw 4.1666666667vw;
   background-color: #ccc;
+  background: url(images/top-about_img01.jpg) no-repeat center/cover;
   display: flex;
   justify-content: end;
   border-radius: 1rem;
@@ -2317,12 +2359,7 @@ archive
 .categories {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-}
-@media screen and (max-width: 768px) {
-  .categories {
-    align-items: start;
-  }
+  align-items: flex-start;
 }
 .categories.flex-column05 {
   row-gap: 20px;
@@ -2343,10 +2380,11 @@ archive
 }
 .category-group > label {
   font-weight: 600;
+  margin-bottom: 10px !important;
 }
 .category-group label {
   display: block;
-  margin-bottom: 1rem;
+  margin-bottom: 5px;
 }
 @media screen and (max-width: 768px) {
   .category-group label {
@@ -2430,6 +2468,10 @@ single
     margin-bottom: 1rem;
   }
 }
+.product-content .img-content .img-wrapper .swiper-item .img-box {
+  border-radius: 5px;
+  overflow: hidden;
+}
 .product-content .img-content .img-wrapper .thumb-list {
   display: flex;
   flex-wrap: wrap;
@@ -2443,6 +2485,8 @@ single
 .product-content .img-content .img-wrapper .thumb-list .thumb-item {
   width: calc(25% - 1.5rem);
   aspect-ratio: 1/1;
+  border-radius: 5px;
+  overflow: hidden;
 }
 @media screen and (max-width: 768px) {
   .product-content .img-content .img-wrapper .thumb-list .thumb-item {
@@ -2506,15 +2550,22 @@ single
   margin-bottom: 0;
 }
 .product-content .detail-content .download .btn-wrap .btn {
+  position: relative;
   justify-content: flex-start;
   aspect-ratio: 1/0.14;
   padding-left: 4rem;
-  font-size: 1.6rem;
+  font-size: 1.7rem;
 }
 @media screen and (max-width: 768px) {
   .product-content .detail-content .download .btn-wrap .btn {
     font-size: 1.5rem;
   }
+}
+.product-content .detail-content .download .btn-wrap .btn svg {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 2rem;
 }
 .product-content .detail-content .txt {
   width: 100%;
@@ -2622,7 +2673,7 @@ single
   margin-bottom: 1rem;
 }
 .single-head-content .head-content .company .ttl .cate span {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   border-radius: 100vmax;
   padding: 3px 5px 2px;
 }
@@ -2654,10 +2705,9 @@ single
 .single-head-content .head-content .company .ttl .region img {
   width: 12px;
   height: 15px;
-  background-color: #333;
 }
 .single-head-content .head-content .company .ttl .region span {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
 }
 .single-head-content .head-content .btn-area {
   display: flex;

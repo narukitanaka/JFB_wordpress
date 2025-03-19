@@ -41,7 +41,8 @@ component
   aspect-ratio: 1/0.2;
   border-radius: 100vmax;
   @include c.flex(center, center);
-  font-size: 1.4rem;
+  font-family: v.$font-poppins;
+  font-size: 1.5rem;
   font-weight: 700;
   box-shadow: v.$shadow01;
 }
@@ -51,9 +52,10 @@ component
   .img-box {
     width: 100%;
     aspect-ratio: 1/1;
-    background-color: #333;
     border-radius: 5px;
     margin-bottom: 1rem;
+    border-radius: 5px;
+    overflow: hidden;
   }
   .cate {
     display: flex;
@@ -61,9 +63,9 @@ component
     gap: 5px;
     margin-bottom: 5px;
     span {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       border-radius: 100vmax;
-      padding: 3px 5px 2px;
+      padding: 2px 5px 1px;
       @include c.mq() {
         line-height: 1;
         padding: 3px 5px 4px;
@@ -76,20 +78,22 @@ component
     }
     .child {
       border: 1px solid #333;
+      background-color: #fff;
     }
   }
   .name {
-    font-size: 1.7rem;
+    font-size: 2rem;
     font-weight: 700;
-    margin-bottom: 7px;
+    line-height: 1.2;
+    margin-bottom: 5px;
     @include c.mq() {
       font-size: 1.5rem;
     }
   }
   .maker {
-    font-size: 1.1rem;
-    color: #aaa;
-    margin-bottom: 5px;
+    font-size: 1.2rem;
+    color: #606060;
+    margin-bottom: 2px;
   }
   .region {
     @include c.flex(start, center);
@@ -101,14 +105,15 @@ component
     img {
       width: 12px;
       height: 15px;
-      background-color: #333;
     }
     span {
-      font-size: 1.1rem;
+      font-size: 1.3rem;
     }
   }
   .link-area {
     .btn {
+      font-weight: 500;
+      color: #606060;
       margin-bottom: 5px;
       @include c.mq() {
         font-size: 1.3rem;
@@ -175,7 +180,7 @@ component
           margin-bottom: 5px;
           margin-bottom: 1.5rem;
           span {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             border-radius: 100vmax;
             padding: 3px 5px 2px;
             @include c.mq() {
@@ -224,7 +229,6 @@ component
           img {
             width: 12px;
             height: 15px;
-            background-color: #333;
           }
           span {
             font-size: 1.2rem;
@@ -370,7 +374,6 @@ component
           img {
             width: 12px;
             height: 15px;
-            background-color: #333;
           }
           span {
             font-size: 1.2rem;

@@ -143,10 +143,7 @@ archive
 }
 
 .categories {
-  @include c.flex(between, center);
-  @include c.mq() {
-    align-items: start;
-  }
+  @include c.flex(between, start);
   &.flex-column05 {
     row-gap: 20px;
     @include c.mq() {
@@ -163,10 +160,11 @@ archive
   }
   > label {
     font-weight: 600;
+    margin-bottom: 10px !important;
   }
   label {
     display: block;
-    margin-bottom: 1rem;
+    margin-bottom: 5px;
     @include c.mq() {
       display: flex;
       align-items: start;

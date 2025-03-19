@@ -51,6 +51,10 @@ single
         @include c.mq() {
           margin-bottom: 1rem;
         }
+        .img-box {
+          border-radius: 5px;
+          overflow: hidden;
+        }
       }
       .thumb-list {
         display: flex;
@@ -62,6 +66,8 @@ single
         .thumb-item {
           width: calc((100% / 4) - (6rem / 4));
           aspect-ratio: 1/1;
+          border-radius: 5px;
+          overflow: hidden;
           @include c.mq() {
             width: calc((100% / 4) - (3rem / 4));
           }
@@ -119,12 +125,19 @@ single
           margin-bottom: 0;
         }
         .btn {
+          position: relative;
           justify-content: flex-start;
           aspect-ratio: 1/0.14;
           padding-left: 4rem;
-          font-size: 1.6rem;
+          font-size: 1.7rem;
           @include c.mq() {
             font-size: 1.5rem;
+          }
+          svg {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 2rem;
           }
         }
       }
@@ -224,7 +237,7 @@ single
           gap: 5px;
           margin-bottom: 1rem;
           span {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             border-radius: 100vmax;
             padding: 3px 5px 2px;
           }
@@ -252,10 +265,9 @@ single
           img {
             width: 12px;
             height: 15px;
-            background-color: #333;
           }
           span {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
           }
         }
       }

@@ -68,7 +68,16 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="<?php echo get_template_directory_uri(); ?>/js/swiper-bundle.min.js"></script>
   <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/main.js"></script>
-
+  <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/filter-script.js"></script>
+  <script>
+    //商品詳細スライダー
+    const swiperitem = new Swiper(".swiper-item", {
+      loop: true,
+    }); 
+    function thumbnail(index) {
+      swiperitem.slideTo(index);
+    }
+  </script>
   <?php wp_footer(); ?>
 </body>
 

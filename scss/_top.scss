@@ -5,8 +5,9 @@ top
 *************************************************/
 #topPage {
   h2 {
+    font-family: v.$font-poppins;
     font-size: 2.4rem;
-    font-weight: 800;
+    font-weight: 700;
     margin-bottom: 2.5rem;
     @include c.mq() {
       font-size: 2rem;
@@ -69,12 +70,12 @@ section {
     ul {
       display: flex;
       flex-wrap: wrap;
-      gap: 3rem;
+      gap: 2.6rem;
       @include c.mq() {
         gap: 1.5rem;
       }
       li {
-        width: calc((100% / 6) - (15rem / 6));
+        width: calc((100% / 6) - (13rem / 6));
         @include c.mq() {
           width: calc((100% / 3) - (3rem / 3));
         }
@@ -127,6 +128,7 @@ section {
     .about-wrap {
       padding: v.pxtovw(100) v.pxtovw(60);
       background-color: #ccc;
+      background: url(images/top-about_img01.jpg) no-repeat center/cover;
       display: flex;
       justify-content: end;
       border-radius: 1rem;

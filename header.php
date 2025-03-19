@@ -14,6 +14,11 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/yakuhanjp@4.0.1/dist/css/yakuhanjp.css">
   <link rel="stylesheet" type="text/css" href="<?php echo get_template_directory_uri(); ?>/style.css">
 
+  <!-- Googleフォント -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+
   <title>J-FOOD HUB</title>
   <meta name="description" content="" />
   <meta name="keywords" content="" />
@@ -34,7 +39,7 @@
           <div class="search-input-wrapper">
             <input type="text" class="search-input" placeholder="What are you looking fore? ex) sweets, okinawa">
             <button type="submit" class="search-icon-button">
-              <img src="<?php echo get_template_directory_uri(); ?>/images/noimage01.png" alt="">
+              <img src="<?php echo get_template_directory_uri(); ?>/images/icon-search.svg" alt="">
             </button>
           </div>
         </form>
@@ -43,13 +48,13 @@
       <div class="header-acount">
 
         <div class="acount-wrapper">
-          <div class="mylist">
-            <a href="#"><img src="#" alt="">My List</a>
-          </div>
+          <!-- <div class="mylist">
+            <a href="#"><img src="<?php echo get_template_directory_uri(); ?>/images/icon-love.svg" alt="">My List</a>
+          </div> -->
           <div class="user">
             <div class="u-name">AAA BBB Inc.</div>
             <a href="#" class="acount-link">
-              <img src="#" alt="">
+              <img src="<?php echo get_template_directory_uri(); ?>/images/icon-account.svg" alt="">
             </a>
           </div>
         </div>

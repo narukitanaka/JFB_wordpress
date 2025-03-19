@@ -6,6 +6,9 @@ $color-re: #d93923;
 
 $shadow01: 0px 0px 8px rgba(#000, 0.16);
 
+$font-arial: "Arial", sans-serif;
+$font-poppins: "Poppins", sans-serif;
+
 //vwを自動計算
 @use "sass:math";
 $base-viewport: 1440; // ブレイクポイントはデザインボードに合わせてください

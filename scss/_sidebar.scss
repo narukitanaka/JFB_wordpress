@@ -23,30 +23,71 @@ aside {
   }
   .snav_list {
     margin-bottom: 2rem;
-    padding-left: 2rem;
+    padding-left: 3rem;
     &:not(:has(nav)) {
       a {
         font-weight: 600;
       }
     }
     p {
+      font-family: v.$font-poppins;
       position: relative;
+      font-size: 1.6rem;
       font-weight: 600;
       margin-bottom: 5px;
       &::before {
         content: "";
-        width: 10px;
+        width: 20px;
         aspect-ratio: 1/1;
         background-color: #333;
         position: absolute;
         @include c.center(false, true);
-        left: -2rem;
+        left: -3rem;
+      }
+      a {
+        font-size: 1.6rem;
       }
     }
     li {
       margin-bottom: 5px;
       a {
-        font-size: 1.4rem;
+        font-family: v.$font-poppins;
+        font-size: 1.5rem;
+      }
+    }
+    &.home {
+      p {
+        &::before {
+          background: url(images/icon-home.svg) no-repeat;
+        }
+      }
+    }
+    &.food {
+      p {
+        &::before {
+          background: url(images/icon-food.svg) no-repeat;
+        }
+      }
+    }
+    &.food {
+      p {
+        &::before {
+          background: url(images/icon-food.svg) no-repeat;
+        }
+      }
+    }
+    &.region {
+      p {
+        &::before {
+          background: url(images/icon-pin_sidebar.svg) no-repeat;
+        }
+      }
+    }
+    &.maker {
+      p {
+        &::before {
+          background: url(images/icon-maker.svg);
+        }
       }
     }
   }
@@ -55,6 +96,9 @@ aside {
   }
   .btn-wrap {
     margin-bottom: 1.2rem;
+    .btn {
+      font-size: 1.7rem;
+    }
   }
   &.snav_maker-buyer {
     // width: 28rem;

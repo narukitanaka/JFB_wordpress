@@ -87,26 +87,25 @@
                     $regions = get_the_terms(get_the_ID(), 'region');
                     // メーカー関連投稿を取得
                     $maker_post = get_field('item_maker');
-
                     // メーカー名を取得
                     $maker_name = '';
                     if ($maker_post) {
-                        if (is_object($maker_post) && isset($maker_post->post_title)) {
-                            $maker_name = $maker_post->post_title;
-                        } elseif (is_array($maker_post) && isset($maker_post['post_title'])) {
-                            $maker_name = $maker_post['post_title'];
-                        } elseif (is_numeric($maker_post)) {
-                            $maker_name = get_the_title($maker_post);
-                        } elseif (is_array($maker_post) && isset($maker_post[0])) {
-                          // 複数選択可能な場合は最初の一つを使用
-                          if (is_object($maker_post[0])) {
-                              $maker_name = $maker_post[0]->post_title;
-                          } elseif (isset($maker_post[0]['post_title'])) {
-                              $maker_name = $maker_post[0]['post_title'];
-                          } else {
-                            $maker_name = get_the_title($maker_post[0]);
-                          }
+                      if (is_object($maker_post) && isset($maker_post->post_title)) {
+                          $maker_name = $maker_post->post_title;
+                      } elseif (is_array($maker_post) && isset($maker_post['post_title'])) {
+                          $maker_name = $maker_post['post_title'];
+                      } elseif (is_numeric($maker_post)) {
+                          $maker_name = get_the_title($maker_post);
+                      } elseif (is_array($maker_post) && isset($maker_post[0])) {
+                        // 複数選択可能な場合は最初の一つを使用
+                        if (is_object($maker_post[0])) {
+                            $maker_name = $maker_post[0]->post_title;
+                        } elseif (isset($maker_post[0]['post_title'])) {
+                            $maker_name = $maker_post[0]['post_title'];
+                        } else {
+                          $maker_name = get_the_title($maker_post[0]);
                         }
+                      }
                     }
                 ?>
 
@@ -130,11 +129,17 @@
                         }
                         // 親カテゴリーを表示
                         foreach ($parent_cats as $parent) {
-                          echo '<span class="parent">' . esc_html($parent->name) . '</span>';
+                          // カテゴリの色を取得
+                          $color = get_field('cate_color', 'product-cat_' . $parent->term_id);
+                          echo '<span class="parent" style="background-color: ' . esc_attr($color) . '; border-color: ' . esc_attr($color) . ';">' . esc_html($parent->name) . '</span>';
                         }
                         // 子カテゴリーを表示
                         foreach ($child_cats as $child) {
-                          echo '<span class="child">' . esc_html($child->name) . '</span>';
+                          // 親カテゴリーのIDを取得
+                          $parent_id = $child->parent;
+                          // 親カテゴリーの色を取得
+                          $color = get_field('cate_color', 'product-cat_' . $parent_id);
+                          echo '<span class="child" style="border-color: ' . esc_attr($color) . '; color: ' . esc_attr($color) . ';">' . esc_html($child->name) . '</span>';
                         }
                       }
                       ?>
@@ -142,11 +147,11 @@
                     <div class="name"><?php the_title(); ?></div>
                     <div class="maker"><?php echo esc_html($maker_name); ?></div>
                     <div class="region">
-                      <img src="<?php echo get_template_directory_uri(); ?>/images/region-icon.png" alt="region">
+                      <img src="<?php echo get_template_directory_uri(); ?>/images/icon-pin.svg" alt="region">
                       <?php 
                       if ($regions && !is_wp_error($regions) && !empty($regions)) {
-                          $region = $regions[0];
-                          echo '<span>' . esc_html($region->name) . '</span>';
+                        $region = $regions[0];
+                        echo '<span>' . esc_html($region->name) . '</span>';
                       }
                       ?>
                     </div>
@@ -169,37 +174,37 @@
             <ul>
               <li>
                 <a href="#">
-                  <div class="img-box"><img src="#" alt=""></div>
+                  <div class="img-box"><img src="<?php echo get_template_directory_uri(); ?>/images/cate_fresh-products.png" alt=""></div>
                   <p>Fresh Products</p>
                 </a>
               </li>
               <li>
                 <a href="#">
-                  <div class="img-box"><img src="#" alt=""></div>
+                  <div class="img-box"><img src="<?php echo get_template_directory_uri(); ?>/images/cate_processed-foods.png" alt=""></div>
                   <p>Processed Foods</p>
                 </a>
               </li>
               <li>
                 <a href="#">
-                  <div class="img-box"><img src="#" alt=""></div>
+                  <div class="img-box"><img src="<?php echo get_template_directory_uri(); ?>/images/cate_seasonings.png" alt=""></div>
                   <p>Seasonings</p>
                 </a>
               </li>
               <li>
                 <a href="#">
-                  <div class="img-box"><img src="#" alt=""></div>
+                  <div class="img-box"><img src="<?php echo get_template_directory_uri(); ?>/images/cate_sweets-snacks.png" alt=""></div>
                   <p>Sweet & Snacks</p>
                 </a>
               </li>
               <li>
                 <a href="#">
-                  <div class="img-box"><img src="#" alt=""></div>
+                  <div class="img-box"><img src="<?php echo get_template_directory_uri(); ?>/images/cate_beverages.png" alt=""></div>
                   <p>Bevarages</p>
                 </a>
               </li>
               <li>
                 <a href="#">
-                  <div class="img-box"><img src="#" alt=""></div>
+                  <div class="img-box"><img src="<?php echo get_template_directory_uri(); ?>/images/cate_all.png" alt=""></div>
                   <p>All</p>
                 </a>
               </li>
@@ -246,7 +251,7 @@
                   // 親カテゴリーとサブカテゴリーを分ける
                   $parent_cats = array();
                   $child_cats = array();
-                  
+
                   foreach ($categories as $category) {
                       if ($category->parent == 0) {
                           $parent_cats[] = $category;
@@ -272,15 +277,15 @@
                 
                 <?php if ($regions && !is_wp_error($regions) && !empty($regions)) : ?>
                 <div class="region">
-                  <img src="<?php echo get_template_directory_uri(); ?>/images/region-icon.png" alt="region">
+                  <img src="<?php echo get_template_directory_uri(); ?>/images/icon-pin.svg" alt="region">
                   <span><?php echo esc_html($regions[0]->name); ?></span>
                 </div>
                 <?php endif; ?>
                 
                 <div class="link-area">
-                  <a class="btn" href="<?php the_permalink(); ?>#profile">Company Profile</a>
-                  <a class="btn" href="<?php the_permalink(); ?>#export">Export Conditions</a>
-                  <a class="btn" href="<?php the_permalink(); ?>#product">Product List</a>
+                  <a class="btn bgc-wh" href="<?php the_permalink(); ?>#profile">Company Profile</a>
+                  <a class="btn bgc-wh" href="<?php the_permalink(); ?>#export">Export Conditions</a>
+                  <a class="btn bgc-wh" href="<?php the_permalink(); ?>#product">Product List</a>
                 </div>
               </div>
               <?php endwhile; wp_reset_postdata(); endif; ?>
@@ -300,8 +305,7 @@
                   TO ASIA
                 </h2>
                 <p>
-                  OKInawa-Dased"J-FOOD HUB" is a trading service that delivers selected food products from all over
-                  Japan to Asia countries. We connect Japanese food manuracturers wit overseas buyers anc
+                  Okinawa-based “J-FOOD HUB” is a <br>trading service that delivers selected food products from all over Japan to Asian countries. We connect Japanese food manufacturers with overseas buyers and provide complete support for smooth exporting.
                 </p>
               </div>
             </div>
@@ -316,3 +320,6 @@
 
   </main>
 <?php get_footer(); ?>
+
+
+
