@@ -154,6 +154,10 @@ p {
   transform: scale(1.1);
 }
 
+.no-matching {
+  text-align: center;
+}
+
 .u-pc {
   display: block;
 }
@@ -976,7 +980,7 @@ component
 .itemCard .cate span {
   font-size: 1.2rem;
   border-radius: 100vmax;
-  padding: 2px 5px 1px;
+  padding: 3px 5px 1px;
 }
 @media screen and (max-width: 768px) {
   .itemCard .cate span {
@@ -1155,6 +1159,11 @@ component
   overflow-wrap: break-word;
   line-height: 1.5;
   margin-bottom: 5px;
+  overflow: hidden;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 .companyCard01 > div .right .info .region {
   display: flex;
@@ -1186,6 +1195,8 @@ component
 }
 .companyCard01 > div .right .links .btn-wrap .btn {
   aspect-ratio: 1/0.15;
+  font-weight: 500;
+  color: #606060;
 }
 
 .companyCard02 {
@@ -2105,9 +2116,9 @@ section.categories ul li {
   }
 }
 section.categories ul li .img-box {
-  background-color: #333;
   aspect-ratio: 1/1;
   border-radius: 50%;
+  overflow: hidden;
   margin-bottom: 1rem;
 }
 section.categories ul li p {

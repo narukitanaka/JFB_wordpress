@@ -158,7 +158,7 @@
           $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
           $args = array(
             'post_type' => 'product',
-            'posts_per_page' => 12,
+            'posts_per_page' => 20,
             'paged' => $paged,
           );
           // タクソノミークエリの配列を準備
@@ -250,8 +250,30 @@
                       <?php endif; ?>
                     </div>
                     <div class="cate">
-                      <span class="parent"><?php echo esc_html($parent_cat); ?></span>
-                      <span class="child"><?php echo esc_html($child_cat); ?></span>
+                      <?php
+                      $parent_cats = array();
+                      $child_cats = array();
+                      if (!empty($product_cats) && !is_wp_error($product_cats)) {
+                        foreach ($product_cats as $cat) {
+                          if ($cat->parent == 0) {
+                            $parent_cats[] = $cat;
+                          } else {
+                            $child_cats[] = $cat;
+                          }
+                        }
+                        // 親カテゴリーを表示
+                        foreach ($parent_cats as $parent) {
+                          $color = get_field('cate_color', 'product-cat_' . $parent->term_id);  // カテゴリの色を取得
+                          echo '<span class="parent" style="background-color: ' . esc_attr($color) . '; border-color: ' . esc_attr($color) . ';">' . esc_html($parent->name) . '</span>';
+                        }
+                        // 子カテゴリーを表示
+                        foreach ($child_cats as $child) {
+                          $parent_id = $child->parent;  // 親カテゴリーのIDを取得
+                          $color = get_field('cate_color', 'product-cat_' . $parent_id);   // 親カテゴリーの色を取得
+                          echo '<span class="child" style="border-color: ' . esc_attr($color) . '; color: ' . esc_attr($color) . ';">' . esc_html($child->name) . '</span>';
+                        }
+                      }
+                      ?>
                     </div>
                     <div class="name"><?php the_title(); ?></div>
                     <div class="maker"><?php echo esc_html($maker_name); ?></div>
@@ -316,3 +338,13 @@ function get_pagenum_var($post_type, $big) {
 ?>
 
 <?php get_footer(); ?>
+
+
+
+
+
+
+
+
+
+

@@ -23,12 +23,9 @@
           // カテゴリーが存在するか確認
           if (!empty($parent_categories) && !is_wp_error($parent_categories)) {
             foreach ($parent_categories as $category) {
-              // カテゴリーのリンク先URL
-              $category_link = get_term_link($category);
-              // エラーチェック
-              if (!is_wp_error($category_link)) {
-                echo '<li><a href="' . esc_url($category_link) . '">' . esc_html($category->name) . '</a></li>';
-              }
+              // フィルター適用済みのproduct一覧ページへのリンクを作成
+              $filtered_link = home_url('/product/?category%5B%5D=' . $category->slug . '&s=');
+              echo '<li><a href="' . esc_url($filtered_link) . '">' . esc_html($category->name) . '</a></li>';
             }
           }
           ?>
@@ -40,20 +37,32 @@
       <p>Region</p>
       <nav>
         <ul>
-          <li><a href="#">Okinawa</a></li>
-          <li><a href="#">Kyoto</a></li>
-          <li><a href="#">Fukuoka</a></li>
+          <?php
+          // regionタクソノミーの項目を取得
+          $regions = get_terms(array(
+            'taxonomy' => 'region',
+            'hide_empty' => false, // 投稿のないタクソノミーも表示
+          ));
+          // タクソノミーが存在するか確認
+          if (!empty($regions) && !is_wp_error($regions)) {
+            foreach ($regions as $region) {
+              // フィルター適用済みのproduct一覧ページへのリンクを作成
+              $filtered_link = home_url('/product/?region%5B%5D=' . $region->slug . '&s=');
+              echo '<li><a href="' . esc_url($filtered_link) . '">' . esc_html($region->name) . '</a></li>';
+            }
+          }
+          ?>
         </ul>
       </nav>
     </div>
 
     <div class="snav_list maker">
-      <p><a href="#">Maker</a></p>
+      <p><a href="<?php echo home_url('/maker'); ?>">Maker</a></p>
     </div>
 
     <div class="side-btnArea">
       <div class="btn-wrap side-btn">
-        <a class="btn bgc-bl" href="#">Serch Products</a>
+        <a class="btn bgc-bl" href="<?php echo home_url('/product'); ?>">Serch Products</a>
       </div>
 
       <div class="btn-wrap side-btn">

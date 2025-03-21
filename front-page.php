@@ -58,7 +58,7 @@
             <h2>Most Popular</h2>
 
             <div class="btn-wrap">
-              <a class="btn bgc-bl" href="#">All Products</a>
+              <a class="btn bgc-bl" href="<?php echo home_url('/product'); ?>">All Products</a>
             </div>
 
             <div class="PopularSwiper itemCard swiper">
@@ -67,11 +67,11 @@
                 <?php
                 // PV数順に商品を取得
                 $args = array(
-                    'post_type' => 'product',
-                    'posts_per_page' => 10,  // 最大10件
-                    'meta_key' => 'post_views_count',
-                    'orderby' => 'meta_value_num',
-                    'order' => 'DESC',
+                  'post_type' => 'product',
+                  'posts_per_page' => 10,  // 最大10件
+                  'meta_key' => 'post_views_count',
+                  'orderby' => 'meta_value_num',
+                  'order' => 'DESC',
                 );
                 $products = new WP_Query($args);
                 if ($products->have_posts()) :
@@ -172,38 +172,38 @@
           <div class="inner">
             <h2>Categories</h2>
             <ul>
+              <?php
+              // product-catの親カテゴリー（parent=0）を取得
+              $parent_categories = get_terms(array(
+                'taxonomy' => 'product-cat',
+                'parent' => 0,
+                'hide_empty' => false, // 投稿のないカテゴリーも表示
+                'meta_key' => 'category_order', // ACFで設定したフィールド名（ソート用）
+                'orderby' => 'meta_value_num', // 数値としてソート
+                'order' => 'ASC', // 昇順（小さい数字が先）
+              ));
+              // カテゴリーが存在するか確認
+              if (!empty($parent_categories) && !is_wp_error($parent_categories)) {
+                foreach ($parent_categories as $category) {
+                  // フィルター適用済みのproduct一覧ページへのリンクを作成
+                  $filtered_link = home_url('/product/?category%5B%5D=' . $category->slug . '&s=');
+                  // ACFから画像を取得
+                  $image_url = get_field('cate_img', 'product-cat_' . $category->term_id);
+                  // 画像がない場合のデフォルト画像
+                  if (!$image_url) {
+                    $image_url = get_template_directory_uri() . '/images/noimage01.png';
+                  }
+                  echo '<li>';
+                  echo '<a href="' . esc_url($filtered_link) . '">';
+                  echo '<div class="img-box"><img src="' . esc_url($image_url) . '" alt="' . esc_attr($category->name) . '"></div>';
+                  echo '<p>' . esc_html($category->name) . '</p>';
+                  echo '</a>';
+                  echo '</li>';
+                }
+              }
+              ?>
               <li>
-                <a href="#">
-                  <div class="img-box"><img src="<?php echo get_template_directory_uri(); ?>/images/cate_fresh-products.png" alt=""></div>
-                  <p>Fresh Products</p>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <div class="img-box"><img src="<?php echo get_template_directory_uri(); ?>/images/cate_processed-foods.png" alt=""></div>
-                  <p>Processed Foods</p>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <div class="img-box"><img src="<?php echo get_template_directory_uri(); ?>/images/cate_seasonings.png" alt=""></div>
-                  <p>Seasonings</p>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <div class="img-box"><img src="<?php echo get_template_directory_uri(); ?>/images/cate_sweets-snacks.png" alt=""></div>
-                  <p>Sweet & Snacks</p>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <div class="img-box"><img src="<?php echo get_template_directory_uri(); ?>/images/cate_beverages.png" alt=""></div>
-                  <p>Bevarages</p>
-                </a>
-              </li>
-              <li>
-                <a href="#">
+                <a href="<?php echo home_url('/product'); ?>">
                   <div class="img-box"><img src="<?php echo get_template_directory_uri(); ?>/images/cate_all.png" alt=""></div>
                   <p>All</p>
                 </a>
@@ -226,52 +226,51 @@
                   'orderby' => 'title',
                   'order' => 'ASC',
               );
-
               $makers = new WP_Query($args);
-
               if ($makers->have_posts()) :
-                  while ($makers->have_posts()) : $makers->the_post();
-                      // アイキャッチ画像の取得
-                      $thumbnail = get_the_post_thumbnail_url(get_the_ID(), 'medium');
-                      
-                      // product-catカテゴリーを取得
-                      $categories = get_the_terms(get_the_ID(), 'product-cat');
-                      
-                      // 地域を取得
-                      $regions = get_the_terms(get_the_ID(), 'region');
-              ?>
+                while ($makers->have_posts()) : $makers->the_post();
+                // アイキャッチ画像の取得
+                $thumbnail = get_the_post_thumbnail_url(get_the_ID(), 'medium');
+                // product-catカテゴリーを取得
+                $categories = get_the_terms(get_the_ID(), 'product-cat');
+                // 地域を取得
+                $regions = get_the_terms(get_the_ID(), 'region');
+            ?>
               <div class="box">
                 <?php if ($thumbnail) : ?>
-                <div class="img-box"><img src="<?php echo esc_url($thumbnail); ?>" alt="<?php the_title_attribute(); ?>"></div>
+                <div class="img-box obj-fit"><img src="<?php echo esc_url($thumbnail); ?>" alt="<?php the_title_attribute(); ?>"></div>
                 <?php endif; ?>
                 
-                <?php if ($categories && !is_wp_error($categories)) : ?>
                 <div class="cate">
                   <?php 
-                  // 親カテゴリーとサブカテゴリーを分ける
-                  $parent_cats = array();
-                  $child_cats = array();
-
-                  foreach ($categories as $category) {
+                  if ($categories && !is_wp_error($categories)) {
+                    // 親カテゴリーとサブカテゴリーを分ける
+                    $parent_cats = array();
+                    $child_cats = array();
+                    foreach ($categories as $category) {
                       if ($category->parent == 0) {
-                          $parent_cats[] = $category;
+                        $parent_cats[] = $category;
                       } else {
-                          $child_cats[] = $category;
+                        $child_cats[] = $category;
                       }
-                  }
-                  
-                  // 親カテゴリーを表示
-                  foreach ($parent_cats as $parent) {
-                      echo '<span class="parent">' . esc_html($parent->name) . '</span>';
-                  }
-                  
-                  // 子カテゴリーを表示
-                  foreach ($child_cats as $child) {
-                      echo '<span class="child">' . esc_html($child->name) . '</span>';
+                    }
+                    // 親カテゴリーを表示
+                    foreach ($parent_cats as $parent) {
+                      // カテゴリの色を取得
+                      $color = get_field('cate_color', 'product-cat_' . $parent->term_id);
+                      echo '<span class="parent" style="background-color: ' . esc_attr($color) . '; border-color: ' . esc_attr($color) . ';">' . esc_html($parent->name) . '</span>';
+                    }
+                    // 子カテゴリーを表示
+                    foreach ($child_cats as $child) {
+                      // 親カテゴリーのIDを取得
+                      $parent_id = $child->parent;
+                      // 親カテゴリーの色を取得
+                      $color = get_field('cate_color', 'product-cat_' . $parent_id);
+                      echo '<span class="child" style="border-color: ' . esc_attr($color) . '; color: ' . esc_attr($color) . ';">' . esc_html($child->name) . '</span>';
+                    }
                   }
                   ?>
                 </div>
-                <?php endif; ?>
                 
                 <div class="name"><?php the_title(); ?></div>
                 
@@ -288,8 +287,7 @@
                   <a class="btn bgc-wh" href="<?php the_permalink(); ?>#product">Product List</a>
                 </div>
               </div>
-              <?php endwhile; wp_reset_postdata(); endif; ?>
-
+            <?php endwhile; wp_reset_postdata(); endif; ?>
             </div>
           </div>
         </section>
@@ -320,6 +318,3 @@
 
   </main>
 <?php get_footer(); ?>
-
-
-

@@ -80,9 +80,9 @@ section {
           width: calc((100% / 3) - (3rem / 3));
         }
         .img-box {
-          background-color: #333;
           aspect-ratio: 1/1;
           border-radius: 50%;
+          overflow: hidden;
           margin-bottom: 1rem;
         }
         p {

@@ -71,7 +71,7 @@
   <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/filter-script.js"></script>
   <script>
     //商品詳細スライダー
-    const swiperitem = new Swiper(".swiper-item", {
+    const swiperitem = new Swiper(".single-productSwiper", {
       loop: true,
     }); 
     function thumbnail(index) {

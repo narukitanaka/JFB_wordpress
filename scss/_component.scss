@@ -65,7 +65,7 @@ component
     span {
       font-size: 1.2rem;
       border-radius: 100vmax;
-      padding: 2px 5px 1px;
+      padding: 3px 5px 1px;
       @include c.mq() {
         line-height: 1;
         padding: 3px 5px 4px;
@@ -221,6 +221,11 @@ component
           overflow-wrap: break-word;
           line-height: 1.5;
           margin-bottom: 5px;
+          overflow: hidden;
+          display: -webkit-box;
+          text-overflow: ellipsis;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2; //2行
         }
         .region {
           @include c.flex(start, center);
@@ -247,6 +252,8 @@ component
           }
           .btn {
             aspect-ratio: 1/0.15;
+            font-weight: 500;
+            color: #606060;
           }
         }
       }
