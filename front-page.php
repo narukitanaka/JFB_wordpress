@@ -79,7 +79,7 @@
                     // アイキャッチ画像
                     $thumbnail = get_the_post_thumbnail_url(get_the_ID(), 'medium');
                     if (!$thumbnail) {
-                        $thumbnail = get_template_directory_uri() . '/images/noimage.png';
+                      $thumbnail = get_template_directory_uri() . '/images/noimage.png';
                     }
                     // 商品カテゴリーを取得
                     $categories = get_the_terms(get_the_ID(), 'product-cat');

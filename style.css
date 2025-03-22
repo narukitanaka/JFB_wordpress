@@ -928,7 +928,7 @@ component
 }
 
 .bgc-re {
-  background-color: #d93923;
+  background-color: #d93924;
   color: #fff;
 }
 
@@ -960,7 +960,7 @@ component
   font-family: "Poppins", sans-serif;
   font-size: 1.5rem;
   font-weight: 700;
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.16);
+  box-shadow: -2px -2px 4px rgba(255, 255, 255, 0.8), 2px 2px 4px rgba(0, 0, 0, 0.25);
 }
 
 .itemCard .img-box {
@@ -1033,6 +1033,7 @@ component
   font-size: 1.3rem;
 }
 .itemCard .link-area .btn {
+  aspect-ratio: 1/0.16;
   font-weight: 500;
   color: #606060;
   margin-bottom: 5px;
@@ -1115,7 +1116,7 @@ component
 .companyCard01 > div .right .info .cate span {
   font-size: 1.2rem;
   border-radius: 100vmax;
-  padding: 3px 5px 2px;
+  padding: 2px 5px 1px;
 }
 @media screen and (max-width: 768px) {
   .companyCard01 > div .right .info .cate span {
@@ -2196,7 +2197,7 @@ section.about .about-wrap .text-wrap h2 {
 }
 section.about .about-wrap .text-wrap h2 span {
   font-size: 1.4rem;
-  color: #d93923;
+  color: #d93924;
 }
 @media screen and (max-width: 768px) {
   section.about .about-wrap .text-wrap h2 span {
@@ -2307,7 +2308,7 @@ archive
   bottom: 0;
   right: -12rem;
   font-size: 1.4rem;
-  color: #d93923;
+  color: #d93924;
   text-decoration: underline;
 }
 @media screen and (max-width: 768px) {
@@ -2665,8 +2666,8 @@ single
   aspect-ratio: 1/0.6;
   border-radius: 5px;
   overflow: hidden;
-  background-color: #333;
-  padding: 1.5rem 0;
+  background-color: #d9d9d9;
+  padding: 0.5rem 0;
 }
 @media screen and (max-width: 768px) {
   .single-head-content .head-content .company .logo {
@@ -2733,7 +2734,16 @@ single
   }
 }
 .single-head-content .head-content .btn-area .btn-wrap {
-  width: 20rem;
+  width: 21rem;
+}
+.single-head-content .head-content .btn-area .btn-wrap .btn {
+  position: relative;
+}
+.single-head-content .head-content .btn-area .btn-wrap .btn svg {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 1.5rem;
 }
 
 #singleMaker,
@@ -3015,6 +3025,14 @@ single
     text-align: left;
   }
 }
+#singleMaker .maker_buyer-content .box.send-message table td span,
+#singleMaker .profile-content .box.send-message table td span,
+#singleBuyer .maker_buyer-content .box.send-message table td span,
+#singleBuyer .profile-content .box.send-message table td span,
+#pageMypage .maker_buyer-content .box.send-message table td span,
+#pageMypage .profile-content .box.send-message table td span {
+  color: #606060;
+}
 #singleMaker .maker_buyer-content .box.send-message table td textarea,
 #singleMaker .profile-content .box.send-message table td textarea,
 #singleBuyer .maker_buyer-content .box.send-message table td textarea,
@@ -3043,7 +3061,6 @@ single
 #pageMypage .maker_buyer-content .box.send-message table td .btn-wrap,
 #pageMypage .profile-content .box.send-message table td .btn-wrap {
   width: 20rem;
-  margin-bottom: 1rem;
 }
 @media screen and (max-width: 768px) {
   #singleMaker .maker_buyer-content .box.send-message table td .btn-wrap,
@@ -3084,6 +3101,7 @@ single
   align-items: flex-start;
   gap: 1rem;
   line-height: 1.4;
+  margin-bottom: 1rem;
 }
 #singleMaker .maker_buyer-content .box.send-message table td label input,
 #singleMaker .profile-content .box.send-message table td label input,

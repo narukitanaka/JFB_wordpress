@@ -34,7 +34,7 @@
                 if ($makers->have_posts()) :
                   while ($makers->have_posts()) : $makers->the_post();
                   // アイキャッチ画像の取得
-                  $thumbnail = get_the_post_thumbnail_url(get_the_ID(), 'medium');
+                  $thumbnail = get_the_post_thumbnail_url(get_the_ID(), '');
                   // product-catカテゴリーを取得
                   $categories = get_the_terms(get_the_ID(), 'product-cat');
                   // 地域を取得

@@ -16,7 +16,6 @@ add_filter( 'register_post_type_args', 'post_has_archive', 10, 2 );
 
 // カスタム投稿タイプの登録
 function create_custom_post_types() {
-
     // 「商品」用のカスタム投稿タイプを作成
     register_post_type('product', array(
         'labels' => array(
@@ -110,11 +109,9 @@ add_action('init', 'create_custom_post_types');
 
 
 
-
 //カスタム投稿タイプの管理画面にカテゴリフィルターを追加
 function add_taxonomy_filters() {
     global $typenow;
-    
     // 投稿タイプごとにフィルターするタクソノミーを定義
     $taxonomy_filters = array(
         'product' => array('product-cat', 'region'),
@@ -151,9 +148,9 @@ function add_taxonomy_filters() {
 add_action('restrict_manage_posts', 'add_taxonomy_filters');
 
 
-/**
+/************************************************************************************
  * 記事の閲覧数をカウントする関数
- */
+ ***********************************************************************************/
 function count_post_views() {
     static $counted = false;
     
@@ -236,11 +233,96 @@ function post_views_orderby($query) {
 add_action('pre_get_posts', 'post_views_orderby');
 
 
+/************************************************************************************
+ * 子カテゴリーを選択したら親カテゴリーを自動で選択
+ ***********************************************************************************/
+function enqueue_custom_script() {
+    wp_enqueue_script(
+        'custom-script',
+        get_template_directory_uri() . '/js/custom-script.js',
+        array( 'wp-blocks', 'wp-element', 'wp-editor', 'wp-components', 'wp-data' ),
+        filemtime( get_template_directory() . '/js/custom-script.js' ),
+        true
+    );
+}
+add_action( 'enqueue_block_editor_assets', 'enqueue_custom_script' );
 
 
+/************************************************************************************
+ * メーカー/バイヤー Contact Form 7関連のカスタマイズ
+ ***********************************************************************************/
+// Contact Form 7のフォーム要素に投稿タイトルなどの動的コンテンツを挿入
+add_filter( 'wpcf7_form_elements', 'custom_wpcf7_form_elements' );
+function custom_wpcf7_form_elements( $form ) {
+  $form = str_replace( '{post_title}', get_the_title(), $form );
+  return $form;
+}
+
+// Contact Form 7のユーザー情報自動入力
+add_filter('wpcf7_form_tag_data_option', 'custom_form_tag_data_option', 10, 3);
+function custom_form_tag_data_option($output, $args, $tag) {
+  if (!is_user_logged_in()) {
+    return $output;
+  }
+  $user = wp_get_current_user();
+  if ($tag->name === 'your-name' && $args === 'default:user_first_name') {
+    return get_user_meta($user->ID, 'first_name', true);
+  }
+  if ($tag->name === 'your-email' && $args === 'default:user_email') {
+    return $user->user_email;
+  }
+  return $output;
+}
+
+// プロジェクト投稿タイプの送信先メールアドレス設定
+add_filter('wpcf7_mail_components', 'custom_contact_form_recipient', 10, 3);
+function custom_contact_form_recipient($components, $contact_form, $mail_key) {
+  // メインのメールの場合のみ処理を実行
+  if ($mail_key === 'mail') {
+    $post_id = get_the_ID();
+    
+    if (!$post_id) {
+      $referer = wp_get_referer();
+      $post_id = url_to_postid($referer);
+    }
+    
+    // maker または buyer 投稿タイプの場合に処理
+    $post_type = get_post_type($post_id);
+    if ($post_id && ($post_type === 'maker' || $post_type === 'buyer')) {
+      $recipient = get_field('mail-address', $post_id);
+      if ($recipient && is_email($recipient)) {
+        $components['recipient'] = $recipient;
+      } else {
+        // エラーフラグをセット
+        global $wpcf7_invalid_mail;
+        $wpcf7_invalid_mail = true;
+      }
+    }
+  }
+  return $components;
+}
+
+// フォーム送信時のエラーメッセージを追加
+add_filter('wpcf7_validate', 'custom_mail_validation', 11, 2);
+function custom_mail_validation($result, $tags) {
+  global $wpcf7_invalid_mail;
+  if (!empty($wpcf7_invalid_mail)) {
+    $result->invalidate('', 'We are currently not accepting inquiries. Please try again later.');
+  }
+  return $result;
+}
+// Contact Form 7のnonce検証をスキップ
+// 注：セキュリティ上のリスクがあるため、開発環境でのみ使用することを推奨
+add_filter('wpcf7_verify_nonce', '__return_true');
+
+
+/************************************************************************************
+ * 謎のpタグ対処
+ ***********************************************************************************/
 // 投稿の自動整形を無効化
 remove_filter('the_content', 'wpautop');
 // 抜粋の自動整形を無効化
 remove_filter('the_excerpt', 'wpautop');
 // Contact Form 7の自動整形を無効化
 add_filter('wpcf7_autop_or_not', '__return_false');
+

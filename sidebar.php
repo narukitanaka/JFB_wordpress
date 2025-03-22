@@ -1,7 +1,28 @@
-<aside>
+<aside <?php echo (is_singular(['maker', 'buyer'])) ? ' class="snav_maker-buyer"' : ''; ?>>
 
   <div class="sidebar-wrapper">
+
+  <?php if((is_singular(['maker', 'buyer']))): ?>
     
+    <div>
+      <nav>
+        <ul>
+          <li>
+            <a href="#profile"><img src="<?php echo get_template_directory_uri(); ?>/images/icon-note.svg" alt="">Company Profile</a>
+          </li>
+          <li>
+            <a href="#export"><img src="<?php echo get_template_directory_uri(); ?>/images/icon-note.svg" alt="">Export Conditions</a>
+          </li>
+          <li>
+            <a href="#maker-product"><img src="<?php echo get_template_directory_uri(); ?>/images/icon-note.svg" alt="">Product List</a>
+          </li>
+        </ul>
+      </nav>
+      <div class="btn-wrap"><a class="btn bgc-re" href="#sendmail">Contact Maker</a></div>
+    </div>
+  
+  <?php else: ?>
+
     <div class="snav_list home">
       <p><a href="<?php echo home_url('/'); ?>">Home</a></p>
     </div>
@@ -69,6 +90,9 @@
         <a class="btn bgc-bl" href="#">My Page</a>
       </div>
     </div>
+
+  <?php endif; ?>
+
   </div>
 
 </aside>

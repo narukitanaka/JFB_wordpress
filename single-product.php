@@ -49,7 +49,7 @@
                       echo '</li>';
                     }
                   }
-                  ?>
+                ?>
                 <li><?php the_title(); ?></li>
               </ul>
             </nav>
@@ -333,6 +333,7 @@
                 $related_products = new WP_Query($args);
                 if ($related_products->have_posts()) :
             ?>
+            
             <ul class="flex-column05">
               <?php while ($related_products->have_posts()) : $related_products->the_post(); 
                 // アイキャッチ画像を取得
