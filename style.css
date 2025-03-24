@@ -1396,6 +1396,19 @@ component
   }
 }
 
+.screen-reader-response {
+  display: none !important;
+}
+
+.wpcf7-not-valid-tip {
+  color: #f00 !important;
+}
+
+.wpcf7-response-output {
+  color: #01a638 !important;
+  padding-left: 13rem;
+}
+
 /*************************************************
 header
 *************************************************/

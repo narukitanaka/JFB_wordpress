@@ -251,69 +251,38 @@ add_action( 'enqueue_block_editor_assets', 'enqueue_custom_script' );
 /************************************************************************************
  * メーカー/バイヤー Contact Form 7関連のカスタマイズ
  ***********************************************************************************/
-// Contact Form 7のフォーム要素に投稿タイトルなどの動的コンテンツを挿入
-add_filter( 'wpcf7_form_elements', 'custom_wpcf7_form_elements' );
-function custom_wpcf7_form_elements( $form ) {
-  $form = str_replace( '{post_title}', get_the_title(), $form );
+add_filter('wpcf7_form_elements', 'custom_wpcf7_form_elements');
+function custom_wpcf7_form_elements($form) {
+  // 現在の投稿タイトルを取得
+  $post_title = get_the_title();
+  
+  // {post_title}をタイトルで置換
+  $form = str_replace('{post_title}', $post_title, $form);
+  
   return $form;
 }
 
-// Contact Form 7のユーザー情報自動入力
-add_filter('wpcf7_form_tag_data_option', 'custom_form_tag_data_option', 10, 3);
-function custom_form_tag_data_option($output, $args, $tag) {
-  if (!is_user_logged_in()) {
-    return $output;
-  }
-  $user = wp_get_current_user();
-  if ($tag->name === 'your-name' && $args === 'default:user_first_name') {
-    return get_user_meta($user->ID, 'first_name', true);
-  }
-  if ($tag->name === 'your-email' && $args === 'default:user_email') {
-    return $user->user_email;
-  }
-  return $output;
-}
-
-// プロジェクト投稿タイプの送信先メールアドレス設定
-add_filter('wpcf7_mail_components', 'custom_contact_form_recipient', 10, 3);
-function custom_contact_form_recipient($components, $contact_form, $mail_key) {
-  // メインのメールの場合のみ処理を実行
-  if ($mail_key === 'mail') {
+function get_maker_email_for_cf7($form_tag) {
+  if ('your-recipient' === $form_tag['name']) {
     $post_id = get_the_ID();
-    
-    if (!$post_id) {
-      $referer = wp_get_referer();
-      $post_id = url_to_postid($referer);
-    }
-    
-    // maker または buyer 投稿タイプの場合に処理
-    $post_type = get_post_type($post_id);
-    if ($post_id && ($post_type === 'maker' || $post_type === 'buyer')) {
-      $recipient = get_field('mail-address', $post_id);
-      if ($recipient && is_email($recipient)) {
-        $components['recipient'] = $recipient;
-      } else {
-        // エラーフラグをセット
-        global $wpcf7_invalid_mail;
-        $wpcf7_invalid_mail = true;
-      }
+    $email = get_field('mail-address', $post_id);
+    if ($email) {
+      $form_tag['values'][] = $email;
+      $form_tag['labels'][] = $email;
     }
   }
-  return $components;
+  return $form_tag;
 }
+add_filter('wpcf7_form_tag', 'get_maker_email_for_cf7', 10, 1);
 
-// フォーム送信時のエラーメッセージを追加
-add_filter('wpcf7_validate', 'custom_mail_validation', 11, 2);
-function custom_mail_validation($result, $tags) {
-  global $wpcf7_invalid_mail;
-  if (!empty($wpcf7_invalid_mail)) {
-    $result->invalidate('', 'We are currently not accepting inquiries. Please try again later.');
-  }
-  return $result;
+// フォーム上部のバリデーションエラーを非表示にする
+add_filter('wpcf7_display_message', 'custom_wpcf7_display_message', 10, 2);
+function custom_wpcf7_display_message($message, $status) {
+    if ($status === 'validation_error') {
+        return ''; // 空の文字列を返してエラーメッセージを非表示にする
+    }
+    return $message;
 }
-// Contact Form 7のnonce検証をスキップ
-// 注：セキュリティ上のリスクがあるため、開発環境でのみ使用することを推奨
-add_filter('wpcf7_verify_nonce', '__return_true');
 
 
 /************************************************************************************

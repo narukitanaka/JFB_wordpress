@@ -284,7 +284,7 @@
                 <div class="link-area">
                   <a class="btn bgc-wh" href="<?php the_permalink(); ?>#profile">Company Profile</a>
                   <a class="btn bgc-wh" href="<?php the_permalink(); ?>#export">Export Conditions</a>
-                  <a class="btn bgc-wh" href="<?php the_permalink(); ?>#product">Product List</a>
+                  <a class="btn bgc-wh" href="<?php the_permalink(); ?>#maker-product">Product List</a>
                 </div>
               </div>
             <?php endwhile; wp_reset_postdata(); endif; ?>
