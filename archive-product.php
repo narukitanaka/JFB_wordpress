@@ -153,6 +153,7 @@
           </form>
         </div><!-- /.filter_wrap -->
 
+        
         <?php
           // 検索条件に基づいてクエリを構築
           $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
@@ -338,13 +339,3 @@ function get_pagenum_var($post_type, $big) {
 ?>
 
 <?php get_footer(); ?>
-
-
-
-
-
-
-
-
-
-

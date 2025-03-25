@@ -179,6 +179,7 @@ archive
   }
   &.area {
     .flex-column05 {
+      row-gap: 1rem;
       @include c.mq() {
         row-gap: 5px;
       }

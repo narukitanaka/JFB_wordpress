@@ -1227,7 +1227,15 @@ component
   }
 }
 .companyCard02 .btn-wrap .btn {
+  position: relative;
   aspect-ratio: 1/0.25;
+  padding-right: 2rem;
+}
+.companyCard02 .btn-wrap .btn svg {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 1.5rem;
 }
 .companyCard02 a > div {
   display: flex;
@@ -1267,6 +1275,7 @@ component
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  color: #7d7d7d;
   margin-bottom: 2rem;
 }
 @media screen and (max-width: 768px) {
@@ -1305,7 +1314,7 @@ component
   font-size: 2.2rem;
   font-weight: 600;
   line-height: 1;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 @media screen and (max-width: 768px) {
   .companyCard02 a > div .right .name {
@@ -2423,6 +2432,9 @@ archive
   .category-group label input {
     margin-top: 2px;
   }
+}
+.category-group.area .flex-column05 {
+  row-gap: 1rem;
 }
 @media screen and (max-width: 768px) {
   .category-group.area .flex-column05 {

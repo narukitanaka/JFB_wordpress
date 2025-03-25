@@ -1,37 +1,69 @@
 jQuery(document).ready(function ($) {
-  // カテゴリーのクリアボタン
-  $("#clear-filters").on("click", function (e) {
-    e.preventDefault();
-    console.log("Categories clear button clicked"); // デバッグ用
-    $('input[name="category[]"]').prop("checked", false);
-  });
+  // 1. Categoriesのクリアボタン
+  $("#clear-filters")
+    .off("click")
+    .on("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var categoryCheckboxes = $('input[name="category[]"]');
+      categoryCheckboxes.each(function () {
+        $(this).prop("checked", false);
+      });
+      return false;
+    });
 
-  // リージョンのクリアボタン
-  $("#clear-regions").on("click", function (e) {
-    e.preventDefault();
-    console.log("Region clear button clicked"); // デバッグ用
-    $('input[name="region[]"]').prop("checked", false);
-  });
+  // 2. リージョンのクリアボタン
+  $("#clear-regions")
+    .off("click")
+    .on("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var regionCheckboxes = $('input[name="region[]"]');
+      regionCheckboxes.each(function () {
+        $(this).prop("checked", false);
+      });
+      return false;
+    });
 
-  // フォーム送信時に product-list へスクロール
+  // 3. カントリーのクリアボタン
+  $("#clear-countries")
+    .off("click")
+    .on("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var countryCheckboxes = $('input[name="country[]"]');
+      countryCheckboxes.each(function () {
+        $(this).prop("checked", false);
+      });
+      return false;
+    });
+
+  // フォーム送信時の処理
   $("form").on("submit", function () {
-    // フォームが送信される前にローカルストレージにフラグを設定
     localStorage.setItem("scrollToResults", "true");
+    const isBuyerPage = $("#buyer-list").length > 0;
+    localStorage.setItem(
+      "resultListId",
+      isBuyerPage ? "buyer-list" : "product-list"
+    );
   });
 
-  // ページロード時にスクロールするかチェック
+  // ページロード時のスクロール処理
   if (localStorage.getItem("scrollToResults") === "true") {
-    // フラグをクリア
     localStorage.removeItem("scrollToResults");
+    const resultListId = localStorage.getItem("resultListId") || "product-list";
+    localStorage.removeItem("resultListId");
 
-    // URLにパラメータが含まれている場合はスクロール（検索結果がある場合）
     if (window.location.search) {
-      $("html, body").animate(
-        {
-          scrollTop: $("#product-list").offset().top - 100,
-        },
-        500
-      );
+      const targetElement = $("#" + resultListId);
+      if (targetElement.length > 0) {
+        $("html, body").animate(
+          {
+            scrollTop: targetElement.offset().top - 100,
+          },
+          500
+        );
+      }
     }
   }
 });

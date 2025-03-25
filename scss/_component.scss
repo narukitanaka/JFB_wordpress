@@ -284,7 +284,15 @@ component
       top: 4rem;
     }
     .btn {
+      position: relative;
       aspect-ratio: 1/0.25;
+      padding-right: 2rem;
+      svg {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 1.5rem;
+      }
     }
   }
   a {
@@ -318,6 +326,7 @@ component
           display: flex;
           flex-wrap: wrap;
           gap: 8px;
+          color: #7d7d7d;
           margin-bottom: 2rem;
           @include c.mq() {
             margin-bottom: 1.5rem;
@@ -352,7 +361,7 @@ component
           font-size: 2.2rem;
           font-weight: 600;
           line-height: 1;
-          margin-bottom: 1.5rem;
+          margin-bottom: 1rem;
           @include c.mq() {
             font-size: 2rem;
             line-height: 1.5;
