@@ -1,0 +1,88 @@
+@use "variable" as v;
+@use "common" as c;
+/*************************************************
+login
+*************************************************/
+.contents-wrap {
+  &#login {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background: url(images/login_bg.jpg) no-repeat center/cover;
+    .contents {
+      position: absolute;
+      @include c.center(center, center);
+      width: 44.8rem;
+      .logo {
+        width: 100%;
+        max-width: 48.7rem;
+        margin: 0 auto 3.8rem;
+      }
+      legend {
+        display: none;
+      }
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+      .button_div {
+        label {
+          display: inline-block;
+        }
+      }
+      .div_text {
+        margin-bottom: 1rem;
+      }
+      #wpmem_login {
+        input[type="text"],
+        input[type="password"] {
+          width: 100%;
+          padding: 1rem 2.5rem;
+          background-color: #fff;
+          border-radius: 100vmax;
+        }
+        input[type="submit"] {
+          width: 100%;
+          aspect-ratio: 1/0.1;
+          border-radius: 100vmax;
+          font-family: v.$font-poppins;
+          font-size: 1.5rem;
+          font-weight: 700;
+          text-align: center;
+          color: #fff;
+          box-shadow: v.$shadow02, v.$shadow03;
+          background-color: v.$color-re;
+          margin: 2rem 0 3rem;
+        }
+      }
+      .login_status {
+        text-align: center;
+        font-size: 2rem;
+        font-weight: 700;
+        a {
+          @include c.flex(center, center);
+          width: 100%;
+          aspect-ratio: 1/0.1;
+          border-radius: 100vmax;
+          font-family: v.$font-poppins;
+          font-size: 1.5rem;
+          font-weight: 700;
+          text-align: center;
+          color: #fff;
+          box-shadow: v.$shadow02, v.$shadow03;
+          background-color: #606060;
+          margin: 2rem 0 3rem;
+        }
+      }
+      .links {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        text-align: center;
+        a {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

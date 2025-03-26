@@ -34,45 +34,48 @@
         <a href="<?php echo home_url('/'); ?>"><img src="<?php echo get_template_directory_uri(); ?>/images/jfh-logo_y_wh.png" alt=""></a>
       </div>
 
-      <div class="serch header-serch">
-        <form class="search-form">
-          <div class="search-input-wrapper">
-            <input type="text" class="search-input" placeholder="What are you looking fore? ex) sweets, okinawa">
-            <button type="submit" class="search-icon-button">
-              <img src="<?php echo get_template_directory_uri(); ?>/images/icon-search.svg" alt="">
-            </button>
-          </div>
-        </form>
-      </div>
-
-      <div class="header-acount">
-
-        <div class="acount-wrapper">
-          <!-- <div class="mylist">
-            <a href="#"><img src="<?php echo get_template_directory_uri(); ?>/images/icon-love.svg" alt="">My List</a>
-          </div> -->
-          <div class="user">
-            <div class="u-name">AAA BBB Inc.</div>
-            <a href="#" class="acount-link">
-              <img src="<?php echo get_template_directory_uri(); ?>/images/icon-account.svg" alt="">
-            </a>
-          </div>
-        </div>
-
-        <div class="u-sp">
-          <div class="hamberger-wrap">
-            <div class="ham-inner">
-              <div class="hambager-content">
-                <button type="button" class="hambager">
-                  <span class="c-line"></span>
-                  <span class="c-line"></span>
-                  <span class="c-line"></span>
-                </button>
-              </div><!-- /.hambager-content -->
+      <?php if ( !is_page('login','register') ) : ?>
+        
+        <div class="serch header-serch">
+          <form class="search-form">
+            <div class="search-input-wrapper">
+              <input type="text" class="search-input" placeholder="What are you looking fore? ex) sweets, okinawa">
+              <button type="submit" class="search-icon-button">
+                <img src="<?php echo get_template_directory_uri(); ?>/images/icon-search.svg" alt="">
+              </button>
             </div>
-          </div><!-- hamberger-wrap -->
+          </form>
         </div>
-      </div>
+
+        <div class="header-acount">
+          <div class="acount-wrapper">
+            <!-- <div class="mylist">
+              <a href="#"><img src="<?php echo get_template_directory_uri(); ?>/images/icon-love.svg" alt="">My List</a>
+            </div> -->
+            <div class="user">
+              <div class="u-name">AAA BBB Inc.</div>
+              <a href="#" class="acount-link">
+                <img src="<?php echo get_template_directory_uri(); ?>/images/icon-account.svg" alt="">
+              </a>
+            </div>
+          </div>
+
+          <div class="u-sp">
+            <div class="hamberger-wrap">
+              <div class="ham-inner">
+                <div class="hambager-content">
+                  <button type="button" class="hambager">
+                    <span class="c-line"></span>
+                    <span class="c-line"></span>
+                    <span class="c-line"></span>
+                  </button>
+                </div><!-- /.hambager-content -->
+              </div>
+            </div><!-- hamberger-wrap -->
+          </div>
+        </div>
+
+      <?php endif; ?>
 
     </div>
 

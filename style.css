@@ -3230,3 +3230,90 @@ conatct
 #pageContact .policy {
   text-align: center;
 }
+
+/*************************************************
+login
+*************************************************/
+.contents-wrap#login {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: url(images/login_bg.jpg) no-repeat center/cover;
+}
+.contents-wrap#login .contents {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 50%;
+  transform: translateY(-50%);
+  transform: translate(-50%, -50%);
+  width: 44.8rem;
+}
+.contents-wrap#login .contents .logo {
+  width: 100%;
+  max-width: 48.7rem;
+  margin: 0 auto 3.8rem;
+}
+.contents-wrap#login .contents legend {
+  display: none;
+}
+.contents-wrap#login .contents label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.contents-wrap#login .contents .button_div label {
+  display: inline-block;
+}
+.contents-wrap#login .contents .div_text {
+  margin-bottom: 1rem;
+}
+.contents-wrap#login .contents #wpmem_login input[type=text],
+.contents-wrap#login .contents #wpmem_login input[type=password] {
+  width: 100%;
+  padding: 1rem 2.5rem;
+  background-color: #fff;
+  border-radius: 100vmax;
+}
+.contents-wrap#login .contents #wpmem_login input[type=submit] {
+  width: 100%;
+  aspect-ratio: 1/0.1;
+  border-radius: 100vmax;
+  font-family: "Poppins", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  color: #fff;
+  box-shadow: -2px -2px 4px rgba(255, 255, 255, 0.8), 2px 2px 4px rgba(0, 0, 0, 0.25);
+  background-color: #d93924;
+  margin: 2rem 0 3rem;
+}
+.contents-wrap#login .contents .login_status {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+}
+.contents-wrap#login .contents .login_status a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  aspect-ratio: 1/0.1;
+  border-radius: 100vmax;
+  font-family: "Poppins", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  color: #fff;
+  box-shadow: -2px -2px 4px rgba(255, 255, 255, 0.8), 2px 2px 4px rgba(0, 0, 0, 0.25);
+  background-color: #606060;
+  margin: 2rem 0 3rem;
+}
+.contents-wrap#login .contents .links {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: center;
+}
+.contents-wrap#login .contents .links a {
+  text-decoration: underline;
+}

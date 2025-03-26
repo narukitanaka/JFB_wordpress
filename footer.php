@@ -1,3 +1,4 @@
+  <?php if ( !is_page('login','register') ) : ?>
   <footer>
     <div class="footer-inner">
 
@@ -77,6 +78,7 @@
     </div>
     <p><small>@2025 J-FOOD HUB</small></p>
   </footer>
+  <?php endif; ?>
 
   <!-- js -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

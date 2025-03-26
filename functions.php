@@ -295,3 +295,68 @@ remove_filter('the_excerpt', 'wpautop');
 // Contact Form 7の自動整形を無効化
 add_filter('wpcf7_autop_or_not', '__return_false');
 
+
+/************************************************************************************
+ * ユーザーがログインしていなければログインページにリダイレクト
+ ***********************************************************************************/
+function redirect_non_logged_users_to_login_page() {
+  // ユーザーがログインしていない場合
+  if (!is_user_logged_in()) {
+      // 除外すべきページ（リダイレクトループを防ぐため）
+      $excluded_pages = array(
+          'login',          // loginページ自体
+          'register',       // もし登録ページがある場合
+          'password-reset', // もしパスワードリセットページがある場合
+      );
+      
+      // 現在のページが除外ページリストにないこと、admin画面でないこと、AJAX処理でないことを確認
+      if (!is_page($excluded_pages) && 
+          !is_admin() && 
+          !wp_doing_ajax() && 
+          !strpos($_SERVER['REQUEST_URI'], 'wp-login.php') && 
+          !strpos($_SERVER['REQUEST_URI'], 'wpmem')) {
+          
+          // loginページへリダイレクト
+          $login_url = get_permalink(get_page_by_path('login'));
+          
+          // リダイレクト先が取得できなかった場合はバックアップとしてhome_urlを使用
+          if (empty($login_url)) {
+              $login_url = home_url('/login/');
+          }
+          
+          // 現在のURLをリダイレクト後のリダイレクト先として保存
+          if (!empty($_SERVER['REQUEST_URI'])) {
+              $redirect_to = home_url($_SERVER['REQUEST_URI']);
+              $login_url = add_query_arg('redirect_to', urlencode($redirect_to), $login_url);
+          }
+          
+          wp_redirect($login_url);
+          exit;
+      }
+  }
+}
+add_action('template_redirect', 'redirect_non_logged_users_to_login_page');
+
+
+/************************************************************************************
+ * wp-membersのテキスト変更
+ ***********************************************************************************/
+add_filter( 'wpmem_default_text', 'sv_wpmem_default_text' );
+function sv_wpmem_default_text( $text ) {
+    //ログイン画面
+    $text['login_heading'] = 'J-FOOD HUB';
+    $text['login_username'] = 'Email Address';
+    $text['login_password'] = 'Password';
+    $text['login_button']   = 'Sign in';
+    $text['remember_me']    = 'Save your login information';
+    //ログインしてる時
+    $text['login_welcome']    = 'Hello, Mr. %s';
+    $text['login_logout']    = 'Click to log out';
+    
+    // エラーメッセージの変更
+    $text['login_failed']   = 'Login failed. Please check your email address and password.';
+    
+    // その他必要なテキスト変更をここに追加
+    
+    return $text;
+}
