@@ -1131,6 +1131,7 @@ component
 }
 .companyCard01 > div .right .info .cate .child {
   border: 1px solid #333;
+  background-color: #fff;
 }
 .companyCard01 > div .right .info .name {
   display: flex;
