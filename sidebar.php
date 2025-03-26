@@ -10,15 +10,25 @@
           <li>
             <a href="#profile"><img src="<?php echo get_template_directory_uri(); ?>/images/icon-note.svg" alt="">Company Profile</a>
           </li>
-          <li>
-            <a href="#export"><img src="<?php echo get_template_directory_uri(); ?>/images/icon-note.svg" alt="">Export Conditions</a>
-          </li>
-          <li>
-            <a href="#maker-product"><img src="<?php echo get_template_directory_uri(); ?>/images/icon-note.svg" alt="">Product List</a>
-          </li>
+          <?php if((is_singular('maker'))): ?>
+            <li>
+              <a href="#export"><img src="<?php echo get_template_directory_uri(); ?>/images/icon-check.svg" alt="">Export Conditions</a>
+            </li>
+            <li>
+              <a href="#maker-product"><img src="<?php echo get_template_directory_uri(); ?>/images/icon-box.svg" alt="">Product List</a>
+            </li>
+          <?php elseif((is_singular('buyer'))): ?>
+            <li>
+              <a href="#wanted"><img src="<?php echo get_template_directory_uri(); ?>/images/icon-box.svg" alt="">Wanted Products</a>
+            </li>
+          <?php endif; ?>
         </ul>
       </nav>
-      <div class="btn-wrap"><a class="btn bgc-re" href="#sendmail">Contact Maker</a></div>
+
+      <?php if((is_singular('maker'))): ?>
+        <div class="btn-wrap"><a class="btn bgc-re" href="#sendmail">Contact Maker</a></div>
+      <?php endif; ?>
+
     </div>
   
   <?php else: ?>

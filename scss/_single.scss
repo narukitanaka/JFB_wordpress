@@ -251,7 +251,8 @@ single
           }
         }
         .name {
-          font-size: 3.2rem;
+          font-family: v.$font-poppins;
+          font-size: 3.6rem;
           font-weight: 700;
           margin-bottom: 15px;
           @include c.mq() {
@@ -287,7 +288,7 @@ single
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            right: 1.5rem;
+            right: 2rem;
           }
         }
       }
@@ -361,7 +362,7 @@ single
         .cate {
           display: flex;
           flex-wrap: wrap;
-          gap: 15px;
+          gap: 1rem;
           margin-bottom: 5px;
           @include c.mq() {
             gap: 10px;
