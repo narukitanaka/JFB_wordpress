@@ -34,8 +34,8 @@
         <a href="<?php echo home_url('/'); ?>"><img src="<?php echo get_template_directory_uri(); ?>/images/jfh-logo_y_wh.png" alt=""></a>
       </div>
 
-      <?php if ( !is_page('login','register') ) : ?>
-        
+      <?php if ( !is_page(array('login', 'register')) ) : ?>
+
         <div class="serch header-serch">
           <form class="search-form">
             <div class="search-input-wrapper">
@@ -53,8 +53,8 @@
               <a href="#"><img src="<?php echo get_template_directory_uri(); ?>/images/icon-love.svg" alt="">My List</a>
             </div> -->
             <div class="user">
-              <div class="u-name">AAA BBB Inc.</div>
-              <a href="#" class="acount-link">
+              <div class="u-name"><?php echo esc_html(wp_get_current_user()->display_name); ?></div>
+              <a href="mypage" class="acount-link">
                 <img src="<?php echo get_template_directory_uri(); ?>/images/icon-account.svg" alt="">
               </a>
             </div>

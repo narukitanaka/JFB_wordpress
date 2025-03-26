@@ -71,7 +71,7 @@ header {
         }
         .user {
           @include c.flex(between, center);
-          gap: 2rem;
+          gap: 1.5rem;
           @include c.mq() {
             gap: 0.5rem;
           }
@@ -84,11 +84,9 @@ header {
           }
           a {
             img {
-              width: 20px;
-              height: 25px;
+              width: 30px;
               @include c.mq() {
-                width: 18px;
-                height: 20px;
+                width: 25px;
               }
             }
           }

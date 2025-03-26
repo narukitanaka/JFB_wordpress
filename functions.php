@@ -302,40 +302,76 @@ add_filter('wpcf7_autop_or_not', '__return_false');
 function redirect_non_logged_users_to_login_page() {
   // ユーザーがログインしていない場合
   if (!is_user_logged_in()) {
-      // 除外すべきページ（リダイレクトループを防ぐため）
-      $excluded_pages = array(
-          'login',          // loginページ自体
-          'register',       // もし登録ページがある場合
-          'password-reset', // もしパスワードリセットページがある場合
-      );
-      
-      // 現在のページが除外ページリストにないこと、admin画面でないこと、AJAX処理でないことを確認
-      if (!is_page($excluded_pages) && 
-          !is_admin() && 
-          !wp_doing_ajax() && 
-          !strpos($_SERVER['REQUEST_URI'], 'wp-login.php') && 
-          !strpos($_SERVER['REQUEST_URI'], 'wpmem')) {
-          
-          // loginページへリダイレクト
-          $login_url = get_permalink(get_page_by_path('login'));
-          
-          // リダイレクト先が取得できなかった場合はバックアップとしてhome_urlを使用
-          if (empty($login_url)) {
-              $login_url = home_url('/login/');
-          }
-          
-          // 現在のURLをリダイレクト後のリダイレクト先として保存
-          if (!empty($_SERVER['REQUEST_URI'])) {
-              $redirect_to = home_url($_SERVER['REQUEST_URI']);
-              $login_url = add_query_arg('redirect_to', urlencode($redirect_to), $login_url);
-          }
-          
-          wp_redirect($login_url);
-          exit;
+    // 除外すべきページ（リダイレクトループを防ぐため）
+    $excluded_pages = array(
+      'login',          // loginページ自体
+      'register',       // もし登録ページがある場合
+      'password', // もしパスワードリセットページがある場合
+    );
+    // 現在のページが除外ページリストにないこと、admin画面でないこと、AJAX処理でないことを確認
+    if (!is_page($excluded_pages) && 
+      !is_admin() && 
+      !wp_doing_ajax() && 
+      !strpos($_SERVER['REQUEST_URI'], 'wp-login.php') && 
+      !strpos($_SERVER['REQUEST_URI'], 'wpmem')) {
+      // loginページへリダイレクト
+      $login_url = get_permalink(get_page_by_path('login'));
+      // リダイレクト先が取得できなかった場合はバックアップとしてhome_urlを使用
+      if (empty($login_url)) {
+          $login_url = home_url('/login/');
       }
+      // 現在のURLをリダイレクト後のリダイレクト先として保存
+      if (!empty($_SERVER['REQUEST_URI'])) {
+          $redirect_to = home_url($_SERVER['REQUEST_URI']);
+          $login_url = add_query_arg('redirect_to', urlencode($redirect_to), $login_url);
+      }
+      wp_redirect($login_url);
+      exit;
+    }
   }
 }
 add_action('template_redirect', 'redirect_non_logged_users_to_login_page');
+
+
+/************************************************************************************
+ * wp-login.phpへの直接アクセスをブロックし、カスタムログインページにリダイレクト
+ ***********************************************************************************/
+// function custom_logout_redirect() {
+//     // カスタムログインページのURLを取得
+//     $login_url = get_permalink(get_page_by_path('login'));
+    
+//     // ページが見つからない場合のバックアップ
+//     if (empty($login_url)) {
+//         $login_url = home_url('/login/');
+//     }
+    
+//     // ログアウトURLをカスタマイズ
+//     return $login_url;
+// }
+// add_filter('logout_redirect', 'custom_logout_redirect', 10, 3);
+
+// function block_wp_login() {
+//     // 現在のURLパスを取得
+//     $request_uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    
+//     // wp-login.phpへのアクセスをチェック（ログアウト処理は除外）
+//     if (strpos($request_uri, 'wp-login.php') !== false && !isset($_GET['action']) || 
+//         (isset($_GET['action']) && $_GET['action'] != 'logout')) {
+        
+//         // カスタムログインページのURLを取得
+//         $login_url = get_permalink(get_page_by_path('login'));
+        
+//         // ページが見つからない場合のバックアップ
+//         if (empty($login_url)) {
+//             $login_url = home_url('/login/');
+//         }
+        
+//         // リダイレクト
+//         wp_redirect($login_url);
+//         exit;
+//     }
+// }
+// add_action('init', 'block_wp_login');
 
 
 /************************************************************************************
@@ -352,6 +388,11 @@ function sv_wpmem_default_text( $text ) {
     //ログインしてる時
     $text['login_welcome']    = 'Hello, Mr. %s';
     $text['login_logout']    = 'Click to log out';
+
+    //登録画面
+    $text['register_button'] = 'Sign up';
+    $text['register_email'] = 'テスト01';
+    $text['register_password'] = 'テスト02';
     
     // エラーメッセージの変更
     $text['login_failed']   = 'Login failed. Please check your email address and password.';
@@ -359,4 +400,23 @@ function sv_wpmem_default_text( $text ) {
     // その他必要なテキスト変更をここに追加
     
     return $text;
+}
+
+//テキストを直接オーバーライド
+add_filter('gettext', 'my_custom_wpmem_translations', 20, 3);
+function my_custom_wpmem_translations($translated_text, $text, $domain) {
+    // WP-Membersのドメインに限定
+    if ($domain === 'wp-members') {
+      // 日本語訳をオーバーライド（既に翻訳されている場合）
+      switch ($translated_text) {
+        case 'メールアドレス':
+        case 'メール':
+          return 'Email Address';
+        case 'パスワード':
+          return 'Password';
+        case '登録':
+          return 'Sign up';
+      }
+    }
+    return $translated_text;
 }
