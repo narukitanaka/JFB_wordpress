@@ -1285,7 +1285,8 @@ component
   }
 }
 .companyCard02 a > div .right .cate div {
-  max-width: 42rem;
+  width: 27.7777777778vw;
+  max-width: 52rem;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -1307,6 +1308,7 @@ component
 }
 .companyCard02 a > div .right .cate .child {
   border: 1px solid #333;
+  background-color: #fff;
 }
 .companyCard02 a > div .right .name {
   display: flex;

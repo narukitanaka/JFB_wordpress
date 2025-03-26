@@ -333,7 +333,8 @@ component
             margin-bottom: 1.5rem;
           }
           div {
-            max-width: 42rem;
+            width: v.pxtovw(400);
+            max-width: 52rem;
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
@@ -353,6 +354,7 @@ component
           }
           .child {
             border: 1px solid #333;
+            background-color: #fff;
           }
         }
         .name {

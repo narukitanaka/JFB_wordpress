@@ -81,8 +81,6 @@
                     if (!$thumbnail) {
                       $thumbnail = get_template_directory_uri() . '/images/noimage.png';
                     }
-                    // 商品カテゴリーを取得
-                    $categories = get_the_terms(get_the_ID(), 'product-cat');
                     // 地域を取得
                     $regions = get_the_terms(get_the_ID(), 'region');
                     // メーカー関連投稿を取得
@@ -115,34 +113,7 @@
                       <img src="<?php echo esc_url($thumbnail); ?>" alt="<?php the_title_attribute(); ?>">
                     </div>
                     <div class="cate">
-                      <?php 
-                      if ($categories && !is_wp_error($categories)) {
-                        // 親カテゴリーとサブカテゴリーを分ける
-                        $parent_cats = array();
-                        $child_cats = array();
-                        foreach ($categories as $category) {
-                          if ($category->parent == 0) {
-                            $parent_cats[] = $category;
-                          } else {
-                            $child_cats[] = $category;
-                          }
-                        }
-                        // 親カテゴリーを表示
-                        foreach ($parent_cats as $parent) {
-                          // カテゴリの色を取得
-                          $color = get_field('cate_color', 'product-cat_' . $parent->term_id);
-                          echo '<span class="parent" style="background-color: ' . esc_attr($color) . '; border-color: ' . esc_attr($color) . ';">' . esc_html($parent->name) . '</span>';
-                        }
-                        // 子カテゴリーを表示
-                        foreach ($child_cats as $child) {
-                          // 親カテゴリーのIDを取得
-                          $parent_id = $child->parent;
-                          // 親カテゴリーの色を取得
-                          $color = get_field('cate_color', 'product-cat_' . $parent_id);
-                          echo '<span class="child" style="border-color: ' . esc_attr($color) . '; color: ' . esc_attr($color) . ';">' . esc_html($child->name) . '</span>';
-                        }
-                      }
-                      ?>
+                      <?php get_template_part('inc/snipets-cate'); ?>
                     </div>
                     <div class="name"><?php the_title(); ?></div>
                     <div class="maker"><?php echo esc_html($maker_name); ?></div>
@@ -231,8 +202,6 @@
                 while ($makers->have_posts()) : $makers->the_post();
                 // アイキャッチ画像の取得
                 $thumbnail = get_the_post_thumbnail_url(get_the_ID(), 'medium');
-                // product-catカテゴリーを取得
-                $categories = get_the_terms(get_the_ID(), 'product-cat');
                 // 地域を取得
                 $regions = get_the_terms(get_the_ID(), 'region');
             ?>
@@ -242,34 +211,7 @@
                 <?php endif; ?>
                 
                 <div class="cate">
-                  <?php 
-                  if ($categories && !is_wp_error($categories)) {
-                    // 親カテゴリーとサブカテゴリーを分ける
-                    $parent_cats = array();
-                    $child_cats = array();
-                    foreach ($categories as $category) {
-                      if ($category->parent == 0) {
-                        $parent_cats[] = $category;
-                      } else {
-                        $child_cats[] = $category;
-                      }
-                    }
-                    // 親カテゴリーを表示
-                    foreach ($parent_cats as $parent) {
-                      // カテゴリの色を取得
-                      $color = get_field('cate_color', 'product-cat_' . $parent->term_id);
-                      echo '<span class="parent" style="background-color: ' . esc_attr($color) . '; border-color: ' . esc_attr($color) . ';">' . esc_html($parent->name) . '</span>';
-                    }
-                    // 子カテゴリーを表示
-                    foreach ($child_cats as $child) {
-                      // 親カテゴリーのIDを取得
-                      $parent_id = $child->parent;
-                      // 親カテゴリーの色を取得
-                      $color = get_field('cate_color', 'product-cat_' . $parent_id);
-                      echo '<span class="child" style="border-color: ' . esc_attr($color) . '; color: ' . esc_attr($color) . ';">' . esc_html($child->name) . '</span>';
-                    }
-                  }
-                  ?>
+                  <?php get_template_part('inc/snipets-cate'); ?>
                 </div>
                 
                 <div class="name"><?php the_title(); ?></div>

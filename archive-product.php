@@ -251,30 +251,7 @@
                       <?php endif; ?>
                     </div>
                     <div class="cate">
-                      <?php
-                      $parent_cats = array();
-                      $child_cats = array();
-                      if (!empty($product_cats) && !is_wp_error($product_cats)) {
-                        foreach ($product_cats as $cat) {
-                          if ($cat->parent == 0) {
-                            $parent_cats[] = $cat;
-                          } else {
-                            $child_cats[] = $cat;
-                          }
-                        }
-                        // 親カテゴリーを表示
-                        foreach ($parent_cats as $parent) {
-                          $color = get_field('cate_color', 'product-cat_' . $parent->term_id);  // カテゴリの色を取得
-                          echo '<span class="parent" style="background-color: ' . esc_attr($color) . '; border-color: ' . esc_attr($color) . ';">' . esc_html($parent->name) . '</span>';
-                        }
-                        // 子カテゴリーを表示
-                        foreach ($child_cats as $child) {
-                          $parent_id = $child->parent;  // 親カテゴリーのIDを取得
-                          $color = get_field('cate_color', 'product-cat_' . $parent_id);   // 親カテゴリーの色を取得
-                          echo '<span class="child" style="border-color: ' . esc_attr($color) . '; color: ' . esc_attr($color) . ';">' . esc_html($child->name) . '</span>';
-                        }
-                      }
-                      ?>
+                      <?php get_template_part('inc/snipets-cate'); ?>
                     </div>
                     <div class="name"><?php the_title(); ?></div>
                     <div class="maker"><?php echo esc_html($maker_name); ?></div>
