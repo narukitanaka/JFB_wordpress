@@ -238,11 +238,11 @@ add_action('pre_get_posts', 'post_views_orderby');
  ***********************************************************************************/
 function enqueue_custom_script() {
     wp_enqueue_script(
-        'custom-script',
-        get_template_directory_uri() . '/js/custom-script.js',
-        array( 'wp-blocks', 'wp-element', 'wp-editor', 'wp-components', 'wp-data' ),
-        filemtime( get_template_directory() . '/js/custom-script.js' ),
-        true
+      'custom-script',
+      get_template_directory_uri() . '/js/custom-script.js',
+      array( 'wp-blocks', 'wp-element', 'wp-editor', 'wp-components', 'wp-data' ),
+      filemtime( get_template_directory() . '/js/custom-script.js' ),
+      true
     );
 }
 add_action( 'enqueue_block_editor_assets', 'enqueue_custom_script' );
@@ -299,38 +299,38 @@ add_filter('wpcf7_autop_or_not', '__return_false');
 /************************************************************************************
  * ユーザーがログインしていなければログインページにリダイレクト
  ***********************************************************************************/
-function redirect_non_logged_users_to_login_page() {
-  // ユーザーがログインしていない場合
-  if (!is_user_logged_in()) {
-    // 除外すべきページ（リダイレクトループを防ぐため）
-    $excluded_pages = array(
-      'login',          // loginページ自体
-      'register',       // もし登録ページがある場合
-      'password', // もしパスワードリセットページがある場合
-    );
-    // 現在のページが除外ページリストにないこと、admin画面でないこと、AJAX処理でないことを確認
-    if (!is_page($excluded_pages) && 
-      !is_admin() && 
-      !wp_doing_ajax() && 
-      !strpos($_SERVER['REQUEST_URI'], 'wp-login.php') && 
-      !strpos($_SERVER['REQUEST_URI'], 'wpmem')) {
-      // loginページへリダイレクト
-      $login_url = get_permalink(get_page_by_path('login'));
-      // リダイレクト先が取得できなかった場合はバックアップとしてhome_urlを使用
-      if (empty($login_url)) {
-          $login_url = home_url('/login/');
-      }
-      // 現在のURLをリダイレクト後のリダイレクト先として保存
-      if (!empty($_SERVER['REQUEST_URI'])) {
-          $redirect_to = home_url($_SERVER['REQUEST_URI']);
-          $login_url = add_query_arg('redirect_to', urlencode($redirect_to), $login_url);
-      }
-      wp_redirect($login_url);
-      exit;
-    }
-  }
-}
-add_action('template_redirect', 'redirect_non_logged_users_to_login_page');
+// function redirect_non_logged_users_to_login_page() {
+//   // ユーザーがログインしていない場合
+//   if (!is_user_logged_in()) {
+//     // 除外すべきページ（リダイレクトループを防ぐため）
+//     $excluded_pages = array(
+//       'login',          // loginページ自体
+//       'register',       // もし登録ページがある場合
+//       'password', // もしパスワードリセットページがある場合
+//     );
+//     // 現在のページが除外ページリストにないこと、admin画面でないこと、AJAX処理でないことを確認
+//     if (!is_page($excluded_pages) && 
+//       !is_admin() && 
+//       !wp_doing_ajax() && 
+//       !strpos($_SERVER['REQUEST_URI'], 'wp-login.php') && 
+//       !strpos($_SERVER['REQUEST_URI'], 'wpmem')) {
+//       // loginページへリダイレクト
+//       $login_url = get_permalink(get_page_by_path('login'));
+//       // リダイレクト先が取得できなかった場合はバックアップとしてhome_urlを使用
+//       if (empty($login_url)) {
+//           $login_url = home_url('/login/');
+//       }
+//       // 現在のURLをリダイレクト後のリダイレクト先として保存
+//       if (!empty($_SERVER['REQUEST_URI'])) {
+//           $redirect_to = home_url($_SERVER['REQUEST_URI']);
+//           $login_url = add_query_arg('redirect_to', urlencode($redirect_to), $login_url);
+//       }
+//       wp_redirect($login_url);
+//       exit;
+//     }
+//   }
+// }
+// add_action('template_redirect', 'redirect_non_logged_users_to_login_page');
 
 
 /************************************************************************************
@@ -387,15 +387,17 @@ function sv_wpmem_default_text( $text ) {
     $text['remember_me']    = 'Save your login information';
     //ログインしてる時
     $text['login_welcome']    = 'Hello, Mr. %s';
-    $text['login_logout']    = 'Click to log out';
+    $text['login_logout']    = 'Click to Sign out';
 
     //登録画面
-    $text['register_button'] = 'Sign up';
-    $text['register_email'] = 'テスト01';
-    $text['register_password'] = 'テスト02';
-    
-    // エラーメッセージの変更
-    $text['login_failed']   = 'Login failed. Please check your email address and password.';
+    $text['register_status'] = 'Hello, Mr. %s';
+    $text['register_logout'] = 'Click to Sign out';
+    $text['register_continue'] = 'View Site';
+
+    //パスワードリセット
+    $text['pwdchg_password1'] = 'New Password';
+    $text['pwdchg_password2'] = 'Confirm New Password';
+    $text['pwdchg_button'] = 'Update Password';
     
     // その他必要なテキスト変更をここに追加
     
@@ -420,3 +422,177 @@ function my_custom_wpmem_translations($translated_text, $text, $domain) {
     }
     return $translated_text;
 }
+
+//ログインエラーのメッセージ
+add_filter( 'wpmem_login_failed', 'my_login_failed_msg' );
+function my_login_failed_msg( $str )
+{
+  $str = 'Error : user not find';
+  return $str;
+}
+
+
+/************************************************************************************
+ * メーカとバイヤーのプロフィールページ（管理画面）の特定の項目を非表示にする
+ ***********************************************************************************/
+function hide_profile_fields_for_specific_roles() {
+  $user = wp_get_current_user();
+  if (in_array('maker', (array) $user->roles) || in_array('buyer', (array) $user->roles)) {
+    // JavaScriptを使って項目を非表示にする
+    ?>
+    <style type="text/css">
+      /* 個人設定グループの項目 */
+      .user-admin-color-wrap,       /* 管理画面の配色 */
+      .user-admin-bar-front-wrap,   /* ツールバー */
+      .user-language-wrap,          /* 言語 */
+      
+      /* 名前グループの項目 */
+      .user-first-name-wrap,        /* 名 */
+      .user-last-name-wrap,         /* 姓 */
+      .user-nickname-wrap,          /* ニックネーム */
+      .user-display-name-wrap,      /* ブログ上の表示名 */
+      
+      /* 連絡先情報グループの項目 */
+      .user-url-wrap,               /* サイト */
+      
+      /* あなたについてグループの項目 */
+      .user-description-wrap,       /* プロフィール情報 */
+      .user-profile-picture,        /* プロフィール写真 */
+      
+      /* アカウント管理グループの項目 */
+      .sessions-list,               /* セッション */
+      
+      /* アプリケーションパスワードグループ */
+      .application-passwords-section /* アプリケーションパスワード */ {
+          display: none !important;
+      }
+      .application-passwords {
+          display: none !important;
+      }
+      .user-sessions-wrap {
+          display: none !important;
+      }
+      /* 全ての見出しを非表示 */
+      #profile-page h2,h3 {
+          display: none !important;
+      }
+    </style>
+    <?php
+  }
+}
+add_action('admin_head-profile.php', 'hide_profile_fields_for_specific_roles');
+add_action('admin_head-user-edit.php', 'hide_profile_fields_for_specific_roles');
+
+
+/************************************************************************************
+ * メーカとバイヤーの管理画面サイドバーを編集
+ ***********************************************************************************/
+function remove_dashboard_for_specific_roles() {
+    // 現在のユーザーを取得
+    $user = wp_get_current_user();
+    // 対象となる権限グループかチェック
+    if (in_array('maker', (array) $user->roles) || in_array('buyer', (array) $user->roles)) {
+        // ダッシュボードメニューを削除
+        remove_menu_page('index.php');
+    }
+}
+add_action('admin_menu', 'remove_dashboard_for_specific_roles', 999);
+
+
+/************************************************************************************
+ * メーカとバイヤーがプロフィールを更新したら管理者に通知メールを送る
+ ***********************************************************************************/
+// function send_notification_on_profile_update($user_id) {
+//     // 更新されたユーザー情報を取得
+//     $user = get_userdata($user_id);
+    
+//     // 対象の権限グループかチェック（大文字小文字を区別しない）
+//     $target_roles = array('maker', 'buyer', 'Maker', 'Buyer');
+//     $is_target = false;
+    
+//     foreach ((array) $user->roles as $role) {
+//       if (in_array(strtolower($role), array_map('strtolower', $target_roles))) {
+//         $is_target = true;
+//         break;
+//       }
+//     }
+//     // 対象ユーザーの場合に処理を実行
+//     if ($is_target) {
+//         // 通知メールの宛先
+//         $to = 'register@g-hill.jp';
+        
+//         // サイト名を取得
+//         $site_name = get_bloginfo('name');
+        
+//         // メールの件名
+//         $subject = 'プロフィールが更新されました';
+        
+//         // 送信元（メールヘッダーを修正）
+//         $headers = array(
+//             'From: ' . $site_name . ' <' . get_option('admin_email') . '>'
+//         );
+        
+//         // メール本文
+//         $message = $user->display_name . 'のプロフィールが更新されました。' . "\n\n";
+//         $message .= '更新ユーザーのメールアドレス: ' . $user->user_email . "\n";
+//         $message .= '更新時間: ' . current_time('Y-m-d H:i:s');
+        
+//         // メール送信
+//         $sent = wp_mail($to, $subject, $message, $headers);
+//     }
+// }
+// add_action('profile_update', 'send_notification_on_profile_update', 10, 1);
+
+
+function send_notification_on_self_profile_update($user_id) {
+    // 更新されたユーザー情報を取得
+    $user = get_userdata($user_id);
+    
+    // 現在ログイン中のユーザーを取得
+    $current_user = wp_get_current_user();
+    
+    // 自分自身の更新かどうかをチェック
+    $is_self_update = ($current_user->ID == $user_id);
+    
+    // 自分自身の更新でない場合は処理を中止
+    if (!$is_self_update) {
+        return;
+    }
+    
+    // 対象の権限グループかチェック（大文字小文字を区別しない）
+    $target_roles = array('maker', 'buyer', 'Maker', 'Buyer');
+    $is_target = false;
+    
+    foreach ((array) $user->roles as $role) {
+      if (in_array(strtolower($role), array_map('strtolower', $target_roles))) {
+        $is_target = true;
+        break;
+      }
+    }
+    
+    // 対象ユーザーの場合に処理を実行
+    if ($is_target) {
+        // 通知メールの宛先
+        $to = 'register@g-hill.jp';
+        
+        // サイト名を取得
+        $site_name = get_bloginfo('name');
+        
+        // メールの件名
+        $subject = 'プロフィールが更新されました';
+        
+        // 送信元（メールヘッダーを修正）
+        $headers = array(
+            'From: ' . $site_name . ' <' . get_option('admin_email') . '>'
+        );
+        
+        // メール本文
+        $message = $user->display_name . 'のプロフィールが更新されました。' . "\n\n";
+        $message .= '更新ユーザーのメールアドレス: ' . $user->user_email . "\n";
+        $message .= '更新時間: ' . current_time('Y-m-d H:i:s');
+        
+        // メール送信
+        $sent = wp_mail($to, $subject, $message, $headers);
+    }
+}
+add_action('profile_update', 'send_notification_on_self_profile_update', 10, 1);

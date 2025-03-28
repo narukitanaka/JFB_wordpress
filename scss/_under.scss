@@ -17,6 +17,15 @@ conatct
   .contact_wrap {
     margin-bottom: 8rem;
   }
+  .thanks {
+    p {
+      margin-bottom: 2rem;
+    }
+    .btn-wrap {
+      margin-top: 6rem;
+      max-width: 30rem;
+    }
+  }
 }
 
 // お問い合わせ
@@ -44,6 +53,13 @@ conatct
         vertical-align: middle;
         @include c.mq() {
           width: 100%;
+        }
+        &.reqd {
+          position: relative;
+          span {
+            color: v.$color-re;
+            margin-left: 3px;
+          }
         }
       }
       td {
@@ -77,5 +93,9 @@ conatct
   }
   .policy {
     text-align: center;
+    label {
+      @include c.flex(center, center);
+      gap: 1rem;
+    }
   }
 }

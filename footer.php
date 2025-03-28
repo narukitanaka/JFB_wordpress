@@ -1,4 +1,4 @@
-  <?php if ( !is_page('login','register') ) : ?>
+  <?php if ( !is_page(array('login', 'register','password')) ) : ?>
   <footer>
     <div class="footer-inner">
 
@@ -64,7 +64,7 @@
           <p>Get to know us</p>
           <nav class="nav-accordion">
             <ul>
-              <li><a href="#">Inquiries about J-FOOD HUB</a></li>
+              <li><a href="<?php echo home_url('/contact'); ?>">Inquiries about J-FOOD HUB</a></li>
               <li><a href="#">Privacy Policy</a></li>
               <li><a href="#">Operating company</a></li>
             </ul>

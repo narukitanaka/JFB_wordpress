@@ -119,9 +119,47 @@ $(document).ready(function () {
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////
+// ヘッダー　アカウントメニュー
+///////////////////////////////////////////////////////////////////////////////////////
+// document.addEventListener("DOMContentLoaded", function () {
+//   const accountBtn = document.querySelector(".acount-link");
+//   const accountMenu = document.querySelector(".acc-menu");
+
+//   accountMenu.classList.remove("is-active");
+
+//   accountBtn.addEventListener("click", function (e) {
+//     e.preventDefault();
+//     accountMenu.classList.toggle("is-active");
+//   });
+
+//   // メニュー以外の場所をクリックしたらメニューを閉じる
+//   document.addEventListener("click", function (e) {
+//     if (!accountBtn.contains(e.target) && !accountMenu.contains(e.target)) {
+//       accountMenu.classList.remove("is-active");
+//     }
+//   });
+// });
+
+////////////////////////////////////////////////////////////////////////////////////////
+// ヘッダー アカウントメニュー
+///////////////////////////////////////////////////////////////////////////////////////
+$(".user .acc-menu").hide();
+$(".user button").on("click", function (e) {
+  $(this).siblings(".acc-menu").slideToggle("fast");
+  $(this).toggleClass("open");
+});
+// メニュー外クリックで閉じる
+$(document).on("click", function (e) {
+  if (!$(e.target).closest(".user").length) {
+    $(".user .acc-menu").slideUp("fast");
+    $(".user button").removeClass("open");
+  }
+});
+
+////////////////////////////////////////////////////////////////////////////////////////
 // GSAP アニメーション
 ///////////////////////////////////////////////////////////////////////////////////////
-// GSAPフェードイン
+// フェードイン
 const textElements = document.querySelectorAll(".fadeIn");
 if (textElements.length > 0) {
   textElements.forEach((element) => {

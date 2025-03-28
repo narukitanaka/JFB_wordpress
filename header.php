@@ -27,6 +27,10 @@
 <body>
   <?php wp_body_open(); ?>
 
+  <?php
+    $is_logged_in = is_user_logged_in();
+  ?>
+
   <header>
     <div class="header-inner">
 
@@ -34,7 +38,7 @@
         <a href="<?php echo home_url('/'); ?>"><img src="<?php echo get_template_directory_uri(); ?>/images/jfh-logo_y_wh.png" alt=""></a>
       </div>
 
-      <?php if ( !is_page(array('login', 'register')) ) : ?>
+      <?php if ( !is_page(array('login', 'register', 'password')) ) : ?>
 
         <div class="serch header-serch">
           <form class="search-form">
@@ -54,9 +58,18 @@
             </div> -->
             <div class="user">
               <div class="u-name"><?php echo esc_html(wp_get_current_user()->display_name); ?></div>
-              <a href="mypage" class="acount-link">
-                <img src="<?php echo get_template_directory_uri(); ?>/images/icon-account.svg" alt="">
-              </a>
+              <button class="acount-link">
+                <img class="account" src="<?php echo get_template_directory_uri(); ?>/images/icon-account.svg" alt="">
+                <img class="arrow" src="<?php echo get_template_directory_uri(); ?>/images/icon-arrow.svg" alt="">
+              </button>
+              <div class="acc-menu">
+                <ul>
+                  <?php if ($is_logged_in) : ?>
+                    <li><a href="#">My page</a></li>
+                  <?php endif; ?>
+                  <li><?php echo do_shortcode('[wpmem_loginout login_text="Sign in" logout_text="Sign out"]'); ?></li>
+                </ul>
+              </div>
             </div>
           </div>
 

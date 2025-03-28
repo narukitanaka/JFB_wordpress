@@ -70,6 +70,7 @@ header {
           }
         }
         .user {
+          position: relative;
           @include c.flex(between, center);
           gap: 1.5rem;
           @include c.mq() {
@@ -82,13 +83,39 @@ header {
               font-size: 1.2rem;
             }
           }
-          a {
+          button {
+            @include c.flex(center, center);
             img {
-              width: 30px;
-              @include c.mq() {
-                width: 25px;
+              &.account {
+                width: 30px;
+                @include c.mq() {
+                  width: 25px;
+                }
+              }
+              &.arrow {
+                width: 16px;
+                transition: all 0.3s;
+                @include c.mq() {
+                  width: 15px;
+                }
               }
             }
+            &.open {
+              img {
+                &.arrow {
+                  rotate: 180deg;
+                }
+              }
+            }
+          }
+          .acc-menu {
+            position: absolute;
+            top: 4rem;
+            right: -2rem;
+            width: 12rem;
+            padding: 1rem 2rem;
+            background-color: #fff;
+            box-shadow: v.$shadow01;
           }
         }
       }

@@ -1506,6 +1506,7 @@ header .header-inner .header-acount .acount-wrapper .mylist img {
   margin-right: 1rem;
 }
 header .header-inner .header-acount .acount-wrapper .user {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1525,13 +1526,39 @@ header .header-inner .header-acount .acount-wrapper .user .u-name {
     font-size: 1.2rem;
   }
 }
-header .header-inner .header-acount .acount-wrapper .user a img {
+header .header-inner .header-acount .acount-wrapper .user button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+header .header-inner .header-acount .acount-wrapper .user button img.account {
   width: 30px;
 }
 @media screen and (max-width: 768px) {
-  header .header-inner .header-acount .acount-wrapper .user a img {
+  header .header-inner .header-acount .acount-wrapper .user button img.account {
     width: 25px;
   }
+}
+header .header-inner .header-acount .acount-wrapper .user button img.arrow {
+  width: 16px;
+  transition: all 0.3s;
+}
+@media screen and (max-width: 768px) {
+  header .header-inner .header-acount .acount-wrapper .user button img.arrow {
+    width: 15px;
+  }
+}
+header .header-inner .header-acount .acount-wrapper .user button.open img.arrow {
+  rotate: 180deg;
+}
+header .header-inner .header-acount .acount-wrapper .user .acc-menu {
+  position: absolute;
+  top: 4rem;
+  right: -2rem;
+  width: 12rem;
+  padding: 1rem 2rem;
+  background-color: #fff;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.16);
 }
 
 .hamberger-wrap {
@@ -3167,6 +3194,15 @@ conatct
 #pageMypage .contact_wrap {
   margin-bottom: 8rem;
 }
+#pageContact .thanks p,
+#pageMypage .thanks p {
+  margin-bottom: 2rem;
+}
+#pageContact .thanks .btn-wrap,
+#pageMypage .thanks .btn-wrap {
+  margin-top: 6rem;
+  max-width: 30rem;
+}
 
 #pageContact table {
   table-layout: fixed;
@@ -3195,6 +3231,13 @@ conatct
   #pageContact table tr th {
     width: 100%;
   }
+}
+#pageContact table tr th.reqd {
+  position: relative;
+}
+#pageContact table tr th.reqd span {
+  color: #d93924;
+  margin-left: 3px;
 }
 @media screen and (max-width: 768px) {
   #pageContact table tr td {
@@ -3228,6 +3271,12 @@ conatct
 #pageContact .policy {
   text-align: center;
 }
+#pageContact .policy label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
 
 /*************************************************
 login
@@ -3260,6 +3309,10 @@ login
 }
 .contents-wrap#login .contents legend {
   display: none;
+}
+.contents-wrap#login .contents .wpmem_msg {
+  margin-bottom: 2rem;
+  color: #d93924;
 }
 .contents-wrap#login .contents label {
   display: block;
@@ -3296,12 +3349,14 @@ login
   background-color: #d93924;
   margin: 2rem 0 3rem;
 }
-.contents-wrap#login .contents .login_status {
+.contents-wrap#login .contents .login_status,
+.contents-wrap#login .contents .register_status {
   text-align: center;
   font-size: 2rem;
   font-weight: 700;
 }
-.contents-wrap#login .contents .login_status a {
+.contents-wrap#login .contents .login_status a,
+.contents-wrap#login .contents .register_status a {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -3316,6 +3371,28 @@ login
   box-shadow: -2px -2px 4px rgba(255, 255, 255, 0.8), 2px 2px 4px rgba(0, 0, 0, 0.25);
   background-color: #606060;
   margin: 2rem 0 3rem;
+}
+.contents-wrap#login .contents .register_links li a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  aspect-ratio: 1/0.1;
+  border-radius: 100vmax;
+  font-family: "Poppins", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  color: #fff;
+  box-shadow: -2px -2px 4px rgba(255, 255, 255, 0.8), 2px 2px 4px rgba(0, 0, 0, 0.25);
+  background-color: #606060;
+  margin: 2rem 0 1.5rem;
+}
+.contents-wrap#login .contents .register_links li:nth-of-type(2) {
+  margin-bottom: 3rem;
+}
+.contents-wrap#login .contents .register_links li:nth-of-type(2) a {
+  background-color: #d93924;
 }
 .contents-wrap#login .contents .link-text-register,
 .contents-wrap#login .contents .req-text {

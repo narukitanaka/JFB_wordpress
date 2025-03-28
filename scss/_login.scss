@@ -9,6 +9,7 @@ login
     width: 100vw;
     height: 100vh;
     background: url(images/login_bg.jpg) no-repeat center/cover;
+
     .contents {
       position: absolute;
       @include c.center(center, center);
@@ -24,6 +25,10 @@ login
       }
       legend {
         display: none;
+      }
+      .wpmem_msg {
+        margin-bottom: 2rem;
+        color: v.$color-re;
       }
       label {
         display: block;
@@ -61,7 +66,8 @@ login
           margin: 2rem 0 3rem;
         }
       }
-      .login_status {
+      .login_status,
+      .register_status {
         text-align: center;
         font-size: 2rem;
         font-weight: 700;
@@ -78,6 +84,30 @@ login
           box-shadow: v.$shadow02, v.$shadow03;
           background-color: #606060;
           margin: 2rem 0 3rem;
+        }
+      }
+      .register_links {
+        li {
+          a {
+            @include c.flex(center, center);
+            width: 100%;
+            aspect-ratio: 1/0.1;
+            border-radius: 100vmax;
+            font-family: v.$font-poppins;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            color: #fff;
+            box-shadow: v.$shadow02, v.$shadow03;
+            background-color: #606060;
+            margin: 2rem 0 1.5rem;
+          }
+          &:nth-of-type(2) {
+            margin-bottom: 3rem;
+            a {
+              background-color: v.$color-re;
+            }
+          }
         }
       }
       .link-text-register,
