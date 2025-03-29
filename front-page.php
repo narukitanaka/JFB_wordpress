@@ -76,24 +76,10 @@
                 $products = new WP_Query($args);
                 if ($products->have_posts()) :
                   while ($products->have_posts()) : $products->the_post();
-                    // 地域を取得
-                    $regions = get_the_terms(get_the_ID(), 'region');
-                    // メーカー関連投稿を取得
-                    $maker_post = get_field('item_maker');
-                    // メーカー名を取得
-                    $maker_name = '';
-                    if ($maker_post) {
-                      if (is_array($maker_post) && isset($maker_post[0])) {
-                        $first_maker = $maker_post[0];
-                        $maker_name = is_object($first_maker) ? $first_maker->post_title : 
-                        (isset($first_maker['post_title']) ? $first_maker['post_title'] : 
-                        get_the_title($first_maker));
-                      }
-                    }
                 ?>
 
                 <div class="swiper-slide">
-                  <?php get_template_part('inc/product-card', null, ['regions' => $regions, 'maker_name' => $maker_name]); ?>
+                  <?php get_template_part('inc/product-card'); ?>
                 </div>
 
                 <?php endwhile; wp_reset_postdata(); endif; ?>

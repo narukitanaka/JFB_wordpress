@@ -140,7 +140,7 @@
               <fieldset>
                 <div class="search-form">
                   <div class="search-input-wrapper">
-                    <input type="text" name="s" placeholder="What are you looking for ? ex) sweets,okinawa" value="<?php echo esc_attr($search_query); ?>">
+                    <input type="text" name="keyword" placeholder="What are you looking for ? ex) sweets,okinawa" value="<?php echo esc_attr($search_query); ?>">
                     <button type="submit" class="search-icon-button">
                       <img src="<?php echo get_template_directory_uri(); ?>/images/icon-search.svg" alt="">
                     </button>
@@ -155,42 +155,75 @@
 
         
         <?php
-          // 検索条件に基づいてクエリを構築
-          $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
-          $args = array(
-            'post_type' => 'product',
-            'posts_per_page' => 20,
-            'paged' => $paged,
+        // GET パラメータから検索条件を取得
+        $search_query = isset($_GET['keyword']) ? sanitize_text_field($_GET['keyword']) : '';
+        $selected_categories = isset($_GET['category']) ? (array)$_GET['category'] : array();
+        $selected_regions = isset($_GET['region']) ? (array)$_GET['region'] : array();
+
+        // 検索条件に基づいてクエリを構築
+        $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+        $args = array(
+          'post_type' => 'product',
+          'posts_per_page' => 20,
+          'paged' => $paged,
+        );
+
+        // タクソノミークエリの配列を準備
+        $tax_query = array();
+
+        // カテゴリーフィルター
+        if (!empty($selected_categories)) {
+          $tax_query[] = array(
+            'taxonomy' => 'product-cat',
+            'field' => 'slug',
+            'terms' => $selected_categories,
+            'operator' => 'IN',
           );
-          // タクソノミークエリの配列を準備
-          $tax_query = array();
-          // カテゴリーフィルター
-          if (!empty($selected_categories)) {
-            $tax_query[] = array(
-              'taxonomy' => 'product-cat',
-              'field' => 'slug',
-              'terms' => $selected_categories,
-              'operator' => 'IN',
+        }
+
+        // リージョンフィルター
+        if (!empty($selected_regions)) {
+          $tax_query[] = array(
+            'taxonomy' => 'region',
+            'field' => 'slug',
+            'terms' => $selected_regions,
+            'operator' => 'IN',
+          );
+        }
+
+        // タクソノミークエリを追加
+        if (!empty($tax_query)) {
+          $args['tax_query'] = $tax_query;
+        }
+
+        // キーワード検索
+        if (!empty($search_query)) {
+          // ここがポイント - 標準的なsではなくカスタム検索を実装
+          $args['meta_query'] = array(
+            'relation' => 'OR',
+            array(
+              'key' => '_wp_all_text', // 実際には存在しないキー
+              'value' => $search_query,
+              'compare' => 'LIKE'
+            )
+          );
+          // タイトルと内容の検索用フィルター
+          add_filter('posts_where', function($where) use ($search_query) {
+            global $wpdb;
+            $search_term = '%' . $wpdb->esc_like($search_query) . '%';
+            $where .= $wpdb->prepare(
+              " AND (
+                {$wpdb->posts}.post_title LIKE %s 
+                OR {$wpdb->posts}.post_content LIKE %s
+              )",
+              $search_term,
+              $search_term
             );
-          }
-          // リージョンフィルター
-          if (!empty($selected_regions)) {
-            $tax_query[] = array(
-              'taxonomy' => 'region',
-              'field' => 'slug',
-              'terms' => $selected_regions,
-              'operator' => 'IN',
-            );
-          }
-          // タクソノミークエリを追加
-          if (!empty($tax_query)) {
-            $args['tax_query'] = $tax_query;
-          }
-          // 検索キーワード
-          if (!empty($search_query)) {
-            $args['s'] = $search_query;
-          }
-          $query = new WP_Query($args);
+            return $where;
+          });
+        }
+
+        $query = new WP_Query($args);
         ?>
 
         <div id="product-list" class="products_wrap">
@@ -199,23 +232,9 @@
 
               <?php if ($query->have_posts()) : ?>
               <?php while ($query->have_posts()) : $query->the_post(); 
-                // 地域を取得
-                $regions = get_the_terms(get_the_ID(), 'region');
-                // メーカー関連投稿を取得
-                $maker_post = get_field('item_maker');
-                // メーカー名を取得
-                $maker_name = '';
-                if ($maker_post) {
-                  if (is_array($maker_post) && isset($maker_post[0])) {
-                    $first_maker = $maker_post[0];
-                    $maker_name = is_object($first_maker) ? $first_maker->post_title : 
-                    (isset($first_maker['post_title']) ? $first_maker['post_title'] : 
-                    get_the_title($first_maker));
-                  }
-                }
               ?>
 
-                <?php get_template_part('inc/product-card', null, ['regions' => $regions, 'maker_name' => $maker_name]); ?>
+                <?php get_template_part('inc/product-card'); ?>
 
               <?php endwhile; ?>
             </div>
@@ -271,3 +290,8 @@ function get_pagenum_var($post_type, $big) {
 ?>
 
 <?php get_footer(); ?>
+
+
+
+
+

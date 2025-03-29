@@ -100,3 +100,35 @@ conatct
     }
   }
 }
+
+//検索結果
+#search {
+  .search-block {
+    padding: 3rem 2rem;
+    background: #fff;
+    border-radius: 5px;
+    margin-bottom: 4rem;
+    &:has(.view-more) {
+      .search-items {
+        margin-bottom: 4rem;
+      }
+    }
+    .companyCard01 {
+      padding-left: 0;
+      &:first-of-type {
+        > div {
+          padding-top: 0;
+        }
+      }
+      .left {
+        width: 53%;
+      }
+    }
+    .companyCard02 {
+      padding-left: 0;
+      &:first-of-type {
+        padding-top: 0;
+      }
+    }
+  }
+}

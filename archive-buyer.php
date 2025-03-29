@@ -137,7 +137,7 @@
                 <fieldset>
                   <div class="search-form">
                     <div class="search-input-wrapper">
-                      <input type="text" name="s" placeholder="What are you looking for?   ex) sweets, okinawa" value="<?php echo esc_attr($search_query); ?>">
+                      <input type="text" name="keyword" placeholder="What are you looking for?   ex) sweets, okinawa" value="<?php echo esc_attr($search_query); ?>">
                       <button type="submit" class="search-icon-button">
                         <img src="<?php echo get_template_directory_uri(); ?>/images/icon-search.svg" alt="">
                       </button>
@@ -152,6 +152,11 @@
 
 
           <?php
+          // GET パラメータから検索条件を取得
+          $search_query = isset($_GET['keyword']) ? sanitize_text_field($_GET['keyword']) : '';
+          $selected_categories = isset($_GET['category']) ? (array)$_GET['category'] : array();
+          $selected_countries = isset($_GET['country']) ? (array)$_GET['country'] : array();
+
           // 検索条件に基づいてクエリを構築
           $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
           $args = array(
@@ -159,8 +164,10 @@
             'posts_per_page' => 8,
             'paged' => $paged,
           );
+
           // タクソノミークエリの配列を準備
           $tax_query = array();
+
           // カテゴリーフィルター
           if (!empty($selected_categories)) {
             $tax_query[] = array(
@@ -170,6 +177,7 @@
               'operator' => 'IN',
             );
           }
+
           // カントリーフィルター
           if (!empty($selected_countries)) {
             $tax_query[] = array(
@@ -179,81 +187,44 @@
               'operator' => 'IN',
             );
           }
+
           // タクソノミークエリを追加
           if (!empty($tax_query)) {
             $args['tax_query'] = $tax_query;
           }
-          // 検索キーワード
+
+          // キーワード検索
           if (!empty($search_query)) {
-            $args['s'] = $search_query;
+            // カスタム検索を実装
+            add_filter('posts_where', function($where) use ($search_query) {
+              global $wpdb;
+              $search_term = '%' . $wpdb->esc_like($search_query) . '%';
+              $where .= $wpdb->prepare(
+                " AND (
+                  {$wpdb->posts}.post_title LIKE %s 
+                  OR {$wpdb->posts}.post_content LIKE %s
+                )",
+                $search_term,
+                $search_term
+              );
+              return $where;
+            });
           }
+
           $query = new WP_Query($args);
-        ?>
+          ?>
 
 
           <div id="buyer-list" class="buyer-list_wrap">
 
             <?php if ($query->have_posts()) : ?>
-            <ul>
-              <?php while ($query->have_posts()) : $query->the_post(); 
-                // 各投稿のカテゴリー情報を取得
-                $product_cats = get_the_terms(get_the_ID(), 'product-cat');
-                
-                // カントリー情報を取得
-                $countries = get_the_terms(get_the_ID(), 'country');
-                $country_name = '';
-                if (!empty($countries) && !is_wp_error($countries)) {
-                  $country_name = $countries[0]->name;
-                }
-              ?>
+            <div>
+              <?php while ($query->have_posts()) : $query->the_post(); ?>
 
-                <li class="companyCard02">
-                  <div class="btn-wrap">
-                    <a class="btn bgc-re" href="<?php the_permalink(); ?>/#sendmail">
-                      Offer
-                      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g clip-path="url(#clip0_1_4821)">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M17.8122 0.187712C17.9004 0.275765 17.961 0.387534 17.9868 0.509424C18.0126 0.631315 18.0024 0.758073 17.9575 0.874284L11.529 17.5886C11.4835 17.7068 11.404 17.809 11.3006 17.8823C11.1972 17.9555 11.0745 17.9966 10.9478 18.0003C10.8211 18.004 10.6962 17.9702 10.5887 17.9031C10.4812 17.836 10.3959 17.7387 10.3435 17.6233L7.6551 11.709L11.61 7.75286C11.7803 7.57006 11.873 7.32828 11.8686 7.07847C11.8642 6.82865 11.763 6.5903 11.5863 6.41363C11.4097 6.23695 11.1713 6.13575 10.9215 6.13134C10.6717 6.12694 10.4299 6.21967 10.2471 6.39L6.29095 10.3449L0.376668 7.65771C0.260911 7.60543 0.163235 7.52003 0.0959682 7.41229C0.028701 7.30455 -0.00514256 7.1793 -0.00129122 7.05234C0.00256012 6.92539 0.0439338 6.80242 0.117608 6.69895C0.191282 6.59549 0.293955 6.51616 0.412668 6.471L17.127 0.0424266C17.243 -0.00222041 17.3695 -0.0122587 17.4911 0.0135279C17.6128 0.0393145 17.7243 0.0998193 17.8122 0.187712Z" fill="white"/>
-                        </g>
-                        <defs>
-                        <clipPath id="clip0_1_4821">
-                        <rect width="18" height="18" fill="white"/>
-                        </clipPath>
-                        </defs>
-                      </svg>
-                    </a>
-                  </div>
-                  <a href="<?php the_permalink(); ?>">
-                    <div>
-                      <?php if (has_post_thumbnail()) : ?>
-                        <div class="left">
-                          <div class="img-box obj-fit">
-                            <?php the_post_thumbnail(); ?>
-                          </div>
-                        </div>
-                      <?php endif; ?>
-                      <div class="right">
-                        <div class="cate">
-                          Wanted Products
-                          <div>
-                            <?php get_template_part('inc/snipets-cate'); ?>
-                          </div>
-                        </div>
-                        <div class="name"><?php the_title(); ?></div>
-                        <div class="txt">
-                          <?php the_content(); ?>
-                        </div>
-                        <div class="region">
-                          <img src="<?php echo get_template_directory_uri(); ?>/images/icon-pin.svg" alt="">
-                          <span><?php echo esc_html($country_name); ?></span>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                </li>
+                <?php get_template_part('inc/buyer-card', null, ['countries' => $countries]); ?>
 
               <?php endwhile; ?>
-            </ul>
+            </div>
 
             <?php
             // ページネーション

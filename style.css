@@ -3283,6 +3283,31 @@ conatct
   gap: 1rem;
 }
 
+#search .search-block {
+  padding: 3rem 2rem;
+  background: #fff;
+  border-radius: 5px;
+  margin-bottom: 4rem;
+}
+#search .search-block:has(.view-more) .search-items {
+  margin-bottom: 4rem;
+}
+#search .search-block .companyCard01 {
+  padding-left: 0;
+}
+#search .search-block .companyCard01:first-of-type > div {
+  padding-top: 0;
+}
+#search .search-block .companyCard01 .left {
+  width: 53%;
+}
+#search .search-block .companyCard02 {
+  padding-left: 0;
+}
+#search .search-block .companyCard02:first-of-type {
+  padding-top: 0;
+}
+
 /*************************************************
 login
 *************************************************/

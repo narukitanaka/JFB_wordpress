@@ -37,8 +37,8 @@ function create_custom_post_types() {
   // 「商品」用のカスタム投稿タイプを作成
   register_post_type('product', array(
     'labels' => array(
-      'name' => '',
-      'singular_name' => '商品',
+      'name' => 'Product',
+      'singular_name' => 'product',
       'add_new' => '新規追加',
       'edit_item' => '編集'
     ),
@@ -53,8 +53,8 @@ function create_custom_post_types() {
   // 「メーカー」用のカスタム投稿タイプを作成
   register_post_type('maker', array(
     'labels' => array(
-      'name' => 'メーカー',
-      'singular_name' => 'メーカー',
+      'name' => 'Maker',
+      'singular_name' => 'Maker',
       'add_new' => '新規追加',
       'edit_item' => '編集'
     ),
@@ -69,8 +69,8 @@ function create_custom_post_types() {
   // 「バイヤー」用のカスタム投稿タイプを作成
   register_post_type('buyer', array(
     'labels' => array(
-      'name' => 'バイヤー',
-      'singular_name' => 'バイヤー',
+      'name' => 'Buyer',
+      'singular_name' => 'Buyer',
       'add_new' => '新規追加',
       'edit_item' => '編集'
     ),
