@@ -37,7 +37,7 @@ function create_custom_post_types() {
   // 「商品」用のカスタム投稿タイプを作成
   register_post_type('product', array(
     'labels' => array(
-      'name' => '商品',
+      'name' => '',
       'singular_name' => '商品',
       'add_new' => '新規追加',
       'edit_item' => '編集'

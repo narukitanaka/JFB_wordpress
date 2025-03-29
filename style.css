@@ -3181,25 +3181,30 @@ single
 conatct
 *************************************************/
 #pageContact h2,
-#pageMypage h2 {
+#pageMypage h2,
+#search h2 {
   font-size: 2.4rem;
   font-weight: 800;
   margin-bottom: 2.5rem;
 }
 #pageContact .inner,
-#pageMypage .inner {
+#pageMypage .inner,
+#search .inner {
   padding: 2rem 0;
 }
 #pageContact .contact_wrap,
-#pageMypage .contact_wrap {
+#pageMypage .contact_wrap,
+#search .contact_wrap {
   margin-bottom: 8rem;
 }
 #pageContact .thanks p,
-#pageMypage .thanks p {
+#pageMypage .thanks p,
+#search .thanks p {
   margin-bottom: 2rem;
 }
 #pageContact .thanks .btn-wrap,
-#pageMypage .thanks .btn-wrap {
+#pageMypage .thanks .btn-wrap,
+#search .thanks .btn-wrap {
   margin-top: 6rem;
   max-width: 30rem;
 }

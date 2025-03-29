@@ -41,13 +41,14 @@
       <?php if ( !is_page(array('login', 'register', 'password')) ) : ?>
 
         <div class="serch header-serch">
-          <form class="search-form">
+          <form class="search-form" action="<?php echo esc_url(home_url('/')); ?>" method="get">
             <div class="search-input-wrapper">
-              <input type="text" class="search-input" placeholder="What are you looking fore? ex) sweets, okinawa">
+              <input type="text" class="search-input" name="s" value="<?php echo get_search_query(); ?>" placeholder="What are you looking fore? ex) sweets, okinawa">
               <button type="submit" class="search-icon-button">
                 <img src="<?php echo get_template_directory_uri(); ?>/images/icon-search.svg" alt="">
               </button>
             </div>
+            <input type="hidden" name="post_type" value="any">
           </form>
         </div>
 
