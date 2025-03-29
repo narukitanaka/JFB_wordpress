@@ -194,76 +194,31 @@
         ?>
 
         <div id="product-list" class="products_wrap">
-          <?php if ($query->have_posts()) : ?>
-            <ul class="flex-column05">
+          
+            <div class="flex-column05">
 
+              <?php if ($query->have_posts()) : ?>
               <?php while ($query->have_posts()) : $query->the_post(); 
-                // 各投稿のカテゴリー情報を取得
-                $product_cats = get_the_terms(get_the_ID(), 'product-cat');
-                $parent_cat = '';
-                $child_cat = '';
-                if (!empty($product_cats) && !is_wp_error($product_cats)) {
-                  foreach ($product_cats as $cat) {
-                    if ($cat->parent == 0) {
-                      $parent_cat = $cat->name;
-                    } else {
-                      $child_cat = $cat->name;
-                    }
-                  }
-                }
-                // リージョン情報を取得
+                // 地域を取得
                 $regions = get_the_terms(get_the_ID(), 'region');
-                $region_name = '';
-                if (!empty($regions) && !is_wp_error($regions)) {
-                  $region_name = $regions[0]->name;
-                }
                 // メーカー関連投稿を取得
                 $maker_post = get_field('item_maker');
                 // メーカー名を取得
                 $maker_name = '';
                 if ($maker_post) {
-                  if (is_object($maker_post) && isset($maker_post->post_title)) {
-                      $maker_name = $maker_post->post_title;
-                  } elseif (is_array($maker_post) && isset($maker_post['post_title'])) {
-                      $maker_name = $maker_post['post_title'];
-                  } elseif (is_numeric($maker_post)) {
-                      $maker_name = get_the_title($maker_post);
-                  } elseif (is_array($maker_post) && isset($maker_post[0])) {
-                    // 複数選択可能な場合は最初の一つを使用
-                    if (is_object($maker_post[0])) {
-                        $maker_name = $maker_post[0]->post_title;
-                    } elseif (isset($maker_post[0]['post_title'])) {
-                        $maker_name = $maker_post[0]['post_title'];
-                    } else {
-                      $maker_name = get_the_title($maker_post[0]);
-                    }
+                  if (is_array($maker_post) && isset($maker_post[0])) {
+                    $first_maker = $maker_post[0];
+                    $maker_name = is_object($first_maker) ? $first_maker->post_title : 
+                    (isset($first_maker['post_title']) ? $first_maker['post_title'] : 
+                    get_the_title($first_maker));
                   }
                 }
               ?>
 
-                <li class="itemCard">
-                  <a href="<?php the_permalink(); ?>">
-                    <div class="img-box obj-fit">
-                      <?php if (has_post_thumbnail()) : ?>
-                        <?php the_post_thumbnail(); ?>
-                      <?php else : ?>
-                        <img src="<?php echo get_template_directory_uri(); ?>/images/noimage.jpg" alt="<?php the_title(); ?>">
-                      <?php endif; ?>
-                    </div>
-                    <div class="cate">
-                      <?php get_template_part('inc/snipets-cate'); ?>
-                    </div>
-                    <div class="name"><?php the_title(); ?></div>
-                    <div class="maker"><?php echo esc_html($maker_name); ?></div>
-                    <div class="region">
-                      <img src="<?php echo get_template_directory_uri(); ?>/images/icon-pin.svg" alt="">
-                      <span><?php echo esc_html($region_name); ?></span>
-                    </div>
-                  </a>
-                </li>
+                <?php get_template_part('inc/product-card', null, ['regions' => $regions, 'maker_name' => $maker_name]); ?>
 
               <?php endwhile; ?>
-            </ul>
+            </div>
             
             <?php
             // ページネーション

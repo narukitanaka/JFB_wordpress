@@ -334,85 +334,28 @@
                 if ($related_products->have_posts()) :
             ?>
             
-            <ul class="flex-column05">
+            <div class="flex-column05">
               <?php while ($related_products->have_posts()) : $related_products->the_post(); 
-                // アイキャッチ画像を取得
-                if (has_post_thumbnail()) {
-                  $thumbnail = get_the_post_thumbnail_url(get_the_ID(), 'medium');
-                } else {
-                  $thumbnail = get_template_directory_uri() . '/images/noimage.jpg';
-                }
-                // カテゴリー情報を取得
-                $post_categories = get_the_terms(get_the_ID(), 'product-cat');
-                // リージョン情報を取得
+                // 地域を取得
                 $regions = get_the_terms(get_the_ID(), 'region');
                 // メーカー関連投稿を取得
                 $maker_post = get_field('item_maker');
                 // メーカー名を取得
                 $maker_name = '';
                 if ($maker_post) {
-                  if (is_object($maker_post) && isset($maker_post->post_title)) {
-                      $maker_name = $maker_post->post_title;
-                  } elseif (is_array($maker_post) && isset($maker_post['post_title'])) {
-                      $maker_name = $maker_post['post_title'];
-                  } elseif (is_numeric($maker_post)) {
-                      $maker_name = get_the_title($maker_post);
-                  } elseif (is_array($maker_post) && isset($maker_post[0])) {
-                    // 複数選択可能な場合は最初の一つを使用
-                    if (is_object($maker_post[0])) {
-                        $maker_name = $maker_post[0]->post_title;
-                    } elseif (isset($maker_post[0]['post_title'])) {
-                        $maker_name = $maker_post[0]['post_title'];
-                    } else {
-                      $maker_name = get_the_title($maker_post[0]);
-                    }
+                  if (is_array($maker_post) && isset($maker_post[0])) {
+                    $first_maker = $maker_post[0];
+                    $maker_name = is_object($first_maker) ? $first_maker->post_title : 
+                    (isset($first_maker['post_title']) ? $first_maker['post_title'] : 
+                    get_the_title($first_maker));
                   }
                 }
               ?>
-                <li class="itemCard">
-                  <a href="<?php the_permalink(); ?>">
-                    <div class="img-box">
-                      <img src="<?php echo esc_url($thumbnail); ?>" alt="<?php the_title_attribute(); ?>">
-                    </div>
-                    <div class="cate">
-                      <?php 
-                      if ($post_categories && !is_wp_error($post_categories)) {
-                        // 親カテゴリーとサブカテゴリーを分ける
-                        $item_parent_cats = array();
-                        $item_child_cats = array();
-                        foreach ($post_categories as $category) {
-                          if ($category->parent == 0) {
-                            $item_parent_cats[] = $category;
-                          } else {
-                            $item_child_cats[] = $category;
-                          }
-                        }
-                        // 親カテゴリーを表示
-                        foreach ($item_parent_cats as $parent) {
-                          echo '<span class="parent">' . esc_html($parent->name) . '</span>';
-                        }
-                        // 子カテゴリーを表示
-                        foreach ($item_child_cats as $child) {
-                          echo '<span class="child">' . esc_html($child->name) . '</span>';
-                        }
-                      }
-                      ?>
-                    </div>
-                    <div class="name"><?php the_title(); ?></div>
-                    <div class="maker"><?php echo esc_html($maker_name); ?></div>
-                    <div class="region">
-                      <img src="<?php echo get_template_directory_uri(); ?>/images/icon-pin.svg" alt="region">
-                      <?php 
-                      if ($regions && !is_wp_error($regions) && !empty($regions)) {
-                          $region = $regions[0];
-                          echo '<span>' . esc_html($region->name) . '</span>';
-                      }
-                      ?>
-                    </div>
-                  </a>
-                </li>
+
+              <?php get_template_part('inc/product-card', null, ['regions' => $regions, 'maker_name' => $maker_name]); ?>
+
               <?php endwhile; ?>
-            </ul>
+            </div>
             
             <?php 
                 wp_reset_postdata(); // 投稿データをリセット
@@ -430,124 +373,6 @@
             ?>
           </div>
 
-
-          <!-- <div class="products_wrap">
-            <h2>More to love</h2>
-
-            <?php
-            // 現在の商品のカテゴリを取得
-            $categories = get_the_terms(get_the_ID(), 'product-cat');
-            
-            // カテゴリが存在するか確認
-            if ($categories && !is_wp_error($categories)) {
-              // 親カテゴリーとサブカテゴリーを分ける
-              $parent_cats = array();
-              $child_cats = array();
-              
-              foreach ($categories as $category) {
-                if ($category->parent == 0) {
-                  $parent_cats[] = $category;
-                } else {
-                  $child_cats[] = $category;
-                }
-              }
-              
-              // 検索に使うカテゴリを決定（子カテゴリを優先）
-              $search_category = !empty($child_cats) ? $child_cats[0] : (!empty($parent_cats) ? $parent_cats[0] : null);
-              
-              if ($search_category) {
-                // 同じカテゴリの商品を検索するクエリを作成
-                $args = array(
-                  'post_type' => 'product',
-                  'posts_per_page' => 10,
-                  'post__not_in' => array(get_the_ID()), // 現在の商品を除外
-                  'tax_query' => array(
-                    array(
-                      'taxonomy' => 'product-cat',
-                      'field' => 'term_id',
-                      'terms' => $search_category->term_id,
-                    ),
-                  ),
-                );
-                
-                $related_products = new WP_Query($args);
-                
-                if ($related_products->have_posts()) :
-            ?>
-            <ul class="flex-column05">
-              <?php while ($related_products->have_posts()) : $related_products->the_post(); 
-                // アイキャッチ画像を取得
-                if (has_post_thumbnail()) {
-                  $thumbnail = get_the_post_thumbnail_url(get_the_ID(), 'medium');
-                } else {
-                  $thumbnail = get_template_directory_uri() . '/images/noimage.jpg';
-                }
-                
-                // カテゴリー情報を取得
-                $categories = get_the_terms(get_the_ID(), 'product-cat');
-                
-                // リージョン情報を取得
-                $regions = get_the_terms(get_the_ID(), 'region');
-                
-                // メーカー名を取得
-                $maker_name = get_post_meta(get_the_ID(), 'maker_name', true);
-              ?>
-                <li class="itemCard">
-                  <a href="<?php the_permalink(); ?>">
-                    <div class="img-box">
-                      <img src="<?php echo esc_url($thumbnail); ?>" alt="<?php the_title_attribute(); ?>">
-                    </div>
-                    <div class="cate">
-                      <?php 
-                      if ($categories && !is_wp_error($categories)) {
-                        // 親カテゴリーとサブカテゴリーを分ける
-                        $parent_cats = array();
-                        $child_cats = array();
-                        foreach ($categories as $category) {
-                          if ($category->parent == 0) {
-                            $parent_cats[] = $category;
-                          } else {
-                            $child_cats[] = $category;
-                          }
-                        }
-                        // 親カテゴリーを表示
-                        foreach ($parent_cats as $parent) {
-                          echo '<span class="parent">' . esc_html($parent->name) . '</span>';
-                        }
-                        // 子カテゴリーを表示
-                        foreach ($child_cats as $child) {
-                          echo '<span class="child">' . esc_html($child->name) . '</span>';
-                        }
-                      }
-                      ?>
-                    </div>
-                    <div class="name"><?php the_title(); ?></div>
-                    <div class="maker"><?php echo esc_html($maker_name); ?></div>
-                    <div class="region">
-                      <img src="<?php echo get_template_directory_uri(); ?>/images/icon-pin.svg" alt="region">
-                      <?php 
-                      if ($regions && !is_wp_error($regions) && !empty($regions)) {
-                          $region = $regions[0];
-                          echo '<span>' . esc_html($region->name) . '</span>';
-                      }
-                      ?>
-                    </div>
-                  </a>
-                </li>
-              <?php endwhile; ?>
-            </ul>
-            
-            <?php 
-                wp_reset_postdata(); // 投稿データをリセット
-                else: 
-            ?>
-              <p class="no-related">No related products found.</p>
-            <?php 
-                endif;
-              }
-            }
-            ?>
-          </div> -->
 
         </div><!-- /.inner -->
 

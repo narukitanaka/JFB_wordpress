@@ -99,19 +99,14 @@
     <div class="drawer-menu_inner">
 
       <div class="nav_list">
-        <p><a href="#">Home</a></p>
+        <p><a href="<?php echo home_url('/'); ?>">Home</a></p>
       </div>
 
       <div class="nav_list">
         <p>Categories</p>
         <nav>
           <ul>
-            <li><a href="#">cate-menue01</a></li>
-            <li><a href="#">cate-menue02</a></li>
-            <li><a href="#">cate-menue03</a></li>
-            <li><a href="#">cate-menue04</a></li>
-            <li><a href="#">cate-menue05</a></li>
-            <li><a href="#">cate-menue06</a></li>
+            <?php get_template_part('inc/cate-parent-link'); ?>
           </ul>
         </nav>
       </div>
@@ -120,9 +115,7 @@
         <p>Region</p>
         <nav>
           <ul>
-            <li><a href="#">Okinawa</a></li>
-            <li><a href="#">Kyoto</a></li>
-            <li><a href="#">Fukuoka</a></li>
+            <?php get_template_part('inc/cate-region-link'); ?>
           </ul>
         </nav>
       </div>
