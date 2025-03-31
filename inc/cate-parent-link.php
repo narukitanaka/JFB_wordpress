@@ -12,7 +12,7 @@
   if (!empty($parent_categories) && !is_wp_error($parent_categories)) {
     foreach ($parent_categories as $category) {
       // フィルター適用済みのproduct一覧ページへのリンクを作成
-      $filtered_link = home_url('/product/?category%5B%5D=' . $category->slug . '&s=');
+      $filtered_link = home_url('/product/?category%5B%5D=' . $category->slug . '&keyword=');
       echo '<li><a href="' . esc_url($filtered_link) . '">' . esc_html($category->name) . '</a></li>';
     }
   }
