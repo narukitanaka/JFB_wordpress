@@ -119,28 +119,6 @@ $(document).ready(function () {
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// ヘッダー　アカウントメニュー
-///////////////////////////////////////////////////////////////////////////////////////
-// document.addEventListener("DOMContentLoaded", function () {
-//   const accountBtn = document.querySelector(".acount-link");
-//   const accountMenu = document.querySelector(".acc-menu");
-
-//   accountMenu.classList.remove("is-active");
-
-//   accountBtn.addEventListener("click", function (e) {
-//     e.preventDefault();
-//     accountMenu.classList.toggle("is-active");
-//   });
-
-//   // メニュー以外の場所をクリックしたらメニューを閉じる
-//   document.addEventListener("click", function (e) {
-//     if (!accountBtn.contains(e.target) && !accountMenu.contains(e.target)) {
-//       accountMenu.classList.remove("is-active");
-//     }
-//   });
-// });
-
-////////////////////////////////////////////////////////////////////////////////////////
 // ヘッダー アカウントメニュー
 ///////////////////////////////////////////////////////////////////////////////////////
 $(".user .acc-menu").hide();

@@ -62,6 +62,46 @@
       swiperitem.slideTo(index);
     }
   </script>
+  <script>
+    jQuery(document).ready(function($) {
+      // 「View More」ボタンのクリックイベント
+      $('.load-more-button').on('click', function() {
+        var button = $(this);
+        var postType = button.data('post-type');
+        var searchQuery = button.data('search');
+        var paged = button.data('paged');
+        var maxPages = button.data('max-pages');
+        // 次のページを読み込む
+        paged++;
+        button.data('paged', paged);
+        $.ajax({
+          url: '<?php echo admin_url('admin-ajax.php'); ?>',
+          type: 'POST',
+          data: {
+            action: 'load_more_search_results',
+            post_type: postType,
+            search: searchQuery,
+            paged: paged,
+            security: '<?php echo wp_create_nonce('load_more_search_results'); ?>'
+          },
+          success: function(response) {
+            if (response) {
+              // 結果をコンテナに追加
+              $('#' + postType + '-items').append(response);
+              
+              // 最後のページの場合はボタンを非表示
+              if (paged >= maxPages) {
+                button.hide();
+              }
+            } else {
+              button.hide();
+            }
+          }
+        });
+      });
+    });
+  </script>
+
   <?php wp_footer(); ?>
 </body>
 

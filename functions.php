@@ -537,3 +537,49 @@ function send_notification_on_self_profile_update($user_id) {
   }
 }
 add_action('profile_update', 'send_notification_on_self_profile_update', 10, 1);
+
+
+/************************************************************************************
+ * 検索結果のView More
+ ***********************************************************************************/
+function load_more_search_results() {
+  // セキュリティチェック
+  check_ajax_referer('load_more_search_results', 'security');
+  
+  $post_type = isset($_POST['post_type']) ? sanitize_text_field($_POST['post_type']) : '';
+  $search = isset($_POST['search']) ? sanitize_text_field($_POST['search']) : '';
+  $paged = isset($_POST['paged']) ? intval($_POST['paged']) : 1;
+  
+  // 検索クエリ
+  $args = array(
+    'post_type' => $post_type,
+    's' => $search,
+    'posts_per_page' => 5,
+    'paged' => $paged,
+  );
+  
+  $query = new WP_Query($args);
+  
+  if ($query->have_posts()) {
+    ob_start();
+    while ($query->have_posts()) {
+      $query->the_post();
+      
+      if ($post_type === 'product') {
+        get_template_part('inc/product-card');
+      } elseif ($post_type === 'maker') {
+        get_template_part('inc/maker-card');
+      } else { // buyer
+        get_template_part('inc/buyer-card');
+      }
+    }
+    $html = ob_get_clean();
+    wp_reset_postdata();
+    
+    echo $html;
+  }
+  
+  wp_die();
+}
+add_action('wp_ajax_load_more_search_results', 'load_more_search_results');
+add_action('wp_ajax_nopriv_load_more_search_results', 'load_more_search_results');

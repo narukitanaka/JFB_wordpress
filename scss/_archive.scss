@@ -22,6 +22,21 @@ archive
     @include c.mq() {
       margin-bottom: 6rem;
     }
+    .pagination {
+      margin-top: 6rem;
+      .nav-links {
+        @include c.flex(center, center);
+        gap: 2rem;
+        span,
+        a {
+          font-family: v.$font-poppins;
+          font-weight: 600;
+        }
+        a {
+          color: #adaba9;
+        }
+      }
+    }
   }
 }
 

@@ -161,7 +161,7 @@
           $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
           $args = array(
             'post_type' => 'buyer',
-            'posts_per_page' => 8,
+            'posts_per_page' => 2,
             'paged' => $paged,
           );
 

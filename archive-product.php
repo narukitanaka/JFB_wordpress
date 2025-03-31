@@ -155,22 +155,23 @@
 
         
         <?php
+        // GETパラメータからカスタムページ番号を取得
+        $current_page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+
         // GET パラメータから検索条件を取得
         $search_query = isset($_GET['keyword']) ? sanitize_text_field($_GET['keyword']) : '';
         $selected_categories = isset($_GET['category']) ? (array)$_GET['category'] : array();
         $selected_regions = isset($_GET['region']) ? (array)$_GET['region'] : array();
 
         // 検索条件に基づいてクエリを構築
-        $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
         $args = array(
           'post_type' => 'product',
-          'posts_per_page' => 20,
-          'paged' => $paged,
+          'posts_per_page' => 20, // ここで表示件数設定
+          'paged' => $current_page, // ここで正しいページ番号を設定
         );
 
         // タクソノミークエリの配列を準備
         $tax_query = array();
-
         // カテゴリーフィルター
         if (!empty($selected_categories)) {
           $tax_query[] = array(
@@ -180,7 +181,6 @@
             'operator' => 'IN',
           );
         }
-
         // リージョンフィルター
         if (!empty($selected_regions)) {
           $tax_query[] = array(
@@ -190,69 +190,85 @@
             'operator' => 'IN',
           );
         }
-
         // タクソノミークエリを追加
         if (!empty($tax_query)) {
+          if (count($tax_query) > 1) {
+            $tax_query['relation'] = 'AND';
+          }
           $args['tax_query'] = $tax_query;
         }
-
         // キーワード検索
         if (!empty($search_query)) {
-          // ここがポイント - 標準的なsではなくカスタム検索を実装
-          $args['meta_query'] = array(
-            'relation' => 'OR',
-            array(
-              'key' => '_wp_all_text', // 実際には存在しないキー
-              'value' => $search_query,
-              'compare' => 'LIKE'
-            )
-          );
-          // タイトルと内容の検索用フィルター
-          add_filter('posts_where', function($where) use ($search_query) {
-            global $wpdb;
-            $search_term = '%' . $wpdb->esc_like($search_query) . '%';
-            $where .= $wpdb->prepare(
-              " AND (
-                {$wpdb->posts}.post_title LIKE %s 
-                OR {$wpdb->posts}.post_content LIKE %s
-              )",
-              $search_term,
-              $search_term
-            );
-            return $where;
-          });
+          $args['s'] = $search_query;
         }
 
+        // クエリを実行
         $query = new WP_Query($args);
         ?>
 
         <div id="product-list" class="products_wrap">
-          
-            <div class="flex-column05">
-
-              <?php if ($query->have_posts()) : ?>
-              <?php while ($query->have_posts()) : $query->the_post(); 
-              ?>
-
+          <div class="flex-column05">
+            <?php if ($query->have_posts()) : ?>
+              <?php while ($query->have_posts()) : $query->the_post(); ?>
+                <!-- ID確認用 -->
+                <!-- Post ID: <?php echo get_the_ID(); ?> -->
                 <?php get_template_part('inc/product-card'); ?>
-
               <?php endwhile; ?>
             </div>
             
-            <?php
-            // ページネーション
-            $big = 999999999;
-            echo '<div class="pagination">';
-            echo paginate_links(array(
-              'base' => str_replace($big, '%#%', esc_url(get_pagenum_var('product', $big))),
-              'format' => '?paged=%#%',
-              'current' => max(1, get_query_var('paged')),
-              'total' => $query->max_num_pages,
-              'prev_text' => '&laquo;',
-              'next_text' => '&raquo;',
-            ));
-            echo '</div>';
-            ?>
+            <div class="pagination">
+              <?php
+                $total_pages = $query->max_num_pages;
+
+                if ($total_pages > 1) {
+                  echo '<div class="nav-links">';
+                  // ベースURLとパラメータの準備
+                  $base_url = get_post_type_archive_link('product');
+                  $url_params = array();
+                  if (!empty($search_query)) {
+                    $url_params['keyword'] = $search_query;
+                  }
+                  if (!empty($selected_categories)) {
+                    foreach ($selected_categories as $cat) {
+                      $url_params['category'][] = $cat;
+                    }
+                  }
+                  if (!empty($selected_regions)) {
+                    foreach ($selected_regions as $region) {
+                      $url_params['region'][] = $region;
+                    }
+                  }
+
+                  // 前のページへのリンク
+                  if ($current_page > 1) {
+                    $prev_params = $url_params;
+                    $prev_params['page'] = $current_page - 1;
+                    echo '<a class="prev page-numbers" href="' . esc_url(add_query_arg($prev_params, $base_url)) . '#product-list">＜</a>';
+                  }
+                  // ページ番号リンク
+                  for ($i = 1; $i <= $total_pages; $i++) {
+                    $page_params = $url_params;
+                    if ($i > 1) { // 1ページ目はパラメータ不要
+                      $page_params['page'] = $i;
+                    } else {
+                      unset($page_params['page']);
+                    }
+                    if ($i == $current_page) {
+                      echo '<span aria-current="page" class="page-numbers current">' . $i . '</span>';
+                    } else {
+                      echo '<a class="page-numbers" href="' . esc_url(add_query_arg($page_params, $base_url)) . '#product-list">' . $i . '</a>';
+                    }
+                  }
+                  // 次のページへのリンク
+                  if ($current_page < $total_pages) {
+                    $next_params = $url_params;
+                    $next_params['page'] = $current_page + 1;
+                    echo '<a class="next page-numbers" href="' . esc_url(add_query_arg($next_params, $base_url)) . '#product-list">＞</a>';
+                  }
+                  echo '</div>';
+                }
+              ?>
+            </div>
             
           <?php else : ?>
             <div class="no-results">
@@ -290,8 +306,3 @@ function get_pagenum_var($post_type, $big) {
 ?>
 
 <?php get_footer(); ?>
-
-
-
-
-
