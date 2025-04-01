@@ -291,6 +291,15 @@ single
             right: 2rem;
           }
         }
+        &.long {
+          width: 23rem;
+          .btn {
+            padding-right: 3rem;
+          }
+        }
+      }
+      &:has(.long) {
+        align-items: end;
       }
     }
   }
@@ -344,6 +353,7 @@ single
         th,
         td {
           padding: 1.5rem 2.5rem;
+          word-break: break-word;
           @include c.mq() {
             display: block;
             padding: 1rem 1.5rem;

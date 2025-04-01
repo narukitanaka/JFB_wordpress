@@ -97,9 +97,9 @@ section {
 
 section {
   &.maker {
-    padding: 10rem 0;
+    margin: 10rem 0;
     @include c.mq() {
-      padding: 6rem 0;
+      margin: 6rem 0;
     }
     .itemCard {
       display: flex;
@@ -121,8 +121,10 @@ section {
 
 section {
   &.about {
+    margin-top: 8rem;
     margin-bottom: 10rem;
     @include c.mq() {
+      margin-top: 6rem;
       margin-bottom: 6rem;
     }
     .about-wrap {
@@ -133,7 +135,7 @@ section {
       justify-content: end;
       border-radius: 1rem;
       @include c.mq() {
-        padding: 10rem 1.5rem;
+        padding: 4rem 1.5rem;
       }
       .text-wrap {
         width: 30%;

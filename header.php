@@ -58,15 +58,15 @@
               <a href="#"><img src="<?php echo get_template_directory_uri(); ?>/images/icon-love.svg" alt="">My List</a>
             </div> -->
             <div class="user">
-              <div class="u-name"><?php echo esc_html(wp_get_current_user()->display_name); ?></div>
+              <div class="u-name u-pc"><?php echo esc_html(wp_get_current_user()->display_name); ?></div>
               <button class="acount-link">
                 <img class="account" src="<?php echo get_template_directory_uri(); ?>/images/icon-account.svg" alt="">
                 <img class="arrow" src="<?php echo get_template_directory_uri(); ?>/images/icon-arrow.svg" alt="">
               </button>
               <div class="acc-menu">
                 <ul>
-                  <?php if ($is_logged_in) : ?>
-                    <li><a href="#">My page</a></li>
+                  <?php if (is_logged_in_user()): ?>
+                    <li><a href="<?php echo esc_url(get_mypage_url()); ?>">My Profile</a></li>
                   <?php endif; ?>
                   <li><?php echo do_shortcode('[wpmem_loginout login_text="Sign in" logout_text="Sign out"]'); ?></li>
                 </ul>
@@ -99,35 +99,65 @@
   <div class="drawer-menu">
     <div class="drawer-menu_inner">
 
-      <div class="nav_list">
-        <p><a href="<?php echo home_url('/'); ?>">Home</a></p>
+      <div class="serch header-serch">
+        <form class="search-form" action="<?php echo esc_url(home_url('/')); ?>" method="get">
+          <div class="search-input-wrapper">
+            <input type="text" class="search-input" name="s" value="<?php echo get_search_query(); ?>" placeholder="What are you looking fore? ex) sweets, okinawa">
+            <button type="submit" class="search-icon-button">
+              <img src="<?php echo get_template_directory_uri(); ?>/images/icon-search.svg" alt="">
+            </button>
+          </div>
+          <input type="hidden" name="post_type" value="any">
+        </form>
       </div>
 
-      <div class="nav_list">
-        <p>Categories</p>
-        <nav>
-          <ul>
-            <?php get_template_part('inc/cate-parent-link'); ?>
-          </ul>
-        </nav>
-      </div>
-
-      <div class="nav_list">
-        <p>Region</p>
-        <nav>
-          <ul>
-            <?php get_template_part('inc/cate-region-link'); ?>
-          </ul>
-        </nav>
-      </div>
-
-      <div class="btnArea">
-        <div class="btn-wrap side-btn">
-          <a class="btn bgc-bl" href="#">Serch Products</a>
+      <div class="drawer-menu_wrap">
+        <div class="nav_list home">
+          <p><a href="<?php echo home_url('/'); ?>">Home</a></p>
         </div>
-
-        <div class="btn-wrap side-btn">
-          <a class="btn bgc-bl" href="#">My Page</a>
+  
+        <div class="nav_list food">
+          <p>Categories</p>
+          <nav>
+            <ul>
+              <?php get_template_part('inc/cate-parent-link'); ?>
+            </ul>
+          </nav>
+        </div>
+  
+        <div class="nav_list region">
+          <p>Region</p>
+          <nav>
+            <ul>
+              <?php get_template_part('inc/cate-region-link'); ?>
+            </ul>
+          </nav>
+        </div>
+  
+        <?php if (is_user_maker()): ?>
+          <div class="nav_list maker">
+            <p><a href="<?php echo home_url('/maker'); ?>">Maker</a></p>
+          </div>
+        <?php endif; ?>
+  
+        <?php if (is_user_buyer()): ?>
+          <div class="nav_list buyer">
+            <p><a href="<?php echo home_url('/buyer'); ?>">Buyer</a></p>
+          </div>
+        <?php endif; ?>
+  
+  
+        <div class="btnArea">
+          <div class="btn-wrap side-btn">
+            <a class="btn bgc-bl" href="<?php echo home_url('/product'); ?>">Serch Products</a>
+          </div>
+  
+          <?php if (is_logged_in_user()): ?>
+            <div class="btn-wrap side-btn">
+              <a class="btn bgc-bl" href="<?php echo esc_url(get_mypage_url()); ?>">My Page</a>
+            </div>
+          <?php endif; ?>
+  
         </div>
       </div>
 

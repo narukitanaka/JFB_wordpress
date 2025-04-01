@@ -329,6 +329,7 @@ component
           color: #7d7d7d;
           margin-bottom: 2rem;
           @include c.mq() {
+            flex-direction: column;
             margin-bottom: 1.5rem;
           }
           div {
@@ -338,6 +339,8 @@ component
             flex-wrap: wrap;
             gap: 8px;
             @include c.mq() {
+              width: 100%;
+              max-width: none;
               row-gap: 5px;
             }
             span {

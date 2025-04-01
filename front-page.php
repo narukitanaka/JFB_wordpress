@@ -137,6 +137,7 @@
           </div>
         </section>
 
+        <?php if (is_user_buyer()): ?>
         <section class="maker">
           <div class="inner">
             <h2>Maker</h2>
@@ -187,6 +188,7 @@
             </div>
           </div>
         </section>
+        <?php endif; ?>
 
         <section class="about">
           <div class="inner">

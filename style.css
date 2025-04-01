@@ -1281,6 +1281,7 @@ component
 }
 @media screen and (max-width: 768px) {
   .companyCard02 a > div .right .cate {
+    flex-direction: column;
     margin-bottom: 1.5rem;
   }
 }
@@ -1293,6 +1294,8 @@ component
 }
 @media screen and (max-width: 768px) {
   .companyCard02 a > div .right .cate div {
+    width: 100%;
+    max-width: none;
     row-gap: 5px;
   }
 }
@@ -1722,7 +1725,7 @@ header .header-inner .header-acount .acount-wrapper .user .acc-menu {
   right: 0;
   width: 100%;
   height: 100svh;
-  padding-top: 12rem;
+  padding-top: 9rem;
   transform: translateX(100%);
   background-color: #f7f5f3;
   overflow: scroll;
@@ -1733,34 +1736,71 @@ header .header-inner .header-acount .acount-wrapper .user .acc-menu {
   transform: translateX(0);
 }
 .drawer-menu .drawer-menu_inner {
-  width: 80%;
+  width: 90%;
   max-width: 50rem;
   margin: 0 auto;
 }
+.drawer-menu .serch {
+  margin-bottom: 3rem;
+}
+.drawer-menu .serch .search-form {
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.16);
+}
+.drawer-menu .serch input::-moz-placeholder {
+  font-size: 1.2rem;
+}
+.drawer-menu .serch input::placeholder {
+  font-size: 1.2rem;
+}
+.drawer-menu .drawer-menu_wrap {
+  max-width: 30rem;
+  max-height: 73vh;
+  margin: 0 auto;
+  overflow-y: scroll;
+}
 .drawer-menu .nav_list {
-  margin-bottom: 2rem;
-  padding-left: 2rem;
+  margin-bottom: 1rem;
+  padding-left: 3rem;
 }
 .drawer-menu .nav_list:not(:has(nav)) a {
+  font-family: "Poppins", sans-serif;
   font-weight: 600;
 }
 .drawer-menu .nav_list p {
   position: relative;
+  font-size: 1.8rem;
   font-weight: 600;
   margin-bottom: 0.3rem;
 }
 .drawer-menu .nav_list p::before {
   content: "";
-  width: 10px;
+  width: 22px;
   aspect-ratio: 1/1;
-  background-color: #333;
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: -2rem;
+  top: 3px;
+  left: -3rem;
+}
+.drawer-menu .nav_list p a {
+  font-size: 1.8rem;
 }
 .drawer-menu .nav_list li a {
-  font-size: 1.4rem;
+  font-size: 1.5rem;
+  padding-left: 1rem;
+}
+.drawer-menu .nav_list.home p::before {
+  background: url(images/icon-home.svg) no-repeat center/contain;
+}
+.drawer-menu .nav_list.food p::before {
+  background: url(images/icon-food.svg) no-repeat center/contain;
+}
+.drawer-menu .nav_list.region p::before {
+  background: url(images/icon-pin.svg) no-repeat center/contain;
+}
+.drawer-menu .nav_list.maker p::before, .drawer-menu .nav_list.buyer p::before {
+  background: url(images/icon-maker.svg) no-repeat center/contain;
+}
+.drawer-menu .btnArea {
+  margin-top: 3rem;
 }
 .drawer-menu .btn-wrap {
   margin-bottom: 1rem;
@@ -1812,6 +1852,16 @@ footer .footer-inner .footerNav-wrap {
 footer .footer-inner .footerNav-wrap .fnav_list {
   margin-bottom: 2rem;
 }
+@media screen and (max-width: 768px) {
+  footer .footer-inner .footerNav-wrap .fnav_list {
+    width: 33.3333333333%;
+  }
+}
+@media screen and (max-width: 768px) {
+  footer .footer-inner .footerNav-wrap .fnav_list:last-of-type {
+    width: 100%;
+  }
+}
 footer .footer-inner .footerNav-wrap .fnav_list:not(:has(nav)) a {
   font-weight: 600;
 }
@@ -1833,12 +1883,28 @@ footer .footer-inner .footerNav-wrap .fnav_list li a {
     font-size: 1.2rem;
   }
 }
-footer .footer-inner .logo {
-  width: 22rem;
+@media screen and (max-width: 768px) {
+  footer .footer-inner .logo-column {
+    margin-bottom: 3rem;
+  }
+}
+footer .footer-inner .logo-column .logo {
+  width: 23rem;
+  margin-bottom: 1.5rem;
+}
+footer .footer-inner .logo-column a {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 5px;
+  font-size: 1.3rem;
 }
 @media screen and (max-width: 768px) {
-  footer .footer-inner .logo {
-    margin-bottom: 3rem;
+  footer .footer-inner .logo-column a {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 1rem;
   }
 }
 
@@ -1912,7 +1978,7 @@ aside .snav_list.food p::before {
 aside .snav_list.region p::before {
   background: url(images/icon-pin_sidebar.svg) no-repeat;
 }
-aside .snav_list.maker p::before {
+aside .snav_list.maker p::before, aside .snav_list.buyer p::before {
   background: url(images/icon-maker.svg);
 }
 aside .side-btnArea {
@@ -2180,11 +2246,11 @@ section.categories ul li p {
 }
 
 section.maker {
-  padding: 10rem 0;
+  margin: 10rem 0;
 }
 @media screen and (max-width: 768px) {
   section.maker {
-    padding: 6rem 0;
+    margin: 6rem 0;
   }
 }
 section.maker .itemCard {
@@ -2208,10 +2274,12 @@ section.maker .itemCard .box {
 }
 
 section.about {
+  margin-top: 8rem;
   margin-bottom: 10rem;
 }
 @media screen and (max-width: 768px) {
   section.about {
+    margin-top: 6rem;
     margin-bottom: 6rem;
   }
 }
@@ -2225,7 +2293,7 @@ section.about .about-wrap {
 }
 @media screen and (max-width: 768px) {
   section.about .about-wrap {
-    padding: 10rem 1.5rem;
+    padding: 4rem 1.5rem;
   }
 }
 section.about .about-wrap .text-wrap {
@@ -2434,15 +2502,16 @@ archive
     content: "";
     width: 14px;
     aspect-ratio: 1/1;
-    background-color: #000;
+    background: url(images/icon-arrow_b.svg) no-repeat center/contain;
     position: absolute;
     top: 0;
     right: 1rem;
+    rotate: 90deg;
     transition: all 0.3s;
   }
 }
 .filter_wrap fieldset .sp_accordion-trigger.open::before {
-  rotate: 180deg;
+  rotate: -90deg;
 }
 .filter_wrap fieldset .sp_accordion-hide {
   margin-bottom: 2rem;
@@ -2463,10 +2532,10 @@ archive
 }
 @media screen and (max-width: 768px) {
   .filter_wrap fieldset .search-form input::-moz-placeholder {
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
   .filter_wrap fieldset .search-form input::placeholder {
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
 }
 
@@ -2514,10 +2583,17 @@ archive
     line-height: 1.4;
   }
 }
+.category-group label input {
+  margin-bottom: 3px;
+}
 @media screen and (max-width: 768px) {
   .category-group label input {
+    margin-bottom: 0;
     margin-top: 2px;
   }
+}
+.category-group label input[type=checkbox] {
+  accent-color: #000;
 }
 .category-group.area .flex-column05 {
   row-gap: 1rem;
@@ -2857,6 +2933,15 @@ single
   transform: translateY(-50%);
   right: 2rem;
 }
+.single-head-content .head-content .btn-area .btn-wrap.long {
+  width: 23rem;
+}
+.single-head-content .head-content .btn-area .btn-wrap.long .btn {
+  padding-right: 3rem;
+}
+.single-head-content .head-content .btn-area:has(.long) {
+  align-items: end;
+}
 
 #singleMaker,
 #singleBuyer,
@@ -2959,6 +3044,7 @@ single
 #pageMypage .profile-content .box table th,
 #pageMypage .profile-content .box table td {
   padding: 1.5rem 2.5rem;
+  word-break: break-word;
 }
 @media screen and (max-width: 768px) {
   #singleMaker .maker_buyer-content .box table th,

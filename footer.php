@@ -2,7 +2,13 @@
   <footer>
     <div class="footer-inner">
 
-      <div class="logo img-box u-sp"><img src="<?php echo get_template_directory_uri(); ?>/images/jfh-logo_yoko.png" alt=""></div>
+      <div class="logo-column u-sp">
+        <div class="logo img-box"><img src="<?php echo get_template_directory_uri(); ?>/images/jfh-logo_yoko.png" alt=""></div>
+        <a href="<?php echo home_url('/contact'); ?>">
+          <img src="<?php echo get_template_directory_uri(); ?>/images/icon-mail.svg" alt="">
+          Inquiries about J-FOOD HUB
+        </a>
+      </div>
 
 
       <div class="footerNav-wrap">
@@ -25,7 +31,12 @@
         </div>
 
         <div class="fnav_list">
-          <p><a href="<?php echo home_url('/maker'); ?>">Maker</a></p>
+          <?php if (is_user_maker()): ?>
+            <p><a href="<?php echo home_url('/maker'); ?>">Maker</a></p>
+          <?php endif; ?>
+          <?php if (is_user_buyer()): ?>
+            <p><a href="<?php echo home_url('/buyer'); ?>">Buyer</a></p>
+          <?php endif; ?>
         </div>
 
         <div class="fnav_list">
@@ -41,7 +52,13 @@
 
       </div>
 
-      <div class="logo img-box u-pc"><img src="<?php echo get_template_directory_uri(); ?>/images/jfh-logo_yoko.png" alt=""></div>
+      <div class="logo-column u-pc">
+        <div class="logo img-box"><img src="<?php echo get_template_directory_uri(); ?>/images/jfh-logo_yoko.png" alt=""></div>
+        <a href="<?php echo home_url('/contact'); ?>">
+          <img src="<?php echo get_template_directory_uri(); ?>/images/icon-mail.svg" alt="">
+          Inquiries about J-FOOD HUB
+        </a>
+      </div>
 
     </div>
     <p><small>@2025 J-FOOD HUB</small></p>

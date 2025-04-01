@@ -25,9 +25,12 @@
         </ul>
       </nav>
 
-      <?php if((is_singular('maker'))): ?>
+      <?php if (is_singular('maker') && is_user_buyer()): ?>
         <div class="btn-wrap"><a class="btn bgc-re" href="#sendmail">Contact Maker</a></div>
       <?php endif; ?>
+
+
+
 
     </div>
   
@@ -55,18 +58,28 @@
       </nav>
     </div>
 
-    <div class="snav_list maker">
-      <p><a href="<?php echo home_url('/maker'); ?>">Maker</a></p>
-    </div>
+    <?php if (is_user_maker()): ?>
+      <div class="snav_list maker">
+        <p><a href="<?php echo home_url('/maker'); ?>">Maker</a></p>
+      </div>
+    <?php endif; ?>
+
+    <?php if (is_user_buyer()): ?>
+      <div class="snav_list buyer">
+        <p><a href="<?php echo home_url('/buyer'); ?>">Buyer</a></p>
+      </div>
+    <?php endif; ?>
 
     <div class="side-btnArea">
       <div class="btn-wrap side-btn">
         <a class="btn bgc-bl" href="<?php echo home_url('/product'); ?>">Serch Products</a>
       </div>
 
-      <div class="btn-wrap side-btn">
-        <a class="btn bgc-bl" href="#">My Page</a>
-      </div>
+      <?php if (is_logged_in_user()): ?>
+        <div class="btn-wrap side-btn">
+          <a class="btn bgc-bl" href="<?php echo esc_url(get_mypage_url()); ?>">My Profile</a>
+        </div>
+      <?php endif; ?>
     </div>
 
   <?php endif; ?>

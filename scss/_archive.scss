@@ -108,16 +108,17 @@ archive
           content: "";
           width: 14px;
           aspect-ratio: 1/1;
-          background-color: #000;
+          background: url(images/icon-arrow_b.svg) no-repeat center/contain;
           position: absolute;
           top: 0;
           right: 1rem;
+          rotate: 90deg;
           transition: all 0.3s;
         }
       }
       &.open {
         &::before {
-          rotate: 180deg;
+          rotate: -90deg;
         }
       }
     }
@@ -136,7 +137,7 @@ archive
         font-size: 1.6rem;
         &::placeholder {
           @include c.mq() {
-            font-size: 1rem;
+            font-size: 1.2rem;
           }
         }
       }
@@ -187,9 +188,14 @@ archive
       line-height: 1.4;
     }
     input {
+      margin-bottom: 3px;
       @include c.mq() {
+        margin-bottom: 0;
         margin-top: 2px;
       }
+    }
+    input[type="checkbox"] {
+      accent-color: #000;
     }
   }
   &.area {

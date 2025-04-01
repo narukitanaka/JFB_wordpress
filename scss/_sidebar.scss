@@ -83,7 +83,8 @@ aside {
         }
       }
     }
-    &.maker {
+    &.maker,
+    &.buyer {
       p {
         &::before {
           background: url(images/icon-maker.svg);

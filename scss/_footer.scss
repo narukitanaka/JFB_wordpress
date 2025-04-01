@@ -36,6 +36,14 @@ footer {
       }
       .fnav_list {
         margin-bottom: 2rem;
+        @include c.mq() {
+          width: calc(100% / 3);
+        }
+        &:last-of-type {
+          @include c.mq() {
+            width: 100%;
+          }
+        }
         &:not(:has(nav)) {
           a {
             font-weight: 600;
@@ -59,10 +67,22 @@ footer {
         }
       }
     }
-    .logo {
-      width: 22rem;
+    .logo-column {
       @include c.mq() {
         margin-bottom: 3rem;
+      }
+      .logo {
+        width: 23rem;
+        margin-bottom: 1.5rem;
+      }
+      a {
+        @include c.flex(end, center);
+        gap: 5px;
+        font-size: 1.3rem;
+        @include c.mq() {
+          @include c.flex(start, center);
+          padding-left: 1rem;
+        }
       }
     }
   }

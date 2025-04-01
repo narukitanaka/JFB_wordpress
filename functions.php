@@ -583,3 +583,78 @@ function load_more_search_results() {
 }
 add_action('wp_ajax_load_more_search_results', 'load_more_search_results');
 add_action('wp_ajax_nopriv_load_more_search_results', 'load_more_search_results');
+
+
+
+/************************************************************************************
+ * マイプロフィールへ遷移
+ ***********************************************************************************/
+function get_mypage_url() {
+  $current_user = wp_get_current_user();
+  $username = $current_user->user_login;
+  
+  // ユーザーの役割を取得
+  $user_roles = $current_user->roles;
+  // 検索するカスタム投稿タイプを決定
+  $post_type = '';
+  
+  // makerロールを持っている場合
+  if (in_array('maker', $user_roles)) {
+      $post_type = 'maker';
+  } 
+  // buyerロールを持っている場合
+  else if (in_array('buyer', $user_roles)) {
+      $post_type = 'buyer';
+  }
+
+  // 投稿タイプが決定されなかった場合はプロフィールページに遷移
+  if (empty($post_type)) {
+      return admin_url('profile.php');
+  }
+
+  // マッチする投稿を探す
+  $args = array(
+    'post_type' => $post_type,
+    'posts_per_page' => 1,
+    'meta_query' => array(
+      array(
+        'key' => 'user-id', // ACFフィールド名
+        'value' => $username,
+        'compare' => '='
+      )
+    )
+  );
+  
+  $matching_posts = get_posts($args);
+
+  // 一致する投稿が見つかった場合はその詳細ページURLを返す
+  if (!empty($matching_posts)) {
+    $post_id = $matching_posts[0]->ID;
+    return get_permalink($post_id);
+  }
+  // 一致する投稿が見つからない場合はプロフィール画面URLを返す
+  return admin_url('profile.php');
+}
+
+
+
+/************************************************************************************
+ * ユーザーログイン状態を取得
+ ***********************************************************************************/
+function is_logged_in_user() {
+  return is_user_logged_in();
+}
+
+/************************************************************************************
+ * ユーザー権限を取得
+ ***********************************************************************************/
+function is_user_maker() {
+  $current_user = wp_get_current_user();
+  $user_roles = $current_user->roles;
+  return in_array('maker', $user_roles);
+}
+function is_user_buyer() {
+  $current_user = wp_get_current_user();
+  $user_roles = $current_user->roles;
+  return in_array('buyer', $user_roles);
+}

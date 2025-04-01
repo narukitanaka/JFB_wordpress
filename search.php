@@ -32,6 +32,19 @@
 
         // 各カスタム投稿タイプごとに検索
         foreach ($post_types as $post_type) :
+          // ユーザー権限に基づく表示条件チェック
+          $show_block = true;
+          if ($post_type === 'maker' && !is_user_buyer()) {
+            $show_block = false; // makerのブロックはbuyerユーザーのみ表示
+          } elseif ($post_type === 'buyer' && !is_user_maker()) {
+            $show_block = false; // buyerのブロックはmakerユーザーのみ表示
+          }
+
+          // 表示条件を満たさない場合はスキップ
+          if (!$show_block) {
+            continue;
+          }
+
           // カスタム投稿タイプごとの検索クエリ
           $args = array(
             'post_type' => $post_type,
@@ -97,9 +110,3 @@
 </main>
 
 <?php get_footer(); ?>
-
-
-
-
-
-
