@@ -14,12 +14,12 @@ function initSwipers() {
         disableOnInteraction: false,
       },
       pagination: {
-        el: ".swiper-pagination", // 変更
+        el: ".swiper-pagination",
         clickable: true,
       },
       navigation: {
-        nextEl: ".swiper-button-next", // 変更
-        prevEl: ".swiper-button-prev", // 変更
+        nextEl: ".kv-next",
+        prevEl: ".kv-prev",
       },
     });
   }
@@ -44,8 +44,8 @@ function initSwipers() {
         },
       },
       navigation: {
-        nextEl: ".swiper-button-next", // 変更
-        prevEl: ".swiper-button-prev", // 変更
+        nextEl: ".popular-next",
+        prevEl: ".popular-prev",
       },
     });
   }
@@ -53,6 +53,26 @@ function initSwipers() {
 
 document.addEventListener("DOMContentLoaded", function () {
   initSwipers();
+});
+
+///////////////////////////////////////////
+//swiperのaタグ不具合の対策
+//////////////////////////////////////////
+document.querySelectorAll(".swiper-slide a").forEach(function (link) {
+  // 元のhref属性を保存
+  const originalHref = link.getAttribute("href");
+  if (originalHref && originalHref !== "#") {
+    // hrefを一時的に削除し、data属性に保存
+    link.setAttribute("data-href", originalHref);
+    link.removeAttribute("href");
+    // クリックイベントで手動遷移
+    link.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      // 保存したURLに遷移
+      window.location.href = this.getAttribute("data-href");
+    });
+  }
 });
 
 ///////////////////////////////////////////

@@ -291,83 +291,6 @@ function custom_wpcf7_display_message($message, $status) {
 }
 
 
-/************************************************************************************
- * ユーザーがログインしていなければログインページにリダイレクト
- ***********************************************************************************/
-// function redirect_non_logged_users_to_login_page() {
-//   // ユーザーがログインしていない場合
-//   if (!is_user_logged_in()) {
-//     // 除外すべきページ（リダイレクトループを防ぐため）
-//     $excluded_pages = array(
-//       'login',          // loginページ自体
-//       'register',       // もし登録ページがある場合
-//       'password', // もしパスワードリセットページがある場合
-//     );
-//     // 現在のページが除外ページリストにないこと、admin画面でないこと、AJAX処理でないことを確認
-//     if (!is_page($excluded_pages) && 
-//       !is_admin() && 
-//       !wp_doing_ajax() && 
-//       !strpos($_SERVER['REQUEST_URI'], 'wp-login.php') && 
-//       !strpos($_SERVER['REQUEST_URI'], 'wpmem')) {
-//       // loginページへリダイレクト
-//       $login_url = get_permalink(get_page_by_path('login'));
-//       // リダイレクト先が取得できなかった場合はバックアップとしてhome_urlを使用
-//       if (empty($login_url)) {
-//           $login_url = home_url('/login/');
-//       }
-//       // 現在のURLをリダイレクト後のリダイレクト先として保存
-//       if (!empty($_SERVER['REQUEST_URI'])) {
-//           $redirect_to = home_url($_SERVER['REQUEST_URI']);
-//           $login_url = add_query_arg('redirect_to', urlencode($redirect_to), $login_url);
-//       }
-//       wp_redirect($login_url);
-//       exit;
-//     }
-//   }
-// }
-// add_action('template_redirect', 'redirect_non_logged_users_to_login_page');
-
-
-/************************************************************************************
- * wp-login.phpへの直接アクセスをブロックし、カスタムログインページにリダイレクト
- ***********************************************************************************/
-// function custom_logout_redirect() {
-//     // カスタムログインページのURLを取得
-//     $login_url = get_permalink(get_page_by_path('login'));
-    
-//     // ページが見つからない場合のバックアップ
-//     if (empty($login_url)) {
-//         $login_url = home_url('/login/');
-//     }
-    
-//     // ログアウトURLをカスタマイズ
-//     return $login_url;
-// }
-// add_filter('logout_redirect', 'custom_logout_redirect', 10, 3);
-
-// function block_wp_login() {
-//     // 現在のURLパスを取得
-//     $request_uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-    
-//     // wp-login.phpへのアクセスをチェック（ログアウト処理は除外）
-//     if (strpos($request_uri, 'wp-login.php') !== false && !isset($_GET['action']) || 
-//         (isset($_GET['action']) && $_GET['action'] != 'logout')) {
-        
-//         // カスタムログインページのURLを取得
-//         $login_url = get_permalink(get_page_by_path('login'));
-        
-//         // ページが見つからない場合のバックアップ
-//         if (empty($login_url)) {
-//             $login_url = home_url('/login/');
-//         }
-        
-//         // リダイレクト
-//         wp_redirect($login_url);
-//         exit;
-//     }
-// }
-// add_action('init', 'block_wp_login');
-
 
 /************************************************************************************
  * wp-membersのテキスト変更
@@ -376,7 +299,7 @@ add_filter( 'wpmem_default_text', 'sv_wpmem_default_text' );
 function sv_wpmem_default_text( $text ) {
   //ログイン画面
   $text['login_heading'] = 'J-FOOD HUB';
-  $text['login_username'] = 'Email Address';
+  $text['login_username'] = 'Email Address or User Name';
   $text['login_password'] = 'Password';
   $text['login_button']   = 'Sign in';
   $text['remember_me']    = 'Save your login information';
@@ -387,7 +310,8 @@ function sv_wpmem_default_text( $text ) {
   //登録画面
   $text['register_status'] = 'Hello, Mr. %s';
   $text['register_logout'] = 'Click to Sign out';
-  $text['register_continue'] = 'View Site';
+  $text['register_continue'] = 'Enter Site';
+  $text['register_password'] = 'Password';
 
   //パスワードリセット
   $text['pwdchg_password1'] = 'New Password';
@@ -408,6 +332,7 @@ function my_custom_wpmem_translations($translated_text, $text, $domain) {
         case 'メール':
           return 'Email Address';
         case 'パスワード':
+        case 'password':
           return 'Password';
         case '登録':
           return 'Sign up';
@@ -430,7 +355,7 @@ function my_login_failed_msg( $str )
  ***********************************************************************************/
 function hide_profile_fields_for_specific_roles() {
   $user = wp_get_current_user();
-  if (in_array('maker', (array) $user->roles) || in_array('buyer', (array) $user->roles)) {
+  if (in_array('maker', (array) $user->roles) || in_array('buyer', (array) $user->roles) || in_array('norole', (array) $user->roles)) {
     // JavaScriptを使って項目を非表示にする
     ?>
     <style type="text/css">
@@ -484,7 +409,7 @@ function remove_dashboard_for_specific_roles() {
     // 現在のユーザーを取得
     $user = wp_get_current_user();
     // 対象となる権限グループかチェック
-    if (in_array('maker', (array) $user->roles) || in_array('buyer', (array) $user->roles)) {
+    if (in_array('maker', (array) $user->roles) || in_array('buyer', (array) $user->roles) || in_array('norole', (array) $user->roles)) {
         // ダッシュボードメニューを削除
         remove_menu_page('index.php');
     }
@@ -658,3 +583,46 @@ function is_user_buyer() {
   $user_roles = $current_user->roles;
   return in_array('buyer', $user_roles);
 }
+function is_user_norole() {
+  $current_user = wp_get_current_user();
+  $user_roles = $current_user->roles;
+  return in_array('norole', $user_roles);
+}
+
+
+
+/************************************************************************************
+ * ユーザーのアクセス制御
+ ***********************************************************************************/
+function restrict_template_access() {
+  // 現在のユーザー情報を取得
+  $current_user = wp_get_current_user();
+  $username = $current_user->user_login;
+  // バイヤー一覧・詳細ページのアクセス制限
+  if ((is_post_type_archive('buyer') || is_singular('buyer')) && (is_user_buyer() || is_user_norole())) {
+    if (is_singular('buyer')) {
+      global $post;
+      $post_user_id = get_post_meta($post->ID, 'user-id', true);
+      // 自分自身の詳細ページならアクセスを許可
+      if ($post_user_id === $username) {
+        return;
+      }
+    }
+    wp_redirect(home_url());
+    exit;
+  }
+  // メーカー一覧・詳細ページのアクセス制限
+  if ((is_post_type_archive('maker') || is_singular('maker')) && (is_user_maker() || is_user_norole())) {
+    if (is_singular('maker')) {
+      global $post;
+      $post_user_id = get_post_meta($post->ID, 'user-id', true);
+      // 自分自身の詳細ページならアクセスを許可
+      if ($post_user_id === $username) {
+        return;
+      }
+    }
+    wp_redirect(home_url());
+    exit;
+  }
+}
+add_action('template_redirect', 'restrict_template_access');

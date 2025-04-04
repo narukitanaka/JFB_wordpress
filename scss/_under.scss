@@ -123,13 +123,40 @@ conatct
     }
     .companyCard02 {
       padding-left: 0;
+      @include c.mq() {
+        padding-right: 0;
+      }
+      .btn-wrap {
+        @include c.mq() {
+          width: 11rem;
+          right: 1rem;
+        }
+      }
       &:first-of-type {
         padding-top: 0;
+        .btn-wrap {
+          @include c.mq() {
+            top: 1rem;
+          }
+        }
       }
     }
     .view-more {
       width: 25rem;
       margin: 0 auto;
     }
+  }
+}
+
+// マイページ
+.mypage_wrap {
+  padding-top: 2rem;
+  h3 {
+    @include c.flex(start, center);
+    gap: 7px;
+    font-family: v.$font-poppins;
+    font-family: 2rem;
+    font-weight: 600;
+    margin-bottom: 4.5rem;
   }
 }

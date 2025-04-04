@@ -22,6 +22,7 @@
   <title>J-FOOD HUB</title>
   <meta name="description" content="" />
   <meta name="keywords" content="" />
+  <?php wp_head(); ?>
 </head>
 
 <body>
@@ -134,13 +135,13 @@
           </nav>
         </div>
   
-        <?php if (is_user_maker()): ?>
+        <?php if (is_user_buyer()): ?>
           <div class="nav_list maker">
             <p><a href="<?php echo home_url('/maker'); ?>">Maker</a></p>
           </div>
         <?php endif; ?>
   
-        <?php if (is_user_buyer()): ?>
+        <?php if (is_user_maker()): ?>
           <div class="nav_list buyer">
             <p><a href="<?php echo home_url('/buyer'); ?>">Buyer</a></p>
           </div>

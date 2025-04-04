@@ -45,10 +45,21 @@ component
   font-size: 1.5rem;
   font-weight: 700;
   box-shadow: v.$shadow02, v.$shadow03;
+  transition: all 0.3s;
+  &:hover {
+    scale: 0.95;
+    opacity: 0.8;
+  }
 }
 
 // アイテムカード
 .itemCard {
+  position: relative;
+  .favorite-button-container {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
   .img-box {
     width: 100%;
     aspect-ratio: 1/1;
@@ -275,6 +286,12 @@ component
   &:last-of-type {
     margin-bottom: 0;
   }
+  .favorite-button-container {
+    position: absolute;
+    top: 4rem;
+    left: 26rem;
+    left: clamp(22rem, v.pxtovw(280), 31rem);
+  }
   .btn-wrap {
     position: absolute;
     top: 3rem;
@@ -443,14 +460,14 @@ component
             }
           }
         }
-        &:not(:has(a)) {
-          @include c.mq() {
-            max-width: 8rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
-        }
+        // &:not(:has(a)) {
+        //   @include c.mq() {
+        //     max-width: 8rem;
+        //     white-space: nowrap;
+        //     overflow: hidden;
+        //     text-overflow: ellipsis;
+        //   }
+        // }
       }
     }
   }
@@ -464,5 +481,30 @@ component
 }
 .wpcf7-response-output {
   color: #01a638 !important;
+  text-align: center;
   padding-left: 13rem;
+  margin-top: 2rem;
+  transform: translateX(-80px);
+  @include c.mq() {
+    transition: none;
+  }
+}
+
+.simplefavorite-button {
+  width: 3rem;
+  aspect-ratio: 1/1;
+  border-radius: 50% !important;
+  font-size: 0;
+  i {
+    position: absolute;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%);
+    font-size: 2rem !important;
+  }
+  &.active {
+    i {
+      color: #e65457;
+    }
+  }
 }

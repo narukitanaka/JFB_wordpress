@@ -8,6 +8,9 @@ if (!empty($countries) && !is_wp_error($countries)) {
 ?>
 
 <div class="companyCard02">
+  <div class="favorite-button-container">
+    <?php echo do_shortcode('[favorite_button]'); ?>
+  </div>
   <div class="btn-wrap">
     <a class="btn bgc-re" href="<?php the_permalink(); ?>/#sendmail">
       Offer

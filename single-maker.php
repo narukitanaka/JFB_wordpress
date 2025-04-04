@@ -49,7 +49,7 @@
             <?php endif; ?>
             <?php if (is_user_maker()): ?>
               <div class="btn-wrap long">
-                <a class="btn bgc-re" href="<?php echo home_url('/profile'); ?>">
+                <a class="btn bgc-re" href="<?php echo home_url('/wp-admin/profile.php'); ?>">
                   Request a correction
                   <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M6.4165 6.41667H5.49984C5.01361 6.41667 4.54729 6.60983 4.20347 6.95364C3.85966 7.29746 3.6665 7.76377 3.6665 8.25001V16.5C3.6665 16.9862 3.85966 17.4526 4.20347 17.7964C4.54729 18.1402 5.01361 18.3333 5.49984 18.3333H13.7498C14.2361 18.3333 14.7024 18.1402 15.0462 17.7964C15.39 17.4526 15.5832 16.9862 15.5832 16.5V15.5833" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -229,12 +229,14 @@
             </div>
 
 
+            <?php if (is_user_buyer()): ?>
             <div class="box send-message">
               <div id="sendmail">
                 <h2>Send message to Maker</h2>
                 <?php echo do_shortcode('[contact-form-7 id="47f850b" title="メーカーお問い合わせ"]'); ?>
               </div>
             </div>
+            <?php endif; ?>
 
           </div><!-- /.product-content -->
 

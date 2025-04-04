@@ -961,8 +961,21 @@ component
   font-size: 1.5rem;
   font-weight: 700;
   box-shadow: -2px -2px 4px rgba(255, 255, 255, 0.8), 2px 2px 4px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s;
+}
+.btn:hover {
+  scale: 0.95;
+  opacity: 0.8;
 }
 
+.itemCard {
+  position: relative;
+}
+.itemCard .favorite-button-container {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
 .itemCard .img-box {
   width: 100%;
   aspect-ratio: 1/1;
@@ -1216,6 +1229,12 @@ component
 .companyCard02:last-of-type {
   margin-bottom: 0;
 }
+.companyCard02 .favorite-button-container {
+  position: absolute;
+  top: 4rem;
+  left: 26rem;
+  left: clamp(22rem, 19.4444444444vw, 31rem);
+}
 .companyCard02 .btn-wrap {
   position: absolute;
   top: 3rem;
@@ -1402,14 +1421,6 @@ component
     right: -1.5rem;
   }
 }
-@media screen and (max-width: 768px) {
-  .breadcrumbs nav ul li:not(:has(a)) {
-    max-width: 8rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-}
 
 .screen-reader-response {
   display: none !important;
@@ -1421,7 +1432,32 @@ component
 
 .wpcf7-response-output {
   color: #01a638 !important;
+  text-align: center;
   padding-left: 13rem;
+  margin-top: 2rem;
+  transform: translateX(-80px);
+}
+@media screen and (max-width: 768px) {
+  .wpcf7-response-output {
+    transition: none;
+  }
+}
+
+.simplefavorite-button {
+  width: 3rem;
+  aspect-ratio: 1/1;
+  border-radius: 50% !important;
+  font-size: 0;
+}
+.simplefavorite-button i {
+  position: absolute;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%);
+  font-size: 2rem !important;
+}
+.simplefavorite-button.active i {
+  color: #e65457;
 }
 
 /*************************************************
@@ -1981,6 +2017,27 @@ aside .snav_list.region p::before {
 aside .snav_list.maker p::before, aside .snav_list.buyer p::before {
   background: url(images/icon-maker.svg);
 }
+aside .snav_list.favo p::before {
+  background: url(images/icon-favo_bla.svg) no-repeat;
+}
+aside .snav_list.profile p {
+  display: inline-block;
+}
+aside .snav_list.profile p::before {
+  width: 2.4rem;
+  background: url(images/icon-account_bla.svg) no-repeat;
+}
+aside .snav_list.profile p::after {
+  content: "";
+  width: 20px;
+  aspect-ratio: 1/1;
+  background-color: #333;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: -3rem;
+  background: url(images/icon-link02.svg) no-repeat;
+}
 aside .side-btnArea {
   margin-top: 4rem;
 }
@@ -2189,21 +2246,28 @@ section.mostPopular .inner .btn-wrap {
 section.mostPopular .inner .btn-wrap .btn {
   aspect-ratio: 1/0.25;
 }
+section.mostPopular .PopularSwiper .swiper-slide a {
+  cursor: pointer;
+}
 section.mostPopular .swiper-button-prev,
 section.mostPopular .swiper-button-next {
   top: 40%;
 }
-@media screen and (max-width: 768px) {
-  section.mostPopular .swiper-button-prev,
-  section.mostPopular .swiper-button-next {
-    display: none;
-  }
-}
 section.mostPopular .swiper-button-prev {
   left: -4.2rem;
 }
+@media screen and (max-width: 768px) {
+  section.mostPopular .swiper-button-prev {
+    left: -1.5rem;
+  }
+}
 section.mostPopular .swiper-button-next {
   right: -4.2rem;
+}
+@media screen and (max-width: 768px) {
+  section.mostPopular .swiper-button-next {
+    right: -1.5rem;
+  }
 }
 
 section.categories {
@@ -3319,6 +3383,15 @@ single
     margin-top: 0.2rem;
   }
 }
+#singleMaker .maker_buyer-content .box.send-message .wpcf7-response-output,
+#singleMaker .profile-content .box.send-message .wpcf7-response-output,
+#singleBuyer .maker_buyer-content .box.send-message .wpcf7-response-output,
+#singleBuyer .profile-content .box.send-message .wpcf7-response-output,
+#pageMypage .maker_buyer-content .box.send-message .wpcf7-response-output,
+#pageMypage .profile-content .box.send-message .wpcf7-response-output {
+  text-align: left;
+  transform: none;
+}
 
 /*************************************************
 conatct
@@ -3444,12 +3517,42 @@ conatct
 #search .search-block .companyCard02 {
   padding-left: 0;
 }
+@media screen and (max-width: 768px) {
+  #search .search-block .companyCard02 {
+    padding-right: 0;
+  }
+}
+@media screen and (max-width: 768px) {
+  #search .search-block .companyCard02 .btn-wrap {
+    width: 11rem;
+    right: 1rem;
+  }
+}
 #search .search-block .companyCard02:first-of-type {
   padding-top: 0;
+}
+@media screen and (max-width: 768px) {
+  #search .search-block .companyCard02:first-of-type .btn-wrap {
+    top: 1rem;
+  }
 }
 #search .search-block .view-more {
   width: 25rem;
   margin: 0 auto;
+}
+
+.mypage_wrap {
+  padding-top: 2rem;
+}
+.mypage_wrap h3 {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 7px;
+  font-family: "Poppins", sans-serif;
+  font-family: 2rem;
+  font-weight: 600;
+  margin-bottom: 4.5rem;
 }
 
 /*************************************************
@@ -3498,6 +3601,14 @@ login
 .contents-wrap#login .contents .div_text {
   margin-bottom: 1rem;
 }
+.contents-wrap#login .contents #wpmem_login,
+.contents-wrap#login .contents #wpmem_reg {
+  width: 100%;
+}
+.contents-wrap#login .contents #wpmem_login fieldset,
+.contents-wrap#login .contents #wpmem_reg fieldset {
+  margin: 0;
+}
 .contents-wrap#login .contents #wpmem_login input[type=text],
 .contents-wrap#login .contents #wpmem_login input[type=email],
 .contents-wrap#login .contents #wpmem_login input[type=password],
@@ -3522,6 +3633,15 @@ login
   box-shadow: -2px -2px 4px rgba(255, 255, 255, 0.8), 2px 2px 4px rgba(0, 0, 0, 0.25);
   background-color: #d93924;
   margin: 2rem 0 3rem;
+}
+.contents-wrap#login .contents #wpmem_login .button_div,
+.contents-wrap#login .contents #wpmem_reg .button_div {
+  padding: 0;
+  text-align: start;
+}
+.contents-wrap#login .contents #wpmem_login .button_div input[type=checkbox],
+.contents-wrap#login .contents #wpmem_reg .button_div input[type=checkbox] {
+  margin: 0;
 }
 .contents-wrap#login .contents .login_status,
 .contents-wrap#login .contents .register_status {
@@ -3571,6 +3691,13 @@ login
 .contents-wrap#login .contents .link-text-register,
 .contents-wrap#login .contents .req-text {
   display: none;
+}
+.contents-wrap#login .contents .btn-wrap.login {
+  margin-top: -1.5rem;
+  margin-bottom: 3rem;
+}
+.contents-wrap#login .contents .btn-wrap.login .btn {
+  aspect-ratio: 1/0.1;
 }
 .contents-wrap#login .contents .links {
   display: flex;

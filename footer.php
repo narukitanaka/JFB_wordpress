@@ -31,10 +31,10 @@
         </div>
 
         <div class="fnav_list">
-          <?php if (is_user_maker()): ?>
+          <?php if (is_user_buyer()): ?>
             <p><a href="<?php echo home_url('/maker'); ?>">Maker</a></p>
           <?php endif; ?>
-          <?php if (is_user_buyer()): ?>
+          <?php if (is_user_maker()): ?>
             <p><a href="<?php echo home_url('/buyer'); ?>">Buyer</a></p>
           <?php endif; ?>
         </div>

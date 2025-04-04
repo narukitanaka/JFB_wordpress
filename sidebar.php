@@ -33,6 +33,26 @@
 
 
     </div>
+
+  <?php elseif( is_page('mypage') ): ?>
+
+    <div class="snav_list favo">
+      <p><a href="<?php echo home_url('/mypage'); ?>">My Lists</a></p>
+    </div>
+
+    <div class="snav_list profile">
+      <p><a href="<?php echo esc_url(get_mypage_url()); ?>">View my Profile</a></p>
+    </div>
+
+    <div class="side-btnArea">
+      <div class="btn-wrap side-btn">
+        <a class="btn bgc-bl" href="<?php echo home_url('/product'); ?>">Serch Products</a>
+      </div>
+
+      <div class="btn-wrap side-btn">
+        <a class="btn bgc-bl" href="<?php echo home_url('/'); ?>">HOME</a>
+      </div>
+    </div>
   
   <?php else: ?>
 
@@ -58,13 +78,13 @@
       </nav>
     </div>
 
-    <?php if (is_user_maker()): ?>
+    <?php if (is_user_buyer()): ?>
       <div class="snav_list maker">
         <p><a href="<?php echo home_url('/maker'); ?>">Maker</a></p>
       </div>
     <?php endif; ?>
 
-    <?php if (is_user_buyer()): ?>
+    <?php if (is_user_maker()): ?>
       <div class="snav_list buyer">
         <p><a href="<?php echo home_url('/buyer'); ?>">Buyer</a></p>
       </div>

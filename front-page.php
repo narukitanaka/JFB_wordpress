@@ -47,8 +47,8 @@
             <!-- pagenation -->
             <div class="swiper-pagination"></div>
             <!-- prev/next_btn -->
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev kv-prev"></div>
+            <div class="swiper-button-next kv-next"></div>
           </div>
         </div>
 
@@ -87,8 +87,8 @@
             </div>
 
             <!-- prev/next_btn -->
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev popular-prev"></div>
+            <div class="swiper-button-next popular-next"></div>
 
           </div>
         </section>
@@ -216,3 +216,9 @@
 
   </main>
 <?php get_footer(); ?>
+
+
+
+
+
+

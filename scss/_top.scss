@@ -44,18 +44,28 @@ section {
         }
       }
     }
+    .PopularSwiper {
+      .swiper-slide {
+        a {
+          cursor: pointer;
+        }
+      }
+    }
     .swiper-button-prev,
     .swiper-button-next {
       top: 40%;
-      @include c.mq() {
-        display: none;
-      }
     }
     .swiper-button-prev {
       left: -4.2rem;
+      @include c.mq() {
+        left: -1.5rem;
+      }
     }
     .swiper-button-next {
       right: -4.2rem;
+      @include c.mq() {
+        right: -1.5rem;
+      }
     }
   }
 }

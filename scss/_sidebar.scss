@@ -91,6 +91,32 @@ aside {
         }
       }
     }
+    &.favo {
+      p {
+        &::before {
+          background: url(images/icon-favo_bla.svg) no-repeat;
+        }
+      }
+    }
+    &.profile {
+      p {
+        display: inline-block;
+        &::before {
+          width: 2.4rem;
+          background: url(images/icon-account_bla.svg) no-repeat;
+        }
+        &::after {
+          content: "";
+          width: 20px;
+          aspect-ratio: 1/1;
+          background-color: #333;
+          position: absolute;
+          @include c.center(false, true);
+          right: -3rem;
+          background: url(images/icon-link02.svg) no-repeat;
+        }
+      }
+    }
   }
   .side-btnArea {
     margin-top: 4rem;
