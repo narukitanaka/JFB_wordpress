@@ -442,6 +442,21 @@ function store_user_meta_before_update($user_id) {
     // 現在のユーザーメタデータ全体を保存
     $user_meta = get_user_meta($user_id);
     update_option('_temp_user_meta_' . $user_id, $user_meta);
+    
+    // WordPressのデフォルトフィールド用にユーザーオブジェクトのデータも保存
+    $wp_user_data = array(
+      'user_email' => $user->user_email,
+      // パスワードは保存されないが、変更があったことを検出するためのフラグとして使用
+      'has_password_change' => false
+    );
+    update_option('_temp_wp_user_data_' . $user_id, $wp_user_data);
+    
+    // パスワード変更を検出するために、POSTデータの有無をチェック
+    if (isset($_POST['pass1']) && !empty($_POST['pass1'])) {
+      update_option('_temp_has_password_change_' . $user_id, true);
+    } else {
+      update_option('_temp_has_password_change_' . $user_id, false);
+    }
   }
 }
 add_action('personal_options_update', 'store_user_meta_before_update', 1);
@@ -470,15 +485,28 @@ function send_notification_on_profile_update($user_id) {
   }
   // 対象ユーザーの場合に処理を実行
   if ($is_target) {
-    // サイト名を取得
-    $site_name = get_bloginfo('name');
-    // 送信元（メールヘッダーを修正）
-    $headers = array(
-      'From: ' . $site_name . ' <' . get_option('admin_email') . '>'
-    );
     // 変更されたフィールドのラベルを集めるための配列
     $changed_field_keys = array(); // 一時的にキーを保存
     $changed_fields = array(); // 最終的なラベルを保存
+    
+    // =====================================================================
+    // WordPressデフォルトフィールドの変更を検出
+    // =====================================================================
+    // 以前のユーザーデータを取得
+    $old_wp_data = get_option('_temp_wp_user_data_' . $user_id, array());
+    
+    // Eメールアドレスの変更を検出
+    $email_changed = false;
+    if (isset($old_wp_data['user_email']) && $old_wp_data['user_email'] != $user->user_email) {
+      $email_changed = true;
+    }
+    
+    // パスワード変更を検出
+    $password_changed = false;
+    $has_password_change = get_option('_temp_has_password_change_' . $user_id, false);
+    if ($has_password_change) {
+      $password_changed = true;
+    }
     
     // =====================================================================
     // ACFフィールドの変更を検出する
@@ -494,6 +522,19 @@ function send_notification_on_profile_update($user_id) {
       '^acf$', // acfだけのもの
       '^_acf', // _acfで始まるもの
     );
+    
+    // 繰り返しフィールドを検出するためのパターン
+    $repeater_patterns = array(
+      'buyer-img_repaet_[0-9]+_buyer-img',
+      'maker-img_repaet_[0-9]+_maker-img'
+    );
+    
+    // 繰り返しフィールドの追跡用
+    $repeater_fields = array(
+      'buyer-img_repaet' => false,
+      'maker-img_repaet' => false
+    );
+    
     // 変更を検出するための処理
     // 現在のメタデータのすべてのキーを調査
     foreach ($current_meta as $key => $value) {
@@ -506,23 +547,53 @@ function send_notification_on_profile_update($user_id) {
         }
       }
       if ($should_skip) continue;
+      
+      // 繰り返しフィールドのサブフィールドかチェック
+      $is_repeater_subfield = false;
+      $repeater_parent = '';
+      foreach ($repeater_patterns as $pattern) {
+        if (preg_match('/' . $pattern . '/', $key)) {
+          $is_repeater_subfield = true;
+          // 親フィールドを特定
+          if (strpos($key, 'buyer-img_repaet') === 0) {
+            $repeater_parent = 'buyer-img_repaet';
+          } elseif (strpos($key, 'maker-img_repaet') === 0) {
+            $repeater_parent = 'maker-img_repaet';
+          }
+          break;
+        }
+      }
+      
       // 現在の値（配列の場合は最初の要素を取得）
       $current_value = is_array($value) && !empty($value) ? $value[0] : '';
+      
       // 前回の値が存在するかチェック
       if (isset($old_meta[$key]) && is_array($old_meta[$key]) && !empty($old_meta[$key])) {
         $old_value = $old_meta[$key][0];
+        
         // 値が変更された場合
         if ($current_value != $old_value) {
-          // 変更されたキーを追加
-          $changed_field_keys[] = $key;
+          if ($is_repeater_subfield && !empty($repeater_parent)) {
+            // 繰り返しフィールドの親を記録
+            $repeater_fields[$repeater_parent] = true;
+          } else {
+            // 通常のフィールド - 変更されたキーを追加
+            $changed_field_keys[] = $key;
+          }
         }
       } 
       // 新しく追加されたフィールド
       elseif (!isset($old_meta[$key]) && !empty($current_value)) {
-        // 変更されたキーを追加
-        $changed_field_keys[] = $key;
+        if ($is_repeater_subfield && !empty($repeater_parent)) {
+          // 繰り返しフィールドの親を記録
+          $repeater_fields[$repeater_parent] = true;
+        } else {
+          // 通常のフィールド - 変更されたキーを追加
+          $changed_field_keys[] = $key;
+        }
       }
     }
+    
     // 削除されたフィールドも検出
     foreach ($old_meta as $key => $value) {
       // 除外パターンに一致するフィールドはスキップ
@@ -534,11 +605,39 @@ function send_notification_on_profile_update($user_id) {
         }
       }
       if ($should_skip) continue;
+      
+      // 繰り返しフィールドのサブフィールドかチェック
+      $is_repeater_subfield = false;
+      $repeater_parent = '';
+      foreach ($repeater_patterns as $pattern) {
+        if (preg_match('/' . $pattern . '/', $key)) {
+          $is_repeater_subfield = true;
+          // 親フィールドを特定
+          if (strpos($key, 'buyer-img_repaet') === 0) {
+            $repeater_parent = 'buyer-img_repaet';
+          } elseif (strpos($key, 'maker-img_repaet') === 0) {
+            $repeater_parent = 'maker-img_repaet';
+          }
+          break;
+        }
+      }
       $old_value = is_array($value) && !empty($value) ? $value[0] : '';
+      
       // フィールドが削除された場合
       if (!isset($current_meta[$key]) && !empty($old_value)) {
-        // 変更されたキーを追加
-        $changed_field_keys[] = $key . '_deleted';
+        if ($is_repeater_subfield && !empty($repeater_parent)) {
+          // 繰り返しフィールドの親を記録
+          $repeater_fields[$repeater_parent] = true;
+        } else {
+          // 通常のフィールド - 変更されたキーを追加
+          $changed_field_keys[] = $key . '_deleted';
+        }
+      }
+    }
+    // 変更のあった繰り返しフィールドの親を追加
+    foreach ($repeater_fields as $field => $changed) {
+      if ($changed) {
+        $changed_field_keys[] = $field;
       }
     }
     
@@ -549,17 +648,18 @@ function send_notification_on_profile_update($user_id) {
     $field_labels = array(
       // ベースフィールド（Buyer & Maker共通）
       'featured_image' => 'Featured Image',
-      'our_strengths' => 'Our Strengths',
-      'wanted_products' => 'Wanted Products',
       'mail-address' => 'Form Email address',
       
       // Buyerのフィールド
+      'our_strengths' => 'Our Strengths',
+      'wanted_products' => 'Wanted Products',
       'buyer-img_repaet' => 'Images',
       'buyer-img' => 'Image',
       'group_company-profile' => 'Company profile',
       
       // Makerのフィールド
       'basic_information' => 'Basic Information',
+      'products_categories' => 'Products Categories',
       'maker_logo' => 'Logo Image',
       'maker-img_repaet' => 'Images',
       'maker-img' => 'Image',
@@ -620,6 +720,11 @@ function send_notification_on_profile_update($user_id) {
           $label = ucwords(str_replace(array('_', '-'), ' ', $field_name));
         }
       }
+      // 繰り返しフィールドのパターンをチェック - これは通常ここには到達しないはず
+      else if (preg_match('/^(buyer|maker)-img_repaet_[0-9]+_/', $key)) {
+        // 繰り返しフィールドのサブフィールドは親フィールドで表現するのでスキップ
+        continue;
+      }
       // それ以外のフィールド
       else {
         // ラベルが見つからない場合は、フィールド名からラベルを生成
@@ -639,32 +744,51 @@ function send_notification_on_profile_update($user_id) {
     // =====================================================================
     // メール送信処理
     // =====================================================================
-    // 1. 管理者への通知メール
-    $admin_to = 'test@ghdemo.xsrv.jp';
-    $admin_subject = 'プロフィールが更新されました';
-    $admin_message = $user->display_name . 'のプロフィールが更新されました。' . "\n\n";
-    $admin_message .= '更新ユーザーのメールアドレス: ' . $user->user_email . "\n";
-    $admin_message .= '更新時間: ' . current_time('Y-m-d H:i:s') . "\n\n";
     
-    // 変更されたフィールドの情報を追加
-    if (!empty($changed_fields)) {
-      $admin_message .= "変更されたフィールド：\n";
-      $admin_message .= "- " . implode("\n- ", $changed_fields) . "\n";
-    } else {
-      $admin_message .= "※変更されたフィールドは検出されませんでした。\n";
+    // 変更チェック: EmailとNew Passwordの変更のみの場合は通知しない
+    $only_wp_default_changes = false;
+    if (empty($changed_fields) && ($email_changed || $password_changed)) {
+      // WordPressデフォルトフィールドの変更のみ
+      $only_wp_default_changes = true;
     }
-    $admin_sent = wp_mail($admin_to, $admin_subject, $admin_message, $headers);
     
-    // 2. ユーザー自身への通知メール
-    $user_to = $user->user_email;
-    $user_subject = $site_name . '｜I have sent you a request to correct your profile.';
-    $user_message = "This email is an auto-reply.\n";
-    $user_message .= "I have sent you a request to correct your profile.\n\n";
-    $user_message .= "Please wait for a while until it is reflected on the site.";
-    $user_sent = wp_mail($user_to, $user_subject, $user_message, $headers);
-    
+    // メール送信処理: EmailとNew Passwordの変更のみの場合は送信しない
+    if (!$only_wp_default_changes) {
+      // サイト名を取得
+      $site_name = get_bloginfo('name');
+      // 送信元（メールヘッダーを修正）
+      $headers = array(
+        'From: ' . $site_name . ' <' . get_option('admin_email') . '>'
+      );
+      
+      // 1. 管理者への通知メール
+      $admin_to = 'test@ghdemo.xsrv.jp';
+      $admin_subject = $site_name . '｜' . $user->display_name . 'のプロフィールが更新されました。';
+      $admin_message = $user->display_name . 'のプロフィールが更新されました。' . "\n\n";
+      $admin_message .= '更新ユーザーのメールアドレス: ' . $user->user_email . "\n";
+      $admin_message .= '更新時間: ' . current_time('Y-m-d H:i:s') . "\n\n";
+      
+      // 変更されたフィールドの情報を追加（WordPressデフォルトフィールドは除外）
+      if (!empty($changed_fields)) {
+        $admin_message .= "変更された項目：\n";
+        $admin_message .= "- " . implode("\n- ", $changed_fields) . "\n";
+      } else {
+        $admin_message .= "※変更されたフィールドは検出されませんでした。\n";
+      }
+      $admin_sent = wp_mail($admin_to, $admin_subject, $admin_message, $headers);
+      
+      // 2. ユーザー自身への通知メール
+      $user_to = $user->user_email;
+      $user_subject = $site_name . '｜I have sent you a request to correct your profile.';
+      $user_message = "This email is an auto-reply.\n";
+      $user_message .= "I have sent you a request to correct your profile.\n\n";
+      $user_message .= "Please wait for a while until it is reflected on the site.";
+      $user_sent = wp_mail($user_to, $user_subject, $user_message, $headers);
+    }
     // 一時データを削除
     delete_option('_temp_user_meta_' . $user_id);
+    delete_option('_temp_wp_user_data_' . $user_id);
+    delete_option('_temp_has_password_change_' . $user_id);
   }
 }
 add_action('profile_update', 'send_notification_on_profile_update', 10, 1);
