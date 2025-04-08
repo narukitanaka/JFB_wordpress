@@ -80,13 +80,13 @@
 
     <?php if (is_user_buyer()): ?>
       <div class="snav_list maker">
-        <p><a href="<?php echo home_url('/maker'); ?>">Maker</a></p>
+        <p><a href="<?php echo home_url('/maker'); ?>">Maker Lists</a></p>
       </div>
     <?php endif; ?>
 
     <?php if (is_user_maker()): ?>
       <div class="snav_list buyer">
-        <p><a href="<?php echo home_url('/buyer'); ?>">Buyer</a></p>
+        <p><a href="<?php echo home_url('/buyer'); ?>">Buyer Lists</a></p>
       </div>
     <?php endif; ?>
 

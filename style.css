@@ -154,8 +154,17 @@ p {
   transform: scale(1.1);
 }
 
+.no-results {
+  width: 100% !important;
+}
+
 .no-matching {
+  font-size: 1.8rem;
   text-align: center;
+}
+
+.no-results-all {
+  font-size: 1.8rem;
 }
 
 .u-pc {
@@ -1093,6 +1102,7 @@ component
 }
 .companyCard01 > div .left {
   width: 50%;
+  max-width: 48rem;
   flex-shrink: 0;
   padding-right: 3rem;
 }
@@ -1112,7 +1122,7 @@ component
   min-width: 0;
 }
 .companyCard01 > div .right .info {
-  margin-bottom: 4rem;
+  margin-bottom: 3.5rem;
 }
 @media screen and (max-width: 768px) {
   .companyCard01 > div .right .info {
@@ -1195,7 +1205,7 @@ component
   font-size: 1.2rem;
 }
 .companyCard01 > div .right .links {
-  max-width: 25rem;
+  max-width: 20rem;
 }
 @media screen and (max-width: 768px) {
   .companyCard01 > div .right .links {
@@ -2309,30 +2319,47 @@ section.categories ul li p {
   text-align: center;
 }
 
-section.maker {
+section.maker, section.buyer {
   margin: 10rem 0;
 }
 @media screen and (max-width: 768px) {
-  section.maker {
+  section.maker, section.buyer {
     margin: 6rem 0;
   }
 }
-section.maker .itemCard {
+section.maker .inner, section.buyer .inner {
+  position: relative;
+}
+section.maker .btn-wrap, section.buyer .btn-wrap {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 15rem;
+}
+@media screen and (max-width: 768px) {
+  section.maker .btn-wrap, section.buyer .btn-wrap {
+    width: 12rem;
+  }
+}
+section.maker .btn-wrap .btn, section.buyer .btn-wrap .btn {
+  aspect-ratio: 1/0.25;
+}
+section.maker .itemCard, section.buyer .itemCard {
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
 }
 @media screen and (max-width: 768px) {
-  section.maker .itemCard {
+  section.maker .itemCard, section.buyer .itemCard {
     gap: 1.5rem;
     row-gap: 3rem;
   }
 }
-section.maker .itemCard .box {
+section.maker .itemCard .box, section.buyer .itemCard .box {
   width: calc(20% - 1.6rem);
 }
 @media screen and (max-width: 768px) {
-  section.maker .itemCard .box {
+  section.maker .itemCard .box, section.buyer .itemCard .box {
     width: calc(50% - 0.75rem);
   }
 }
@@ -3510,6 +3537,7 @@ conatct
 }
 #search .search-block .companyCard01 {
   padding-left: 0;
+  margin-bottom: 0;
 }
 #search .search-block .companyCard01:first-of-type > div {
   padding-top: 0;
@@ -3588,6 +3616,7 @@ login
   display: none;
 }
 .contents-wrap#login .contents .wpmem_msg {
+  width: 100%;
   margin-bottom: 2rem;
   color: #d93924;
 }
@@ -3601,6 +3630,11 @@ login
 .contents-wrap#login .contents .div_text {
   margin-bottom: 1rem;
 }
+.contents-wrap#login .contents .text-error {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #d93924;
+}
 .contents-wrap#login .contents #wpmem_login,
 .contents-wrap#login .contents #wpmem_reg {
   width: 100%;
@@ -3612,9 +3646,11 @@ login
 .contents-wrap#login .contents #wpmem_login input[type=text],
 .contents-wrap#login .contents #wpmem_login input[type=email],
 .contents-wrap#login .contents #wpmem_login input[type=password],
+.contents-wrap#login .contents #wpmem_login select,
 .contents-wrap#login .contents #wpmem_reg input[type=text],
 .contents-wrap#login .contents #wpmem_reg input[type=email],
-.contents-wrap#login .contents #wpmem_reg input[type=password] {
+.contents-wrap#login .contents #wpmem_reg input[type=password],
+.contents-wrap#login .contents #wpmem_reg select {
   width: 100%;
   padding: 1rem 2.5rem;
   background-color: #fff;
@@ -3642,6 +3678,9 @@ login
 .contents-wrap#login .contents #wpmem_login .button_div input[type=checkbox],
 .contents-wrap#login .contents #wpmem_reg .button_div input[type=checkbox] {
   margin: 0;
+}
+.contents-wrap#login .contents #wpmem_reg .div_radio label {
+  display: inline;
 }
 .contents-wrap#login .contents .login_status,
 .contents-wrap#login .contents .register_status {

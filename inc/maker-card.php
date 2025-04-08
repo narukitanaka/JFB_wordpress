@@ -1,16 +1,17 @@
 <?php
-$thumbnail = get_the_post_thumbnail_url(get_the_ID(), '');
 $regions = get_the_terms(get_the_ID(), 'region');
 ?>
 
 <div class="companyCard01">
   <div>
     <div class="left">
-      <?php if ($thumbnail) : ?>
-        <div class="img-box obj-fit"><img src="<?php echo esc_url($thumbnail); ?>" alt=""></div>
-      <?php else : ?>
-        <div class="img-box obj-fit"><img src="<?php echo get_template_directory_uri(); ?>/images/noimage.jpg" alt=""></div>
-      <?php endif; ?>
+      <div class="img-box obj-fit">
+        <?php if (has_post_thumbnail()) : ?>
+            <?php the_post_thumbnail(); ?>
+          <?php else : ?>
+            <img src="<?php echo get_template_directory_uri(); ?>/images/noimage01.png" alt="">
+          <?php endif; ?>
+      </div>
     </div>
     <div class="right">
       <div class="info">

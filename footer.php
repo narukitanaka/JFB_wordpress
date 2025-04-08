@@ -45,7 +45,7 @@
             <ul>
               <li><a href="<?php echo home_url('/contact'); ?>">Inquiries about J-FOOD HUB</a></li>
               <li><a href="#">Privacy Policy</a></li>
-              <li><a href="#">Operating company</a></li>
+              <!-- <li><a href="#">Operating company</a></li> -->
             </ul>
           </nav>
         </div>

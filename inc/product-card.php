@@ -38,7 +38,7 @@ if ($maker_post) {
       <?php if (has_post_thumbnail()) : ?>
         <?php the_post_thumbnail(); ?>
       <?php else : ?>
-        <img src="<?php echo get_template_directory_uri(); ?>/images/noimage.jpg" alt="<?php the_title(); ?>">
+        <img src="<?php echo get_template_directory_uri(); ?>/images/noimage01.png" alt="<?php the_title(); ?>">
       <?php endif; ?>
     </div>
     <div class="cate">

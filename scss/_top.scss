@@ -106,10 +106,26 @@ section {
 }
 
 section {
-  &.maker {
+  &.maker,
+  &.buyer {
     margin: 10rem 0;
     @include c.mq() {
       margin: 6rem 0;
+    }
+    .inner {
+      position: relative;
+    }
+    .btn-wrap {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 15rem;
+      @include c.mq() {
+        width: 12rem;
+      }
+      .btn {
+        aspect-ratio: 1/0.25;
+      }
     }
     .itemCard {
       display: flex;

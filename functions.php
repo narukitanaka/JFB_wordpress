@@ -345,7 +345,7 @@ function my_custom_wpmem_translations($translated_text, $text, $domain) {
 add_filter( 'wpmem_login_failed', 'my_login_failed_msg' );
 function my_login_failed_msg( $str )
 {
-  $str = 'Error : user not find';
+  $str = '<div class="text-error">ERROR : user not find</div>';
   return $str;
 }
 
@@ -394,6 +394,10 @@ function hide_profile_fields_for_specific_roles() {
       #profile-page h2,h3 {
           display: none !important;
       }
+      /* Select Your Roleを非表示 */
+      .form-table:has(select[name="your_role"]) {
+          display: none !important;
+      }
     </style>
     <?php
   }
@@ -420,7 +424,115 @@ add_action('admin_menu', 'remove_dashboard_for_specific_roles', 999);
 /************************************************************************************
  * メーカとバイヤーがプロフィールを更新したら管理者に通知メールを送る
  ***********************************************************************************/
-function send_notification_on_self_profile_update($user_id) {
+// function send_notification_on_self_profile_update($user_id) {
+//   // 更新されたユーザー情報を取得
+//   $user = get_userdata($user_id);
+//   // 現在ログイン中のユーザーを取得
+//   $current_user = wp_get_current_user();
+//   // 自分自身の更新かどうかをチェック
+//   $is_self_update = ($current_user->ID == $user_id);
+//   // 自分自身の更新でない場合は処理を中止
+//   if (!$is_self_update) {
+//       return;
+//   }
+//   // 対象の権限グループかチェック（大文字小文字を区別しない）
+//   $target_roles = array('maker', 'buyer', 'Maker', 'Buyer');
+//   $is_target = false;
+
+//   foreach ((array) $user->roles as $role) {
+//     if (in_array(strtolower($role), array_map('strtolower', $target_roles))) {
+//       $is_target = true;
+//       break;
+//     }
+//   }
+
+//   if ($is_target) {
+//     // サイト名を取得
+//     $site_name = get_bloginfo('name');
+//     // 送信元（メールヘッダーを修正）
+//     $headers = array(
+//       'From: ' . $site_name . ' <' . get_option('admin_email') . '>'
+//     );
+
+//     // 1. 管理者への通知メール
+//     $admin_to = 'test@ghdemo.xsrv.jp';
+//     $admin_subject = 'プロフィールが更新されました';
+//     $admin_message = $user->display_name . 'のプロフィールが更新されました。' . "\n\n";
+//     $admin_message .= '更新ユーザーのメールアドレス: ' . $user->user_email . "\n";
+//     $admin_message .= '更新時間: ' . current_time('Y-m-d H:i:s');
+    
+//     // 管理者へのメール送信
+//     $admin_sent = wp_mail($admin_to, $admin_subject, $admin_message, $headers);
+    
+//     // 2. ユーザー自身への通知メール
+//     $user_to = $user->user_email;
+//     $user_subject = $site_name . '｜I have requested a profile correction.';
+//     $user_message = "This email is an auto-reply from the system.\n\n";
+//     $user_message .= "I sent a request to correct the profile.\n";
+//     $user_message .= "Please wait for a while until it is reflected on the site.";
+    
+//     // ユーザー自身へのメール送信
+//     $user_sent = wp_mail($user_to, $user_subject, $user_message, $headers);
+//   }
+// }
+// add_action('profile_update', 'send_notification_on_self_profile_update', 10, 1);
+
+/************************************************************************************
+ * ACFフィールドの変更を追跡して管理者に通知するシステム
+ ***********************************************************************************/
+
+/**
+ * 更新前のユーザーメタデータを保存する
+ */
+function store_user_meta_before_update($user_id) {
+  $user = get_userdata($user_id);
+  if (!$user) return;
+  
+  // 対象の権限グループかチェック
+  $target_roles = array('maker', 'buyer', 'Maker', 'Buyer');
+  $is_target = false;
+  
+  foreach ((array) $user->roles as $role) {
+    if (in_array(strtolower($role), array_map('strtolower', $target_roles))) {
+      $is_target = true;
+      break;
+    }
+  }
+  
+  if ($is_target) {
+    // 現在のユーザーメタデータ全体を保存
+    $user_meta = get_user_meta($user_id);
+    
+    // 必要なメタデータだけをフィルタリングして保存
+    $filtered_meta = array();
+    
+    // 提供されたACFフィールドのリスト
+    $acf_fields = array(
+      'featured_image', 'our_strengths', 'wanted_products', 'buyer-img_repaet', 'buyer-img',
+      'group_company-profile', 'company_name', 'representative', 'company_location', 'business',
+      'web-site', 'mail-address', 'basic_information', 'maker_logo', 'maker-img_repaet',
+      'maker-img', 'pdf_company-info', 'company-name', 'company-location', 'main-products',
+      'group_export-conditions', 'available-areas', 'departure', 'moq'
+    );
+    
+    // メタデータから必要なフィールドだけを抽出
+    foreach ($acf_fields as $field) {
+      if (isset($user_meta[$field])) {
+        $filtered_meta[$field] = $user_meta[$field][0];
+      }
+    }
+    
+    // フィルタリングしたメタデータを保存
+    update_option('_temp_user_meta_' . $user_id, $filtered_meta);
+  }
+}
+add_action('personal_options_update', 'store_user_meta_before_update', 1);
+add_action('edit_user_profile_update', 'store_user_meta_before_update', 1);
+
+/**
+ * メーカーとバイヤーがプロフィールを更新したら管理者と本人に通知メールを送る
+ */
+function send_notification_on_profile_update($user_id) {
   // 更新されたユーザー情報を取得
   $user = get_userdata($user_id);
   // 現在ログイン中のユーザーを取得
@@ -443,25 +555,141 @@ function send_notification_on_self_profile_update($user_id) {
   }
   // 対象ユーザーの場合に処理を実行
   if ($is_target) {
-    // 通知メールの宛先
-    $to = 'register@g-hill.jp';
     // サイト名を取得
     $site_name = get_bloginfo('name');
-    // メールの件名
-    $subject = 'プロフィールが更新されました';
     // 送信元（メールヘッダーを修正）
     $headers = array(
       'From: ' . $site_name . ' <' . get_option('admin_email') . '>'
     );
-    // メール本文
-    $message = $user->display_name . 'のプロフィールが更新されました。' . "\n\n";
-    $message .= '更新ユーザーのメールアドレス: ' . $user->user_email . "\n";
-    $message .= '更新時間: ' . current_time('Y-m-d H:i:s');
-    // メール送信
-    $sent = wp_mail($to, $subject, $message, $headers);
+
+    // 変更されたフィールドのラベルを集めるための配列
+    $changed_fields = array();
+    
+    // =====================================================================
+    // ACFフィールドの変更を検出する
+    // =====================================================================
+    
+    // 更新前のメタデータを取得
+    $old_meta = get_option('_temp_user_meta_' . $user_id, array());
+    
+    // 更新後の現在のメタデータを取得
+    $current_meta = array();
+    $user_meta = get_user_meta($user_id);
+    
+    // ACFフィールドのラベルマッピング
+    $field_labels = array(
+      'featured_image' => 'Featured Image',
+      'our_strengths' => 'Our Strengths',
+      'wanted_products' => 'Wanted Products',
+      'buyer-img_repaet' => 'Images',
+      'buyer-img' => 'Image',
+      'group_company-profile' => 'Company profile',
+      'company_name' => 'Company Name',
+      'representative' => 'Representative',
+      'company_location' => 'Company location',
+      'business' => 'Business',
+      'web-site' => 'Web site',
+      'mail-address' => 'Form Email address',
+      'basic_information' => 'Basic Information',
+      'maker_logo' => 'Logo Image',
+      'maker-img_repaet' => 'Images',
+      'maker-img' => 'Image',
+      'pdf_company-info' => 'Company info PDF',
+      'company-name' => 'Company Name',
+      'company-location' => 'Company location',
+      'main-products' => 'Main Products',
+      'group_export-conditions' => 'Export Conditions',
+      'available-areas' => 'Available Areas',
+      'departure' => 'Lead time to departure',
+      'moq' => 'MOQ'
+    );
+    
+    // ACFフィールドのリスト
+    $acf_fields = array_keys($field_labels);
+    
+    // 現在のメタデータから必要なフィールドだけを抽出
+    foreach ($acf_fields as $field) {
+      if (isset($user_meta[$field])) {
+        $current_meta[$field] = $user_meta[$field][0];
+      }
+    }
+    
+    // 古いメタデータと新しいメタデータを比較
+    foreach ($current_meta as $key => $value) {
+      // キーが古いメタデータに存在し、値が変更された場合
+      if (isset($old_meta[$key]) && $old_meta[$key] != $value) {
+        // フィールドラベルを取得
+        $label = isset($field_labels[$key]) ? $field_labels[$key] : $key;
+        $changed_fields[] = $label;
+      }
+      // キーが古いメタデータに存在せず、新しいメタデータでは値がある場合
+      elseif (!isset($old_meta[$key]) && !empty($value)) {
+        // フィールドラベルを取得
+        $label = isset($field_labels[$key]) ? $field_labels[$key] : $key;
+        $changed_fields[] = $label;
+      }
+    }
+    
+    // 古いメタデータにキーがあって、新しいメタデータにキーがない場合（削除された場合）
+    foreach ($old_meta as $key => $value) {
+      if (!isset($current_meta[$key]) && !empty($value)) {
+        // フィールドラベルを取得
+        $label = isset($field_labels[$key]) ? $field_labels[$key] : $key;
+        $changed_fields[] = $label . '（削除）';
+      }
+    }
+    
+    // =====================================================================
+    // メール送信処理
+    // =====================================================================
+    
+    // 重複を除去
+    $changed_fields = array_unique($changed_fields);
+
+    // 1. 管理者への通知メール
+    $admin_to = 'test@ghdemo.xsrv.jp';
+    $admin_subject = 'プロフィールが更新されました';
+    $admin_message = $user->display_name . 'のプロフィールが更新されました。' . "\n\n";
+    $admin_message .= '更新ユーザーのメールアドレス: ' . $user->user_email . "\n";
+    $admin_message .= '更新時間: ' . current_time('Y-m-d H:i:s') . "\n\n";
+    
+    // 変更されたフィールドの情報を追加
+    if (!empty($changed_fields)) {
+      $admin_message .= "変更されたフィールド：\n";
+      $admin_message .= "- " . implode("\n- ", $changed_fields) . "\n";
+    } else {
+      $admin_message .= "※変更されたフィールドは検出されませんでした。\n";
+      
+      // デバッグ情報を追加
+      $admin_message .= "\n----- デバッグ情報 -----\n";
+      $admin_message .= "保存された古いメタデータ: " . count($old_meta) . "件\n";
+      if (!empty($old_meta)) {
+        $admin_message .= "キー: " . implode(", ", array_keys($old_meta)) . "\n";
+      }
+      $admin_message .= "現在のメタデータ: " . count($current_meta) . "件\n";
+      if (!empty($current_meta)) {
+        $admin_message .= "キー: " . implode(", ", array_keys($current_meta)) . "\n";
+      }
+    }
+    
+    // 管理者へのメール送信
+    $admin_sent = wp_mail($admin_to, $admin_subject, $admin_message, $headers);
+    
+    // 2. ユーザー自身への通知メール
+    $user_to = $user->user_email;
+    $user_subject = $site_name . '｜訂正依頼しました。';
+    $user_message = "このメールは自動返信です。\n";
+    $user_message .= "プロフィールのを更新しました。\n\n";
+    $user_message .= "サイトへ反映されるまでしばらくお待ちください。";
+    
+    // ユーザー自身へのメール送信
+    $user_sent = wp_mail($user_to, $user_subject, $user_message, $headers);
+    
+    // 一時データを削除
+    delete_option('_temp_user_meta_' . $user_id);
   }
 }
-add_action('profile_update', 'send_notification_on_self_profile_update', 10, 1);
+add_action('profile_update', 'send_notification_on_profile_update', 10, 1);
 
 
 /************************************************************************************

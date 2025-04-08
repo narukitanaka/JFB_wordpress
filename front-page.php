@@ -137,47 +137,54 @@
           </div>
         </section>
 
+
         <?php if (is_user_buyer()): ?>
         <section class="maker">
           <div class="inner">
             <h2>Maker</h2>
 
-            <div class="itemCard">
+            <div class="btn-wrap">
+              <a class="btn bgc-bl" href="<?php echo home_url('/maker'); ?>">Maker Lists</a>
+            </div>
 
+            <div class="itemCard">
             <?php
               // makerの投稿を取得
               $args = array(
                   'post_type' => 'maker',
-                  'posts_per_page' => -1, // すべて表示（または必要な数に制限）
+                  'posts_per_page' => 10,
                   'orderby' => 'title',
                   'order' => 'ASC',
               );
               $makers = new WP_Query($args);
               if ($makers->have_posts()) :
                 while ($makers->have_posts()) : $makers->the_post();
-                // アイキャッチ画像の取得
-                $thumbnail = get_the_post_thumbnail_url(get_the_ID(), 'medium');
                 // 地域を取得
                 $regions = get_the_terms(get_the_ID(), 'region');
             ?>
               <div class="box">
-                <?php if ($thumbnail) : ?>
-                <div class="img-box obj-fit"><img src="<?php echo esc_url($thumbnail); ?>" alt="<?php the_title_attribute(); ?>"></div>
-                <?php endif; ?>
-                
-                <div class="cate">
-                  <?php get_template_part('inc/snipets-cate'); ?>
-                </div>
-                
-                <div class="name"><?php the_title(); ?></div>
-                
-                <?php if ($regions && !is_wp_error($regions) && !empty($regions)) : ?>
-                <div class="region">
-                  <img src="<?php echo get_template_directory_uri(); ?>/images/icon-pin.svg" alt="region">
-                  <span><?php echo esc_html($regions[0]->name); ?></span>
-                </div>
-                <?php endif; ?>
-                
+                <a href="<?php the_permalink(); ?>">
+                  <div class="img-box obj-fit">
+                    <?php if (has_post_thumbnail()) : ?>
+                      <?php the_post_thumbnail(); ?>
+                    <?php else : ?>
+                      <img src="<?php echo get_template_directory_uri(); ?>/images/noimage01.png" alt="">
+                    <?php endif; ?>
+                  </div>
+  
+                  <div class="cate">
+                    <?php get_template_part('inc/snipets-cate'); ?>
+                  </div>
+  
+                  <div class="name"><?php the_title(); ?></div>
+                  
+                  <?php if ($regions && !is_wp_error($regions) && !empty($regions)) : ?>
+                  <div class="region">
+                    <img src="<?php echo get_template_directory_uri(); ?>/images/icon-pin.svg" alt="region">
+                    <span><?php echo esc_html($regions[0]->name); ?></span>
+                  </div>
+                  <?php endif; ?>
+                </a>
                 <div class="link-area">
                   <a class="btn bgc-wh" href="<?php the_permalink(); ?>#profile">Company Profile</a>
                   <a class="btn bgc-wh" href="<?php the_permalink(); ?>#export">Export Conditions</a>
@@ -189,6 +196,66 @@
           </div>
         </section>
         <?php endif; ?>
+
+
+        <?php if (is_user_maker()): ?>
+        <section class="buyer">
+          <div class="inner">
+            <h2>Buyer</h2>
+
+            <div class="btn-wrap">
+              <a class="btn bgc-bl" href="<?php echo home_url('/buyer'); ?>">Buyer Lists</a>
+            </div>
+
+            <div class="itemCard">
+            <?php
+              // makerの投稿を取得
+              $args = array(
+                  'post_type' => 'buyer',
+                  'posts_per_page' => 10,
+                  'orderby' => 'title',
+                  'order' => 'ASC',
+              );
+              $makers = new WP_Query($args);
+              if ($makers->have_posts()) :
+                while ($makers->have_posts()) : $makers->the_post();
+                // 国を取得
+                $regions = get_the_terms(get_the_ID(), 'country');
+            ?>
+              <div class="box">
+                <a href=" <?php the_permalink(); ?>">
+                  <div class="img-box obj-fit">
+                    <?php if (has_post_thumbnail()) : ?>
+                      <?php the_post_thumbnail(); ?>
+                    <?php else : ?>
+                      <img src="<?php echo get_template_directory_uri(); ?>/images/noimage01.png" alt="">
+                    <?php endif; ?>
+                  </div>
+  
+                  <div class="cate">
+                    <?php get_template_part('inc/snipets-cate'); ?>
+                  </div>
+  
+                  <div class="name"><?php the_title(); ?></div>
+                  
+                  <?php if ($regions && !is_wp_error($regions) && !empty($regions)) : ?>
+                  <div class="region">
+                    <img src="<?php echo get_template_directory_uri(); ?>/images/icon-pin.svg" alt="region">
+                    <span><?php echo esc_html($regions[0]->name); ?></span>
+                  </div>
+                  <?php endif; ?>
+                </a>
+                <div class="link-area">
+                  <a class="btn bgc-wh" href="<?php the_permalink(); ?>#profile">Company Profile</a>
+                  <a class="btn bgc-wh" href="<?php the_permalink(); ?>#wanted">Wanted Products</a>
+                </div>
+              </div>
+            <?php endwhile; wp_reset_postdata(); endif; ?>
+            </div>
+          </div>
+        </section>
+        <?php endif; ?>
+
 
         <section class="about">
           <div class="inner">

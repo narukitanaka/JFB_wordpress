@@ -28,13 +28,15 @@ if (!empty($countries) && !is_wp_error($countries)) {
   </div>
   <a href="<?php the_permalink(); ?>">
     <div>
-      <?php if (has_post_thumbnail()) : ?>
-        <div class="left">
-          <div class="img-box obj-fit">
+      <div class="left">
+        <div class="img-box obj-fit">
+          <?php if (has_post_thumbnail()) : ?>
             <?php the_post_thumbnail(); ?>
-          </div>
+          <?php else : ?>
+            <img src="<?php echo get_template_directory_uri(); ?>/images/noimage01.png" alt="">
+          <?php endif; ?>
         </div>
-      <?php endif; ?>
+      </div>
       <div class="right">
         <div class="cate">
           Wanted Products

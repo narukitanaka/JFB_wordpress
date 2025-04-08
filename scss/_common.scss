@@ -292,6 +292,13 @@ p {
   }
 }
 
+.no-results {
+  width: 100% !important;
+}
 .no-matching {
+  font-size: 1.8rem;
   text-align: center;
+}
+.no-results-all {
+  font-size: 1.8rem;
 }
