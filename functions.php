@@ -421,117 +421,33 @@ function remove_dashboard_for_specific_roles() {
 add_action('admin_menu', 'remove_dashboard_for_specific_roles', 999);
 
 
-/************************************************************************************
- * メーカとバイヤーがプロフィールを更新したら管理者に通知メールを送る
- ***********************************************************************************/
-// function send_notification_on_self_profile_update($user_id) {
-//   // 更新されたユーザー情報を取得
-//   $user = get_userdata($user_id);
-//   // 現在ログイン中のユーザーを取得
-//   $current_user = wp_get_current_user();
-//   // 自分自身の更新かどうかをチェック
-//   $is_self_update = ($current_user->ID == $user_id);
-//   // 自分自身の更新でない場合は処理を中止
-//   if (!$is_self_update) {
-//       return;
-//   }
-//   // 対象の権限グループかチェック（大文字小文字を区別しない）
-//   $target_roles = array('maker', 'buyer', 'Maker', 'Buyer');
-//   $is_target = false;
-
-//   foreach ((array) $user->roles as $role) {
-//     if (in_array(strtolower($role), array_map('strtolower', $target_roles))) {
-//       $is_target = true;
-//       break;
-//     }
-//   }
-
-//   if ($is_target) {
-//     // サイト名を取得
-//     $site_name = get_bloginfo('name');
-//     // 送信元（メールヘッダーを修正）
-//     $headers = array(
-//       'From: ' . $site_name . ' <' . get_option('admin_email') . '>'
-//     );
-
-//     // 1. 管理者への通知メール
-//     $admin_to = 'test@ghdemo.xsrv.jp';
-//     $admin_subject = 'プロフィールが更新されました';
-//     $admin_message = $user->display_name . 'のプロフィールが更新されました。' . "\n\n";
-//     $admin_message .= '更新ユーザーのメールアドレス: ' . $user->user_email . "\n";
-//     $admin_message .= '更新時間: ' . current_time('Y-m-d H:i:s');
-    
-//     // 管理者へのメール送信
-//     $admin_sent = wp_mail($admin_to, $admin_subject, $admin_message, $headers);
-    
-//     // 2. ユーザー自身への通知メール
-//     $user_to = $user->user_email;
-//     $user_subject = $site_name . '｜I have requested a profile correction.';
-//     $user_message = "This email is an auto-reply from the system.\n\n";
-//     $user_message .= "I sent a request to correct the profile.\n";
-//     $user_message .= "Please wait for a while until it is reflected on the site.";
-    
-//     // ユーザー自身へのメール送信
-//     $user_sent = wp_mail($user_to, $user_subject, $user_message, $headers);
-//   }
-// }
-// add_action('profile_update', 'send_notification_on_self_profile_update', 10, 1);
 
 /************************************************************************************
- * ACFフィールドの変更を追跡して管理者に通知するシステム
+ * メーカとバイヤーがプロフィールを更新した時の通知メール
  ***********************************************************************************/
-
-/**
- * 更新前のユーザーメタデータを保存する
- */
+//更新前のユーザーメタデータを保存する
 function store_user_meta_before_update($user_id) {
   $user = get_userdata($user_id);
   if (!$user) return;
-  
   // 対象の権限グループかチェック
   $target_roles = array('maker', 'buyer', 'Maker', 'Buyer');
   $is_target = false;
-  
   foreach ((array) $user->roles as $role) {
     if (in_array(strtolower($role), array_map('strtolower', $target_roles))) {
       $is_target = true;
       break;
     }
   }
-  
   if ($is_target) {
     // 現在のユーザーメタデータ全体を保存
     $user_meta = get_user_meta($user_id);
-    
-    // 必要なメタデータだけをフィルタリングして保存
-    $filtered_meta = array();
-    
-    // 提供されたACFフィールドのリスト
-    $acf_fields = array(
-      'featured_image', 'our_strengths', 'wanted_products', 'buyer-img_repaet', 'buyer-img',
-      'group_company-profile', 'company_name', 'representative', 'company_location', 'business',
-      'web-site', 'mail-address', 'basic_information', 'maker_logo', 'maker-img_repaet',
-      'maker-img', 'pdf_company-info', 'company-name', 'company-location', 'main-products',
-      'group_export-conditions', 'available-areas', 'departure', 'moq'
-    );
-    
-    // メタデータから必要なフィールドだけを抽出
-    foreach ($acf_fields as $field) {
-      if (isset($user_meta[$field])) {
-        $filtered_meta[$field] = $user_meta[$field][0];
-      }
-    }
-    
-    // フィルタリングしたメタデータを保存
-    update_option('_temp_user_meta_' . $user_id, $filtered_meta);
+    update_option('_temp_user_meta_' . $user_id, $user_meta);
   }
 }
 add_action('personal_options_update', 'store_user_meta_before_update', 1);
 add_action('edit_user_profile_update', 'store_user_meta_before_update', 1);
 
-/**
- * メーカーとバイヤーがプロフィールを更新したら管理者と本人に通知メールを送る
- */
+ // メーカーとバイヤーがプロフィールを更新したら管理者と本人に通知メールを送る
 function send_notification_on_profile_update($user_id) {
   // 更新されたユーザー情報を取得
   $user = get_userdata($user_id);
@@ -541,12 +457,11 @@ function send_notification_on_profile_update($user_id) {
   $is_self_update = ($current_user->ID == $user_id);
   // 自分自身の更新でない場合は処理を中止
   if (!$is_self_update) {
-      return;
+    return;
   }
   // 対象の権限グループかチェック（大文字小文字を区別しない）
   $target_roles = array('maker', 'buyer', 'Maker', 'Buyer');
   $is_target = false;
-
   foreach ((array) $user->roles as $role) {
     if (in_array(strtolower($role), array_map('strtolower', $target_roles))) {
       $is_target = true;
@@ -561,91 +476,169 @@ function send_notification_on_profile_update($user_id) {
     $headers = array(
       'From: ' . $site_name . ' <' . get_option('admin_email') . '>'
     );
-
     // 変更されたフィールドのラベルを集めるための配列
-    $changed_fields = array();
+    $changed_field_keys = array(); // 一時的にキーを保存
+    $changed_fields = array(); // 最終的なラベルを保存
     
     // =====================================================================
     // ACFフィールドの変更を検出する
     // =====================================================================
-    
     // 更新前のメタデータを取得
     $old_meta = get_option('_temp_user_meta_' . $user_id, array());
-    
     // 更新後の現在のメタデータを取得
-    $current_meta = array();
-    $user_meta = get_user_meta($user_id);
+    $current_meta = get_user_meta($user_id);
+    // ACFのシステムフィールドを除外するためのパターン
+    $exclude_patterns = array(
+      '^_', // アンダースコアで始まるもの
+      '^wp_', // wp_で始まるもの
+      '^acf$', // acfだけのもの
+      '^_acf', // _acfで始まるもの
+    );
+    // 変更を検出するための処理
+    // 現在のメタデータのすべてのキーを調査
+    foreach ($current_meta as $key => $value) {
+      // 除外パターンに一致するフィールドはスキップ
+      $should_skip = false;
+      foreach ($exclude_patterns as $pattern) {
+        if (preg_match('/' . $pattern . '/', $key)) {
+          $should_skip = true;
+          break;
+        }
+      }
+      if ($should_skip) continue;
+      // 現在の値（配列の場合は最初の要素を取得）
+      $current_value = is_array($value) && !empty($value) ? $value[0] : '';
+      // 前回の値が存在するかチェック
+      if (isset($old_meta[$key]) && is_array($old_meta[$key]) && !empty($old_meta[$key])) {
+        $old_value = $old_meta[$key][0];
+        // 値が変更された場合
+        if ($current_value != $old_value) {
+          // 変更されたキーを追加
+          $changed_field_keys[] = $key;
+        }
+      } 
+      // 新しく追加されたフィールド
+      elseif (!isset($old_meta[$key]) && !empty($current_value)) {
+        // 変更されたキーを追加
+        $changed_field_keys[] = $key;
+      }
+    }
+    // 削除されたフィールドも検出
+    foreach ($old_meta as $key => $value) {
+      // 除外パターンに一致するフィールドはスキップ
+      $should_skip = false;
+      foreach ($exclude_patterns as $pattern) {
+        if (preg_match('/' . $pattern . '/', $key)) {
+          $should_skip = true;
+          break;
+        }
+      }
+      if ($should_skip) continue;
+      $old_value = is_array($value) && !empty($value) ? $value[0] : '';
+      // フィールドが削除された場合
+      if (!isset($current_meta[$key]) && !empty($old_value)) {
+        // 変更されたキーを追加
+        $changed_field_keys[] = $key . '_deleted';
+      }
+    }
     
-    // ACFフィールドのラベルマッピング
+    // =====================================================================
+    // フィールドキーからラベルへの変換
+    // =====================================================================
+    // ACFフィールドのラベルマッピング（完全な形での直接マッピング）
     $field_labels = array(
+      // ベースフィールド（Buyer & Maker共通）
       'featured_image' => 'Featured Image',
       'our_strengths' => 'Our Strengths',
       'wanted_products' => 'Wanted Products',
+      'mail-address' => 'Form Email address',
+      
+      // Buyerのフィールド
       'buyer-img_repaet' => 'Images',
       'buyer-img' => 'Image',
       'group_company-profile' => 'Company profile',
-      'company_name' => 'Company Name',
-      'representative' => 'Representative',
-      'company_location' => 'Company location',
-      'business' => 'Business',
-      'web-site' => 'Web site',
-      'mail-address' => 'Form Email address',
+      
+      // Makerのフィールド
       'basic_information' => 'Basic Information',
       'maker_logo' => 'Logo Image',
       'maker-img_repaet' => 'Images',
       'maker-img' => 'Image',
       'pdf_company-info' => 'Company info PDF',
+      'group_export-conditions' => 'Export Conditions',
+      
+      // 通常のサブフィールド
+      'company_name' => 'Company Name',
+      'representative' => 'Representative',
+      'company_location' => 'Company location',
+      'business' => 'Business',
+      'web-site' => 'Web site',
       'company-name' => 'Company Name',
       'company-location' => 'Company location',
       'main-products' => 'Main Products',
-      'group_export-conditions' => 'Export Conditions',
       'available-areas' => 'Available Areas',
       'departure' => 'Lead time to departure',
-      'moq' => 'MOQ'
+      'moq' => 'MOQ',
+      
+      // グループフィールドのサブフィールド（完全なキー名）
+      'group_company-profile_company_name' => 'Company Name',
+      'group_company-profile_representative' => 'Representative',
+      'group_company-profile_company_location' => 'Company location',
+      'group_company-profile_business' => 'Business',
+      'group_company-profile_web-site' => 'Web site',
+      
+      'group_company-profile_company-name' => 'Company Name',
+      'group_company-profile_company-location' => 'Company location',
+      'group_company-profile_main-products' => 'Main Products',
+      'group_company-profile_web-site' => 'Web site',
+      
+      'group_export-conditions_available-areas' => 'Available Areas',
+      'group_export-conditions_departure' => 'Lead time to departure',
+      'group_export-conditions_moq' => 'MOQ'
     );
     
-    // ACFフィールドのリスト
-    $acf_fields = array_keys($field_labels);
-    
-    // 現在のメタデータから必要なフィールドだけを抽出
-    foreach ($acf_fields as $field) {
-      if (isset($user_meta[$field])) {
-        $current_meta[$field] = $user_meta[$field][0];
+    // 検出されたキーをラベルに変換
+    foreach ($changed_field_keys as $key) {
+      $is_deleted = false;
+      // 削除フラグがあるかチェック
+      if (substr($key, -8) === '_deleted') {
+        $is_deleted = true;
+        $key = substr($key, 0, -8); // _deletedを削除
       }
-    }
-    
-    // 古いメタデータと新しいメタデータを比較
-    foreach ($current_meta as $key => $value) {
-      // キーが古いメタデータに存在し、値が変更された場合
-      if (isset($old_meta[$key]) && $old_meta[$key] != $value) {
-        // フィールドラベルを取得
-        $label = isset($field_labels[$key]) ? $field_labels[$key] : $key;
+      // ラベルを取得
+      $label = '';
+      // 直接マッピングにあるかチェック
+      if (isset($field_labels[$key])) {
+        $label = $field_labels[$key];
+      }
+      // グループフィールドのパターンをチェック
+      else if (preg_match('/^group_[^_]+_(.+)$/', $key, $matches)) {
+        $field_name = $matches[1];
+        if (isset($field_labels[$field_name])) {
+          $label = $field_labels[$field_name];
+        } else {
+          // フィールド名から推測（アンダースコアとハイフンを空白に、先頭大文字）
+          $label = ucwords(str_replace(array('_', '-'), ' ', $field_name));
+        }
+      }
+      // それ以外のフィールド
+      else {
+        // ラベルが見つからない場合は、フィールド名からラベルを生成
+        $label = ucwords(str_replace(array('_', '-'), ' ', $key));
+      }
+      // 削除された場合は印を付ける
+      if ($is_deleted) {
+        $label .= ' [削除]';
+      }
+      // 有効なラベルがあれば追加
+      if (!empty($label)) {
         $changed_fields[] = $label;
       }
-      // キーが古いメタデータに存在せず、新しいメタデータでは値がある場合
-      elseif (!isset($old_meta[$key]) && !empty($value)) {
-        // フィールドラベルを取得
-        $label = isset($field_labels[$key]) ? $field_labels[$key] : $key;
-        $changed_fields[] = $label;
-      }
     }
-    
-    // 古いメタデータにキーがあって、新しいメタデータにキーがない場合（削除された場合）
-    foreach ($old_meta as $key => $value) {
-      if (!isset($current_meta[$key]) && !empty($value)) {
-        // フィールドラベルを取得
-        $label = isset($field_labels[$key]) ? $field_labels[$key] : $key;
-        $changed_fields[] = $label . '（削除）';
-      }
-    }
+    $changed_fields = array_unique($changed_fields);
     
     // =====================================================================
     // メール送信処理
     // =====================================================================
-    
-    // 重複を除去
-    $changed_fields = array_unique($changed_fields);
-
     // 1. 管理者への通知メール
     $admin_to = 'test@ghdemo.xsrv.jp';
     $admin_subject = 'プロフィールが更新されました';
@@ -659,30 +652,15 @@ function send_notification_on_profile_update($user_id) {
       $admin_message .= "- " . implode("\n- ", $changed_fields) . "\n";
     } else {
       $admin_message .= "※変更されたフィールドは検出されませんでした。\n";
-      
-      // デバッグ情報を追加
-      $admin_message .= "\n----- デバッグ情報 -----\n";
-      $admin_message .= "保存された古いメタデータ: " . count($old_meta) . "件\n";
-      if (!empty($old_meta)) {
-        $admin_message .= "キー: " . implode(", ", array_keys($old_meta)) . "\n";
-      }
-      $admin_message .= "現在のメタデータ: " . count($current_meta) . "件\n";
-      if (!empty($current_meta)) {
-        $admin_message .= "キー: " . implode(", ", array_keys($current_meta)) . "\n";
-      }
     }
-    
-    // 管理者へのメール送信
     $admin_sent = wp_mail($admin_to, $admin_subject, $admin_message, $headers);
     
     // 2. ユーザー自身への通知メール
     $user_to = $user->user_email;
-    $user_subject = $site_name . '｜訂正依頼しました。';
-    $user_message = "このメールは自動返信です。\n";
-    $user_message .= "プロフィールのを更新しました。\n\n";
-    $user_message .= "サイトへ反映されるまでしばらくお待ちください。";
-    
-    // ユーザー自身へのメール送信
+    $user_subject = $site_name . '｜I have sent you a request to correct your profile.';
+    $user_message = "This email is an auto-reply.\n";
+    $user_message .= "I have sent you a request to correct your profile.\n\n";
+    $user_message .= "Please wait for a while until it is reflected on the site.";
     $user_sent = wp_mail($user_to, $user_subject, $user_message, $headers);
     
     // 一時データを削除
@@ -690,6 +668,7 @@ function send_notification_on_profile_update($user_id) {
   }
 }
 add_action('profile_update', 'send_notification_on_profile_update', 10, 1);
+
 
 
 /************************************************************************************
