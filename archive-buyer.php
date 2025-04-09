@@ -131,7 +131,7 @@
               <fieldset>
                 <div class="search-form">
                   <div class="search-input-wrapper">
-                    <input type="text" name="keyword" placeholder="What are you looking for?   ex) sweets, okinawa" value="<?php echo esc_attr($search_query); ?>">
+                    <input type="text" name="keyword" placeholder="What are you looking for?" value="<?php echo esc_attr($search_query); ?>">
                     <button type="submit" class="search-icon-button">
                       <img src="<?php echo get_template_directory_uri(); ?>/images/icon-search.svg" alt="">
                     </button>
