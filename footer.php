@@ -32,10 +32,10 @@
 
         <div class="fnav_list">
           <?php if (is_user_buyer()): ?>
-            <p><a href="<?php echo home_url('/maker'); ?>">Maker</a></p>
+            <p><a href="<?php echo home_url('/maker'); ?>">Maker Lists</a></p>
           <?php endif; ?>
           <?php if (is_user_maker()): ?>
-            <p><a href="<?php echo home_url('/buyer'); ?>">Buyer</a></p>
+            <p><a href="<?php echo home_url('/buyer'); ?>">Buyer Lists</a></p>
           <?php endif; ?>
         </div>
 
@@ -44,7 +44,7 @@
           <nav class="nav-accordion">
             <ul>
               <li><a href="<?php echo home_url('/contact'); ?>">Inquiries about J-FOOD HUB</a></li>
-              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="<?php echo home_url('/policy'); ?>">Privacy Policy</a></li>
               <!-- <li><a href="#">Operating company</a></li> -->
             </ul>
           </nav>

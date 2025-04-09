@@ -119,7 +119,7 @@
                     $image_url = get_template_directory_uri() . '/images/noimage01.png';
                   }
                   echo '<li>';
-                  echo '<a href="' . esc_url($filtered_link) . '">';
+                  echo '<a class="h-scale" href="' . esc_url($filtered_link) . '">';
                   echo '<div class="img-box"><img src="' . esc_url($image_url) . '" alt="' . esc_attr($category->name) . '"></div>';
                   echo '<p>' . esc_html($category->name) . '</p>';
                   echo '</a>';
@@ -128,7 +128,7 @@
               }
               ?>
               <li>
-                <a href="<?php echo home_url('/product'); ?>">
+                <a class="h-scale" href="<?php echo home_url('/product'); ?>">
                   <div class="img-box"><img src="<?php echo get_template_directory_uri(); ?>/images/cate_all.png" alt=""></div>
                   <p>All</p>
                 </a>
@@ -163,7 +163,7 @@
                 $regions = get_the_terms(get_the_ID(), 'region');
             ?>
               <div class="box">
-                <a href="<?php the_permalink(); ?>">
+                <a class="h-scale" href="<?php the_permalink(); ?>">
                   <div class="img-box obj-fit">
                     <?php if (has_post_thumbnail()) : ?>
                       <?php the_post_thumbnail(); ?>
@@ -209,7 +209,7 @@
 
             <div class="itemCard">
             <?php
-              // makerの投稿を取得
+              // buyerの投稿を取得
               $args = array(
                   'post_type' => 'buyer',
                   'posts_per_page' => 10,
@@ -223,7 +223,10 @@
                 $regions = get_the_terms(get_the_ID(), 'country');
             ?>
               <div class="box">
-                <a href=" <?php the_permalink(); ?>">
+                <div class="favorite-button-container">
+                  <?php echo do_shortcode('[favorite_button]'); ?>
+                </div>
+                <a class="h-scale" href=" <?php the_permalink(); ?>">
                   <div class="img-box obj-fit">
                     <?php if (has_post_thumbnail()) : ?>
                       <?php the_post_thumbnail(); ?>

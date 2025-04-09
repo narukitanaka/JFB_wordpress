@@ -26,7 +26,9 @@
       </nav>
 
       <?php if (is_singular('maker') && is_user_buyer()): ?>
+        <?php if (get_field('mail-address')) : ?>
         <div class="btn-wrap"><a class="btn bgc-re" href="#sendmail">Contact Maker</a></div>
+        <?php endif; ?>
       <?php endif; ?>
 
 
@@ -46,9 +48,12 @@
 
     <div class="side-btnArea">
       <div class="btn-wrap side-btn">
-        <a class="btn bgc-bl" href="<?php echo home_url('/product'); ?>">Serch Products</a>
+        <?php if (is_user_maker()): ?>
+          <a class="btn bgc-bl" href="<?php echo home_url('/buyer'); ?>">Search Buyer</a>
+        <?php else: ?>
+          <a class="btn bgc-bl" href="<?php echo home_url('/product'); ?>">Search Products</a>
+        <?php endif; ?>
       </div>
-
       <div class="btn-wrap side-btn">
         <a class="btn bgc-bl" href="<?php echo home_url('/'); ?>">HOME</a>
       </div>
@@ -92,7 +97,7 @@
 
     <div class="side-btnArea">
       <div class="btn-wrap side-btn">
-        <a class="btn bgc-bl" href="<?php echo home_url('/product'); ?>">Serch Products</a>
+        <a class="btn bgc-bl" href="<?php echo home_url('/product'); ?>">Search Products</a>
       </div>
 
       <?php if (is_logged_in_user()): ?>

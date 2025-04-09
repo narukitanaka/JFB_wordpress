@@ -984,6 +984,7 @@ component
   position: absolute;
   top: 1rem;
   right: 1rem;
+  z-index: 1;
 }
 .itemCard .img-box {
   width: 100%;
@@ -1242,8 +1243,14 @@ component
 .companyCard02 .favorite-button-container {
   position: absolute;
   top: 4rem;
-  left: 26rem;
-  left: clamp(22rem, 19.4444444444vw, 31rem);
+  left: 27.5rem;
+  z-index: 1;
+}
+@media screen and (max-width: 768px) {
+  .companyCard02 .favorite-button-container {
+    left: auto;
+    right: 3rem;
+  }
 }
 .companyCard02 .btn-wrap {
   position: absolute;
@@ -1253,7 +1260,9 @@ component
 }
 @media screen and (max-width: 768px) {
   .companyCard02 .btn-wrap {
-    top: 4rem;
+    top: auto;
+    bottom: 1rem;
+    right: 1rem;
   }
 }
 .companyCard02 .btn-wrap .btn {
@@ -1277,7 +1286,7 @@ component
   }
 }
 .companyCard02 a > div .left {
-  width: 32%;
+  width: 32.5rem;
   flex-shrink: 0;
   padding-right: 4rem;
 }
@@ -1294,7 +1303,7 @@ component
 }
 @media screen and (max-width: 768px) {
   .companyCard02 a > div .left .img-box {
-    aspect-ratio: 1/0.55;
+    aspect-ratio: 1/0.7;
   }
 }
 .companyCard02 a > div .right {
@@ -1454,20 +1463,65 @@ component
 }
 
 .simplefavorite-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.simplefavorite-button.active {
+  opacity: 1 !important;
+  box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.25);
+}
+.simplefavorite-button i {
+  font-family: "favorites" !important;
+  font-style: normal;
+}
+.simplefavorite-button i::before {
+  content: "\e87d";
+}
+
+.itemCard .simplefavorite-button,
+.companyCard02 .simplefavorite-button {
   width: 3rem;
   aspect-ratio: 1/1;
   border-radius: 50% !important;
   font-size: 0;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
 }
-.simplefavorite-button i {
+.itemCard .simplefavorite-button.active,
+.companyCard02 .simplefavorite-button.active {
+  box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.25);
+}
+.itemCard .simplefavorite-button i,
+.companyCard02 .simplefavorite-button i {
+  font-size: 2rem;
+}
+
+#singleProduct .simplefavorite-button,
+.single-head-content .simplefavorite-button {
+  position: relative;
+  width: 12rem;
+  aspect-ratio: 1/0.24;
+  border-radius: 100vmax;
+  padding-left: 1.5rem;
+  font-size: 1.4rem;
+  box-shadow: -2px -2px 4px rgba(255, 255, 255, 0.8), 2px 2px 4px rgba(0, 0, 0, 0.25);
+}
+#singleProduct .simplefavorite-button.active,
+.single-head-content .simplefavorite-button.active {
+  opacity: 1 !important;
+  box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.25);
+}
+#singleProduct .simplefavorite-button i,
+.single-head-content .simplefavorite-button i {
   position: absolute;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%);
-  font-size: 2rem !important;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 1rem;
+  font-size: 1.6rem;
 }
-.simplefavorite-button.active i {
-  color: #e65457;
+
+.single-head-content .simplefavorite-button {
+  border: 1px solid #000 !important;
 }
 
 /*************************************************
@@ -1799,10 +1853,38 @@ header .header-inner .header-acount .acount-wrapper .user .acc-menu {
   font-size: 1.2rem;
 }
 .drawer-menu .drawer-menu_wrap {
-  max-width: 30rem;
+  width: 100%;
+  max-width: 35rem;
   max-height: 73vh;
   margin: 0 auto;
   overflow-y: scroll;
+}
+.drawer-menu .is_singular {
+  background-color: #fff;
+  padding: 3rem 2rem;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.16);
+}
+.drawer-menu .is_singular nav li {
+  margin-bottom: 1.5rem;
+}
+.drawer-menu .is_singular nav li a {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+.drawer-menu .is_singular .nav_list {
+  margin-bottom: 1.5rem;
+}
+.drawer-menu .is_singular .nav_list a {
+  gap: 1rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+.drawer-menu .is_singular .btnArea {
+  margin-top: 3rem;
 }
 .drawer-menu .nav_list {
   margin-bottom: 1rem;
@@ -1845,11 +1927,35 @@ header .header-inner .header-acount .acount-wrapper .user .acc-menu {
 .drawer-menu .nav_list.maker p::before, .drawer-menu .nav_list.buyer p::before {
   background: url(images/icon-maker.svg) no-repeat center/contain;
 }
+.drawer-menu .nav_list.favo p::before {
+  background: url(images/icon-favo_bla.svg) no-repeat;
+}
+.drawer-menu .nav_list.profile p {
+  display: inline-block;
+}
+.drawer-menu .nav_list.profile p::before {
+  width: 2.4rem;
+  background: url(images/icon-account_bla.svg) no-repeat;
+}
+.drawer-menu .nav_list.profile p::after {
+  content: "";
+  width: 20px;
+  aspect-ratio: 1/1;
+  background-color: #333;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: -3rem;
+  background: url(images/icon-link02.svg) no-repeat;
+}
 .drawer-menu .btnArea {
   margin-top: 3rem;
 }
 .drawer-menu .btn-wrap {
   margin-bottom: 1rem;
+}
+.drawer-menu .btn-wrap .btn {
+  aspect-ratio: 1/0.15;
 }
 
 /*************************************************
@@ -2356,12 +2462,16 @@ section.maker .itemCard, section.buyer .itemCard {
   }
 }
 section.maker .itemCard .box, section.buyer .itemCard .box {
+  position: relative;
   width: calc(20% - 1.6rem);
 }
 @media screen and (max-width: 768px) {
   section.maker .itemCard .box, section.buyer .itemCard .box {
     width: calc(50% - 0.75rem);
   }
+}
+section.maker .itemCard .box .favorite-button-container, section.buyer .itemCard .box .favorite-button-container {
+  position: absolute;
 }
 
 section.about {
@@ -2797,9 +2907,15 @@ single
   object-position: center;
 }
 .product-content .detail-content {
+  position: relative;
   flex-grow: 1;
   min-width: 0;
   padding-top: 1rem;
+}
+.product-content .detail-content .favorite-button-container {
+  position: absolute;
+  top: 1rem;
+  right: 0;
 }
 .product-content .detail-content .number {
   font-size: 1.2rem;
@@ -3003,7 +3119,7 @@ single
 .single-head-content .head-content .btn-area {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
   flex-direction: column;
   gap: 1rem;
 }
@@ -3418,12 +3534,14 @@ single
 #pageMypage .profile-content .box.send-message .wpcf7-response-output {
   text-align: left;
   transform: none;
+  margin-top: 0;
 }
 
 /*************************************************
 conatct
 *************************************************/
 #pageContact h2,
+#pagePolicy h2,
 #pageMypage h2,
 #search h2 {
   font-size: 2.4rem;
@@ -3431,27 +3549,15 @@ conatct
   margin-bottom: 2.5rem;
 }
 #pageContact .inner,
+#pagePolicy .inner,
 #pageMypage .inner,
 #search .inner {
   padding: 2rem 0;
 }
-#pageContact .contact_wrap,
-#pageMypage .contact_wrap,
-#search .contact_wrap {
+
+#pageContact .contact_wrap {
   margin-bottom: 8rem;
 }
-#pageContact .thanks p,
-#pageMypage .thanks p,
-#search .thanks p {
-  margin-bottom: 2rem;
-}
-#pageContact .thanks .btn-wrap,
-#pageMypage .thanks .btn-wrap,
-#search .thanks .btn-wrap {
-  margin-top: 6rem;
-  max-width: 30rem;
-}
-
 #pageContact table {
   table-layout: fixed;
   width: 100%;
@@ -3525,6 +3631,65 @@ conatct
   align-items: center;
   gap: 1rem;
 }
+#pageContact .thanks p {
+  margin-bottom: 2rem;
+}
+#pageContact .thanks .btn-wrap {
+  margin-top: 6rem;
+  max-width: 30rem;
+}
+
+#pagePolicy .policy_wrap {
+  margin-bottom: 10rem;
+}
+@media screen and (max-width: 768px) {
+  #pagePolicy .policy_wrap {
+    margin-bottom: 6rem;
+  }
+}
+#pagePolicy .policy_wrap .first-text {
+  margin-bottom: 3rem;
+}
+#pagePolicy .policy_wrap .block {
+  padding: 4rem 0;
+  border-bottom: 1px solid #c6c4c2;
+}
+#pagePolicy .policy_wrap .block:last-of-type {
+  margin-bottom: 0;
+  border-bottom: none;
+}
+#pagePolicy .policy_wrap .block > :last-child {
+  margin-bottom: 0;
+}
+#pagePolicy .policy_wrap .block p,
+#pagePolicy .policy_wrap .block ul {
+  margin-bottom: 2rem;
+}
+#pagePolicy .policy_wrap .block p {
+  margin-bottom: 1rem;
+}
+#pagePolicy .policy_wrap .block p a {
+  color: #0000ee;
+}
+#pagePolicy .policy_wrap .block h3 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+#pagePolicy .policy_wrap .block ul li {
+  position: relative;
+  padding-left: 2rem;
+}
+#pagePolicy .policy_wrap .block ul li::before {
+  position: absolute;
+  top: 9px;
+  left: 0;
+  content: "";
+  width: 5px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  background-color: #333;
+}
 
 #search .search-block {
   padding: 3rem 2rem;
@@ -3544,16 +3709,14 @@ conatct
 }
 #search .search-block .companyCard02 {
   padding-left: 0;
-}
-@media screen and (max-width: 768px) {
-  #search .search-block .companyCard02 {
-    padding-right: 0;
-  }
+  padding-right: 0;
+  margin-bottom: 0;
 }
 @media screen and (max-width: 768px) {
   #search .search-block .companyCard02 .btn-wrap {
-    width: 11rem;
-    right: 1rem;
+    width: 13rem;
+    right: 0;
+    bottom: 0;
   }
 }
 #search .search-block .companyCard02:first-of-type {
@@ -3562,6 +3725,18 @@ conatct
 @media screen and (max-width: 768px) {
   #search .search-block .companyCard02:first-of-type .btn-wrap {
     top: 1rem;
+  }
+}
+#search .search-block .companyCard02:first-of-type .favorite-button-container {
+  top: 1rem;
+}
+#search .search-block .companyCard02 .favorite-button-container {
+  left: 24.5rem;
+}
+@media screen and (max-width: 768px) {
+  #search .search-block .companyCard02 .favorite-button-container {
+    left: auto;
+    right: 1rem;
   }
 }
 #search .search-block .view-more {
@@ -3581,6 +3756,15 @@ conatct
   font-family: 2rem;
   font-weight: 600;
   margin-bottom: 4.5rem;
+}
+@media screen and (max-width: 768px) {
+  .mypage_wrap h3 {
+    font-size: 1.8rem;
+    margin-bottom: 2.5rem;
+  }
+}
+.mypage_wrap .no-favorites-message p {
+  font-size: 1.8rem;
 }
 
 /*************************************************
@@ -3632,7 +3816,6 @@ login
 }
 .contents-wrap#login .contents .text-error {
   text-align: center;
-  margin-bottom: 2rem;
   color: #d93924;
 }
 .contents-wrap#login .contents #wpmem_login,

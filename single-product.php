@@ -126,6 +126,12 @@
 
             <div class="detail-content">
 
+            <?php if (is_user_buyer()): ?>
+              <div class="favorite-button-container">
+                <?php echo do_shortcode('[favorite_button]'); ?>
+              </div>
+            <?php endif; ?>
+
               <?php if (get_field('item_num')) : ?>
               <p class="number">Item No. <span><?php echo esc_html(get_field('item_num')); ?></span></p>
               <?php endif; ?>

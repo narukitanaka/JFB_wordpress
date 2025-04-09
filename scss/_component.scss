@@ -59,6 +59,7 @@ component
     position: absolute;
     top: 1rem;
     right: 1rem;
+    z-index: 1;
   }
   .img-box {
     width: 100%;
@@ -290,8 +291,12 @@ component
   .favorite-button-container {
     position: absolute;
     top: 4rem;
-    left: 26rem;
-    left: clamp(22rem, v.pxtovw(280), 31rem);
+    left: 27.5rem;
+    z-index: 1;
+    @include c.mq() {
+      left: auto;
+      right: 3rem;
+    }
   }
   .btn-wrap {
     position: absolute;
@@ -299,7 +304,9 @@ component
     right: 3rem;
     width: 12.5rem;
     @include c.mq() {
-      top: 4rem;
+      top: auto;
+      bottom: 1rem;
+      right: 1rem;
     }
     .btn {
       position: relative;
@@ -321,7 +328,7 @@ component
         gap: 1.5rem;
       }
       .left {
-        width: 32%;
+        width: 32.5rem;
         flex-shrink: 0;
         padding-right: 4rem;
         @include c.mq() {
@@ -333,7 +340,7 @@ component
           border-radius: 5px;
           overflow: hidden;
           @include c.mq() {
-            aspect-ratio: 1/0.55;
+            aspect-ratio: 1/0.7;
           }
         }
       }
@@ -461,14 +468,6 @@ component
             }
           }
         }
-        // &:not(:has(a)) {
-        //   @include c.mq() {
-        //     max-width: 8rem;
-        //     white-space: nowrap;
-        //     overflow: hidden;
-        //     text-overflow: ellipsis;
-        //   }
-        // }
       }
     }
   }
@@ -492,20 +491,60 @@ component
 }
 
 .simplefavorite-button {
-  width: 3rem;
-  aspect-ratio: 1/1;
-  border-radius: 50% !important;
-  font-size: 0;
-  i {
-    position: absolute;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%);
-    font-size: 2rem !important;
-  }
+  @include c.flex(center, center);
   &.active {
-    i {
-      color: #e65457;
+    opacity: 1 !important;
+    box-shadow: v.$shadow04;
+  }
+  i {
+    font-family: "favorites" !important;
+    font-style: normal;
+    &::before {
+      content: "\e87d";
     }
+  }
+}
+.itemCard,
+.companyCard02 {
+  .simplefavorite-button {
+    width: 3rem;
+    aspect-ratio: 1/1;
+    border-radius: 50% !important;
+    font-size: 0;
+    box-shadow: v.$shadow03;
+    &.active {
+      box-shadow: v.$shadow04;
+    }
+    i {
+      font-size: 2rem;
+    }
+  }
+}
+#singleProduct,
+.single-head-content {
+  .simplefavorite-button {
+    position: relative;
+    width: 12rem;
+    aspect-ratio: 1/0.24;
+    border-radius: 100vmax;
+    padding-left: 1.5rem;
+    font-size: 1.4rem;
+    box-shadow: v.$shadow02, v.$shadow03;
+    &.active {
+      opacity: 1 !important;
+      box-shadow: v.$shadow04;
+    }
+    i {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 1rem;
+      font-size: 1.6rem;
+    }
+  }
+}
+.single-head-content {
+  .simplefavorite-button {
+    border: 1px solid #000 !important;
   }
 }

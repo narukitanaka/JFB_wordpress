@@ -7,6 +7,7 @@ $maker_post = get_field('item_maker');
 $maker_name = '';
 $maker_url = '';
 $maker_id = 0;
+$maker_has_email = false; // メーカーのメールアドレスフラグを初期化
 if ($maker_post) {
   if (is_array($maker_post) && isset($maker_post[0])) {
     $first_maker = $maker_post[0];    
@@ -24,16 +25,20 @@ if ($maker_post) {
     // メーカーのURLを取得
     if ($maker_id) {
       $maker_url = get_permalink($maker_id);
+      // メーカーのメールアドレスを取得してフラグをセット
+      $maker_has_email = get_field('mail-address', $maker_id) ? true : false;
     }
   }
 }
 ?>
 
 <div class="itemCard">
-  <div class="favorite-button-container">
-    <?php echo do_shortcode('[favorite_button]'); ?>
-  </div>
-  <a href="<?php the_permalink(); ?>">
+  <?php if (is_user_buyer()): ?>
+    <div class="favorite-button-container">
+      <?php echo do_shortcode('[favorite_button]'); ?>
+    </div>
+  <?php endif; ?>
+  <a class="h-scale" href="<?php the_permalink(); ?>">
     <div class="img-box obj-fit">
       <?php if (has_post_thumbnail()) : ?>
         <?php the_post_thumbnail(); ?>
@@ -56,7 +61,7 @@ if ($maker_post) {
       ?>
     </div>
   </a>
-  <?php if( is_page('mypage') ): ?>
+  <?php if( is_page('mypage') && $maker_has_email ): ?>
     <div class="btn-wrap">
       <a class="btn bgc-re" href="<?php echo esc_url($maker_url); ?>/#sendmail">Contact Maker</a>
     </div>

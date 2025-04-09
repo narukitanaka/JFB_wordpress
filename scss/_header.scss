@@ -316,10 +316,38 @@ header {
     }
   }
   .drawer-menu_wrap {
-    max-width: 30rem;
+    width: 100%;
+    max-width: 35rem;
     max-height: 73vh;
     margin: 0 auto;
     overflow-y: scroll;
+  }
+  .is_singular {
+    background-color: #fff;
+    padding: 3rem 2rem;
+    box-shadow: v.$shadow01;
+    nav {
+      li {
+        margin-bottom: 1.5rem;
+        a {
+          @include c.flex(start, center);
+          gap: 1rem;
+          font-size: 1.8rem;
+          font-weight: 600;
+        }
+      }
+    }
+    .nav_list {
+      margin-bottom: 1.5rem;
+      a {
+        gap: 1rem;
+        font-size: 1.8rem;
+        font-weight: 600;
+      }
+    }
+    .btnArea {
+      margin-top: 3rem;
+    }
   }
   .nav_list {
     margin-bottom: 1rem;
@@ -382,11 +410,40 @@ header {
         }
       }
     }
+    &.favo {
+      p {
+        &::before {
+          background: url(images/icon-favo_bla.svg) no-repeat;
+        }
+      }
+    }
+    &.profile {
+      p {
+        display: inline-block;
+        &::before {
+          width: 2.4rem;
+          background: url(images/icon-account_bla.svg) no-repeat;
+        }
+        &::after {
+          content: "";
+          width: 20px;
+          aspect-ratio: 1/1;
+          background-color: #333;
+          position: absolute;
+          @include c.center(false, true);
+          right: -3rem;
+          background: url(images/icon-link02.svg) no-repeat;
+        }
+      }
+    }
   }
   .btnArea {
     margin-top: 3rem;
   }
   .btn-wrap {
     margin-bottom: 1rem;
+    .btn {
+      aspect-ratio: 1/0.15;
+    }
   }
 }

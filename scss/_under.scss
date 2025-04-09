@@ -5,6 +5,7 @@ conatct
 *************************************************/
 // お問い合わせ,検索結果,マイページ
 #pageContact,
+#pagePolicy,
 #pageMypage,
 #search {
   h2 {
@@ -15,22 +16,13 @@ conatct
   .inner {
     padding: 2rem 0;
   }
-  .contact_wrap {
-    margin-bottom: 8rem;
-  }
-  .thanks {
-    p {
-      margin-bottom: 2rem;
-    }
-    .btn-wrap {
-      margin-top: 6rem;
-      max-width: 30rem;
-    }
-  }
 }
 
 // お問い合わせ
 #pageContact {
+  .contact_wrap {
+    margin-bottom: 8rem;
+  }
   table {
     table-layout: fixed;
     width: 100%;
@@ -99,6 +91,70 @@ conatct
       gap: 1rem;
     }
   }
+  .thanks {
+    p {
+      margin-bottom: 2rem;
+    }
+    .btn-wrap {
+      margin-top: 6rem;
+      max-width: 30rem;
+    }
+  }
+}
+
+//プライバシーポリシー
+#pagePolicy {
+  .policy_wrap {
+    margin-bottom: 10rem;
+    @include c.mq() {
+      margin-bottom: 6rem;
+    }
+    .first-text {
+      margin-bottom: 3rem;
+    }
+    .block {
+      padding: 4rem 0;
+      border-bottom: 1px solid #c6c4c2;
+      &:last-of-type {
+        margin-bottom: 0;
+        border-bottom: none;
+      }
+      > :last-child {
+        margin-bottom: 0;
+      }
+      p,
+      ul {
+        margin-bottom: 2rem;
+      }
+      p {
+        margin-bottom: 1rem;
+        a {
+          color: #0000ee;
+        }
+      }
+      h3 {
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+      }
+      ul {
+        li {
+          position: relative;
+          padding-left: 2rem;
+          &::before {
+            position: absolute;
+            top: 9px;
+            left: 0;
+            content: "";
+            width: 5px;
+            aspect-ratio: 1/1;
+            border-radius: 50%;
+            background-color: #333;
+          }
+        }
+      }
+    }
+  }
 }
 
 //検索結果
@@ -124,13 +180,13 @@ conatct
     }
     .companyCard02 {
       padding-left: 0;
-      @include c.mq() {
-        padding-right: 0;
-      }
+      padding-right: 0;
+      margin-bottom: 0;
       .btn-wrap {
         @include c.mq() {
-          width: 11rem;
-          right: 1rem;
+          width: 13rem;
+          right: 0;
+          bottom: 0;
         }
       }
       &:first-of-type {
@@ -139,6 +195,16 @@ conatct
           @include c.mq() {
             top: 1rem;
           }
+        }
+        .favorite-button-container {
+          top: 1rem;
+        }
+      }
+      .favorite-button-container {
+        left: calc(27.5rem - 3rem);
+        @include c.mq() {
+          left: auto;
+          right: 1rem;
         }
       }
     }
@@ -159,5 +225,14 @@ conatct
     font-family: 2rem;
     font-weight: 600;
     margin-bottom: 4.5rem;
+    @include c.mq() {
+      font-size: 1.8rem;
+      margin-bottom: 2.5rem;
+    }
+  }
+  .no-favorites-message {
+    p {
+      font-size: 1.8rem;
+    }
   }
 }

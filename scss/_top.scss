@@ -136,9 +136,13 @@ section {
         row-gap: 3rem;
       }
       .box {
+        position: relative;
         width: calc((100% / 5) - (8rem / 5));
         @include c.mq() {
           width: calc((100% / 2) - (1.5rem / 2));
+        }
+        .favorite-button-container {
+          position: absolute;
         }
       }
     }
