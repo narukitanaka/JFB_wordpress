@@ -253,6 +253,59 @@ function enqueue_custom_script() {
 add_action( 'enqueue_block_editor_assets', 'enqueue_custom_script' );
 
 
+/************************************************************************************
+ * キーワード検索に地名も含める
+ ***********************************************************************************/
+// タクソノミーを含めた検索結果の取得
+function include_taxonomy_in_search($post_types, $search_query) {
+  $taxonomy_posts = array();
+  // 検索対象のタクソノミー
+  $taxonomies = array('region', 'country');
+  // 各タクソノミーで検索
+  foreach ($taxonomies as $taxonomy) {
+    // 名前に検索語を含むタームを取得
+    $terms = get_terms(array(
+      'taxonomy' => $taxonomy,
+      'name__like' => $search_query,
+      'hide_empty' => true
+    ));
+    if (!empty($terms) && !is_wp_error($terms)) {
+      // タームIDの配列を作成
+      $term_ids = array();
+      foreach ($terms as $term) {
+        $term_ids[] = $term->term_id;
+      }
+      // このタームに関連する投稿を取得
+      foreach ($post_types as $post_type) {
+        // 特定のタクソノミーが特定の投稿タイプに関連しているかチェック
+        if (($taxonomy == 'region' && ($post_type == 'product' || $post_type == 'maker')) ||
+            ($taxonomy == 'country' && $post_type == 'buyer')) {
+          $args = array(
+            'post_type' => $post_type,
+            'posts_per_page' => -1,
+            'fields' => 'ids',
+            'tax_query' => array(
+              array(
+                'taxonomy' => $taxonomy,
+                'field' => 'term_id',
+                'terms' => $term_ids
+              )
+            )
+          );
+          $posts = get_posts($args);
+          if (!empty($posts)) {
+            if (!isset($taxonomy_posts[$post_type])) {
+              $taxonomy_posts[$post_type] = array();
+            }
+            $taxonomy_posts[$post_type] = array_merge($taxonomy_posts[$post_type], $posts);
+          }
+        }
+      }
+    }
+  }
+  return $taxonomy_posts;
+}
+
 
 /************************************************************************************
  * メーカー/バイヤー Contact Form 7関連のカスタマイズ

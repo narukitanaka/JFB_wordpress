@@ -30,6 +30,9 @@
         $post_types = array('product', 'maker', 'buyer');
         $has_results = false; // 検索結果があるかどうかのフラグ
 
+        // タクソノミー検索でマッチする投稿IDを取得
+        $taxonomy_matches = include_taxonomy_in_search($post_types, $search_query);
+
         // 各カスタム投稿タイプごとに検索
         foreach ($post_types as $post_type) :
           // ユーザー権限に基づく表示条件チェック
@@ -45,12 +48,21 @@
             continue;
           }
 
-          // カスタム投稿タイプごとの検索クエリ
+          // 検索クエリを設定
           $args = array(
             'post_type' => $post_type,
-            's' => $search_query,
-            'posts_per_page' => 10, // 各タイプごとに10件表示
+            'posts_per_page' => 10,
           );
+
+          // タクソノミー検索結果と通常検索結果を結合
+          if (isset($taxonomy_matches[$post_type]) && !empty($taxonomy_matches[$post_type])) {
+            // タクソノミーにマッチする投稿が存在する場合
+            $args['post__in'] = $taxonomy_matches[$post_type];
+          } else {
+            // 通常の検索のみを実行
+            $args['s'] = $search_query;
+          }
+          
           $type_query = new WP_Query($args);
           
           // 検索結果がある場合のみブロックを表示
