@@ -957,3 +957,13 @@ function restrict_template_access() {
   }
 }
 add_action('template_redirect', 'restrict_template_access');
+
+/************************************************************************************
+ * wp-login.phpへのアクセスを阻止する
+ ***********************************************************************************/
+// ログアウト後のリダイレクト先を変更する
+function custom_logout_redirect() {
+  wp_redirect(home_url('/login'));
+  exit();
+}
+add_action('wp_logout', 'custom_logout_redirect');
