@@ -96,7 +96,7 @@ section {
           margin-bottom: 1rem;
         }
         p {
-          font-weight: 1.2rem;
+          line-height: 1.4;
           font-weight: 600;
           text-align: center;
         }
@@ -131,6 +131,10 @@ section {
       display: flex;
       flex-wrap: wrap;
       gap: 2rem;
+      @include c.mq(md) {
+        gap: 1rem;
+        row-gap: 2rem;
+      }
       @include c.mq() {
         gap: 1.5rem;
         row-gap: 3rem;
@@ -138,6 +142,9 @@ section {
       .box {
         position: relative;
         width: calc((100% / 5) - (8rem / 5));
+        @include c.mq(md) {
+          width: calc((100% / 5) - (4rem / 5));
+        }
         @include c.mq() {
           width: calc((100% / 2) - (1.5rem / 2));
         }
@@ -168,7 +175,7 @@ section {
         padding: 4rem 1.5rem;
       }
       .text-wrap {
-        width: 30%;
+        // width: 30%;
         max-width: 30rem;
         @include c.mq() {
           width: 100%;

@@ -21,10 +21,12 @@
               <?php
               $favorites = get_user_favorites();
               if (!empty($favorites)) {
+                $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
                 $args = array(
                   'post__in' => $favorites,
                   'post_type' => 'product',
-                  'posts_per_page' => 100
+                  'posts_per_page' => 20,
+                  'paged' => $paged
                 );
                 $the_query = new WP_Query($args);
               ?>
@@ -36,6 +38,19 @@
                   <?php endwhile; ?>
                 <?php endif; ?>
                 <?php wp_reset_postdata(); ?>
+              </div>
+
+              <div class="pagination">
+                <?php 
+                echo paginate_links(array(
+                  'base' => get_pagenum_link(1) . '%_%',
+                  'format' => 'page/%#%',
+                  'current' => $paged,
+                  'total' => $the_query->max_num_pages,
+                  'prev_text' => '＜',
+                  'next_text' => '＞',
+                ));
+                ?>
               </div>
 
               <?php } else { ?>
@@ -51,10 +66,12 @@
               <?php
               $favorites = get_user_favorites();
               if (!empty($favorites)) {
+                $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
                 $args = array(
                   'post__in' => $favorites,
                   'post_type' => 'buyer',
-                  'posts_per_page' => 100
+                  'posts_per_page' => 8,
+                  'paged' => $paged
                 );
                 $the_query = new WP_Query($args);
               ?>
@@ -66,6 +83,19 @@
                   <?php endwhile; ?>
                 <?php endif; ?>
                 <?php wp_reset_postdata(); ?>
+              </div>
+
+              <div class="pagination">
+                <?php 
+                echo paginate_links(array(
+                  'base' => get_pagenum_link(1) . '%_%',
+                  'format' => 'page/%#%',
+                  'current' => $paged,
+                  'total' => $the_query->max_num_pages,
+                  'prev_text' => '＜',
+                  'next_text' => '＞',
+                ));
+                ?>
               </div>
 
               <?php } else { ?>

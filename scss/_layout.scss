@@ -14,6 +14,7 @@ layout
       flex: 1;
       min-width: 0;
       margin-left: 17%;
+      margin-left: clamp(22rem, 17%, 33rem);
       @include c.mq() {
         margin-left: 0;
       }
@@ -86,12 +87,15 @@ layout
   flex-wrap: wrap;
   gap: 25px;
   row-gap: 60px;
-  @include c.mq() {
+  @include c.mq(md) {
     gap: 15px;
     row-gap: 30px;
   }
   > * {
     width: calc((100% / 5) - (10rem / 5));
+    @include c.mq(md) {
+      width: calc((100% / 3) - (30px / 3));
+    }
     @include c.mq() {
       width: calc((100% / 2) - (15px / 2));
     }

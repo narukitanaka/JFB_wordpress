@@ -128,6 +128,9 @@ component
       font-weight: 500;
       color: #606060;
       margin-bottom: 5px;
+      @include c.mq(md) {
+        font-size: 1.3rem;
+      }
       @include c.mq() {
         font-size: 1.3rem;
         margin-bottom: 8px;

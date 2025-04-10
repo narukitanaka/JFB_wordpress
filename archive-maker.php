@@ -26,7 +26,7 @@
                 // makerの投稿を取得
                 $args = array(
                     'post_type' => 'maker',
-                    'posts_per_page' => 5, // 表示数
+                    'posts_per_page' => 8, // 表示数
                     'orderby' => 'title',
                     'order' => 'ASC',
                 );

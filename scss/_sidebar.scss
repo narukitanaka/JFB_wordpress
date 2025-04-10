@@ -5,7 +5,8 @@ sidebar
 *************************************************/
 aside {
   width: 17%;
-  max-width: 300px;
+  // max-width: 300px;
+  min-width: 218px;
   flex-shrink: 0;
   box-shadow: v.$shadow01;
   padding: 2rem;

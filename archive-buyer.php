@@ -211,37 +211,30 @@
             <?php
               // 総ページ数
               $total_pages = $query->max_num_pages;
-              
               if ($total_pages > 1) {
                 echo '<div class="nav-links">';
-                
                 // ベースURLとパラメータの準備
                 $base_url = get_post_type_archive_link('buyer');
                 $url_params = array();
-                
                 if (!empty($search_query)) {
                   $url_params['keyword'] = $search_query;
                 }
-                
                 if (!empty($selected_categories)) {
                   foreach ($selected_categories as $cat) {
                     $url_params['category'][] = $cat;
                   }
                 }
-                
                 if (!empty($selected_countries)) {
                   foreach ($selected_countries as $country) {
                     $url_params['country'][] = $country;
                   }
                 }
-                
                 // 前のページへのリンク
                 if ($current_page > 1) {
                   $prev_params = $url_params;
                   $prev_params['page'] = $current_page - 1;
                   echo '<a class="prev page-numbers" href="' . esc_url(add_query_arg($prev_params, $base_url)) . '#buyer-list">＜</a>';
                 }
-                
                 // ページ番号リンク
                 for ($i = 1; $i <= $total_pages; $i++) {
                   $page_params = $url_params;
@@ -250,21 +243,18 @@
                   } else {
                     unset($page_params['page']);
                   }
-                  
                   if ($i == $current_page) {
                     echo '<span aria-current="page" class="page-numbers current">' . $i . '</span>';
                   } else {
                     echo '<a class="page-numbers" href="' . esc_url(add_query_arg($page_params, $base_url)) . '#buyer-list">' . $i . '</a>';
                   }
                 }
-                
                 // 次のページへのリンク
                 if ($current_page < $total_pages) {
                   $next_params = $url_params;
                   $next_params['page'] = $current_page + 1;
                   echo '<a class="next page-numbers" href="' . esc_url(add_query_arg($next_params, $base_url)) . '#buyer-list">＞</a>';
                 }
-                
                 echo '</div>';
               }
             ?>

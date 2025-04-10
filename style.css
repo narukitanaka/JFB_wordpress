@@ -76,7 +76,7 @@ input[type=button]:focus {
 }
 @media screen and (max-width: 1023px) {
   .inner {
-    width: 87%;
+    width: 90%;
     max-width: 1000px;
   }
 }
@@ -1061,6 +1061,11 @@ component
   color: #606060;
   margin-bottom: 5px;
 }
+@media screen and (max-width: 1023px) {
+  .itemCard .link-area .btn {
+    font-size: 1.3rem;
+  }
+}
 @media screen and (max-width: 768px) {
   .itemCard .link-area .btn {
     font-size: 1.3rem;
@@ -1976,16 +1981,24 @@ footer p:has(small) {
   text-align: center;
 }
 footer .footer-inner {
-  display: flex;
-  justify-content: space-between;
   padding: 8rem 4.1666666667vw 2rem 20.8333333333vw;
+  padding: 8rem 4.1666666667vw 2rem clamp(25rem, 20.8333333333vw, 47rem);
 }
 @media screen and (max-width: 768px) {
   footer .footer-inner {
+    padding: 4rem 0;
+  }
+}
+footer .footer-inner .footer-columnwrap {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+@media screen and (max-width: 768px) {
+  footer .footer-inner .footer-columnwrap {
     flex-direction: column;
     width: 90%;
-    margin: 0 auto;
-    padding: 4rem 0;
   }
 }
 footer .footer-inner .footerNav-wrap {
@@ -2014,7 +2027,8 @@ footer .footer-inner .footerNav-wrap .fnav_list {
     width: 100%;
   }
 }
-footer .footer-inner .footerNav-wrap .fnav_list:not(:has(nav)) a {
+footer .footer-inner .footerNav-wrap .fnav_list:not(:has(nav)) p a {
+  font-size: 1.3rem;
   font-weight: 600;
 }
 footer .footer-inner .footerNav-wrap .fnav_list p {
@@ -2065,7 +2079,7 @@ sidebar
 *************************************************/
 aside {
   width: 17%;
-  max-width: 300px;
+  min-width: 218px;
   flex-shrink: 0;
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.16);
   padding: 2rem;
@@ -2224,6 +2238,7 @@ layout
   flex: 1;
   min-width: 0;
   margin-left: 17%;
+  margin-left: clamp(22rem, 17%, 33rem);
 }
 @media screen and (max-width: 768px) {
   .contents-wrap:has(aside) .contents {
@@ -2297,7 +2312,7 @@ layout
   gap: 25px;
   row-gap: 60px;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1023px) {
   .flex-column05 {
     gap: 15px;
     row-gap: 30px;
@@ -2305,6 +2320,11 @@ layout
 }
 .flex-column05 > * {
   width: calc(20% - 2rem);
+}
+@media screen and (max-width: 1023px) {
+  .flex-column05 > * {
+    width: calc(33.3333333333% - 10px);
+  }
 }
 @media screen and (max-width: 768px) {
   .flex-column05 > * {
@@ -2420,7 +2440,7 @@ section.categories ul li .img-box {
   margin-bottom: 1rem;
 }
 section.categories ul li p {
-  font-weight: 1.2rem;
+  line-height: 1.4;
   font-weight: 600;
   text-align: center;
 }
@@ -2455,6 +2475,12 @@ section.maker .itemCard, section.buyer .itemCard {
   flex-wrap: wrap;
   gap: 2rem;
 }
+@media screen and (max-width: 1023px) {
+  section.maker .itemCard, section.buyer .itemCard {
+    gap: 1rem;
+    row-gap: 2rem;
+  }
+}
 @media screen and (max-width: 768px) {
   section.maker .itemCard, section.buyer .itemCard {
     gap: 1.5rem;
@@ -2464,6 +2490,11 @@ section.maker .itemCard, section.buyer .itemCard {
 section.maker .itemCard .box, section.buyer .itemCard .box {
   position: relative;
   width: calc(20% - 1.6rem);
+}
+@media screen and (max-width: 1023px) {
+  section.maker .itemCard .box, section.buyer .itemCard .box {
+    width: calc(20% - 0.8rem);
+  }
 }
 @media screen and (max-width: 768px) {
   section.maker .itemCard .box, section.buyer .itemCard .box {
@@ -2498,7 +2529,6 @@ section.about .about-wrap {
   }
 }
 section.about .about-wrap .text-wrap {
-  width: 30%;
   max-width: 30rem;
 }
 @media screen and (max-width: 768px) {
@@ -3765,6 +3795,21 @@ conatct
 }
 .mypage_wrap .no-favorites-message p {
   font-size: 1.8rem;
+}
+.mypage_wrap .pagination {
+  margin-top: 6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+.mypage_wrap .pagination span,
+.mypage_wrap .pagination a {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+}
+.mypage_wrap .pagination a {
+  color: #adaba9;
 }
 
 /*************************************************

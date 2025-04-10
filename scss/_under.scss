@@ -235,4 +235,17 @@ conatct
       font-size: 1.8rem;
     }
   }
+  .pagination {
+    margin-top: 6rem;
+    @include c.flex(center, center);
+    gap: 2rem;
+    span,
+    a {
+      font-family: v.$font-poppins;
+      font-weight: 600;
+    }
+    a {
+      color: #adaba9;
+    }
+  }
 }

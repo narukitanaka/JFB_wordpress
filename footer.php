@@ -2,62 +2,64 @@
   <footer>
     <div class="footer-inner">
 
-      <div class="logo-column u-sp">
-        <div class="logo img-box"><img src="<?php echo get_template_directory_uri(); ?>/images/jfh-logo_yoko.png" alt=""></div>
-        <a href="<?php echo home_url('/contact'); ?>">
-          <img src="<?php echo get_template_directory_uri(); ?>/images/icon-mail.svg" alt="">
-          Inquiries about J-FOOD HUB
-        </a>
-      </div>
-
-
-      <div class="footerNav-wrap">
-        <div class="fnav_list">
-          <p>Categories</p>
-          <nav>
-            <ul>
-              <?php get_template_part('inc/cate-parent-link'); ?>
-            </ul>
-          </nav>
+      <div class="footer-columnwrap">
+        <div class="logo-column u-sp">
+          <div class="logo img-box"><img src="<?php echo get_template_directory_uri(); ?>/images/jfh-logo_yoko.png" alt=""></div>
+          <a href="<?php echo home_url('/contact'); ?>">
+            <img src="<?php echo get_template_directory_uri(); ?>/images/icon-mail.svg" alt="">
+            Inquiries about J-FOOD HUB
+          </a>
         </div>
-
-        <div class="fnav_list">
-          <p>Region</p>
-          <nav>
-            <ul>
-              <?php get_template_part('inc/cate-region-link'); ?>
-            </ul>
-          </nav>
+  
+  
+        <div class="footerNav-wrap">
+          <div class="fnav_list">
+            <p>Categories</p>
+            <nav>
+              <ul>
+                <?php get_template_part('inc/cate-parent-link'); ?>
+              </ul>
+            </nav>
+          </div>
+  
+          <div class="fnav_list">
+            <p>Region</p>
+            <nav>
+              <ul>
+                <?php get_template_part('inc/cate-region-link'); ?>
+              </ul>
+            </nav>
+          </div>
+  
+          <div class="fnav_list">
+            <?php if (is_user_buyer()): ?>
+              <p><a href="<?php echo home_url('/maker'); ?>">Maker Lists</a></p>
+            <?php endif; ?>
+            <?php if (is_user_maker()): ?>
+              <p><a href="<?php echo home_url('/buyer'); ?>">Buyer Lists</a></p>
+            <?php endif; ?>
+          </div>
+  
+          <div class="fnav_list">
+            <p>Get to know us</p>
+            <nav class="nav-accordion">
+              <ul>
+                <li><a href="<?php echo home_url('/contact'); ?>">Inquiries about J-FOOD HUB</a></li>
+                <li><a href="<?php echo home_url('/policy'); ?>">Privacy Policy</a></li>
+                <!-- <li><a href="#">Operating company</a></li> -->
+              </ul>
+            </nav>
+          </div>
+  
         </div>
-
-        <div class="fnav_list">
-          <?php if (is_user_buyer()): ?>
-            <p><a href="<?php echo home_url('/maker'); ?>">Maker Lists</a></p>
-          <?php endif; ?>
-          <?php if (is_user_maker()): ?>
-            <p><a href="<?php echo home_url('/buyer'); ?>">Buyer Lists</a></p>
-          <?php endif; ?>
+  
+        <div class="logo-column u-pc">
+          <div class="logo img-box"><img src="<?php echo get_template_directory_uri(); ?>/images/jfh-logo_yoko.png" alt=""></div>
+          <a href="<?php echo home_url('/contact'); ?>">
+            <img src="<?php echo get_template_directory_uri(); ?>/images/icon-mail.svg" alt="">
+            Inquiries about J-FOOD HUB
+          </a>
         </div>
-
-        <div class="fnav_list">
-          <p>Get to know us</p>
-          <nav class="nav-accordion">
-            <ul>
-              <li><a href="<?php echo home_url('/contact'); ?>">Inquiries about J-FOOD HUB</a></li>
-              <li><a href="<?php echo home_url('/policy'); ?>">Privacy Policy</a></li>
-              <!-- <li><a href="#">Operating company</a></li> -->
-            </ul>
-          </nav>
-        </div>
-
-      </div>
-
-      <div class="logo-column u-pc">
-        <div class="logo img-box"><img src="<?php echo get_template_directory_uri(); ?>/images/jfh-logo_yoko.png" alt=""></div>
-        <a href="<?php echo home_url('/contact'); ?>">
-          <img src="<?php echo get_template_directory_uri(); ?>/images/icon-mail.svg" alt="">
-          Inquiries about J-FOOD HUB
-        </a>
       </div>
 
     </div>

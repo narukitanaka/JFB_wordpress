@@ -17,13 +17,19 @@ footer {
     }
   }
   .footer-inner {
-    @include c.flex(between, top);
     padding: 8rem v.pxtovw(60) 2rem v.pxtovw(300);
+    padding: 8rem v.pxtovw(60) 2rem clamp(25rem, v.pxtovw(300), 47rem);
     @include c.mq() {
-      flex-direction: column;
-      width: 90%;
-      margin: 0 auto;
       padding: 4rem 0;
+    }
+    .footer-columnwrap {
+      @include c.flex(between, top);
+      max-width: 1200px;
+      margin: 0 auto;
+      @include c.mq() {
+        flex-direction: column;
+        width: 90%;
+      }
     }
     .footerNav-wrap {
       width: 70%;
@@ -45,8 +51,11 @@ footer {
           }
         }
         &:not(:has(nav)) {
-          a {
-            font-weight: 600;
+          p {
+            a {
+              font-size: 1.3rem;
+              font-weight: 600;
+            }
           }
         }
         p {

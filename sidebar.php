@@ -102,7 +102,7 @@
 
       <?php if (is_logged_in_user()): ?>
         <div class="btn-wrap side-btn">
-          <a class="btn bgc-bl" href="<?php echo esc_url(get_mypage_url()); ?>">My Profile</a>
+          <a class="btn bgc-bl" href="<?php echo home_url('/mypage'); ?>">My Page</a>
         </div>
       <?php endif; ?>
     </div>
