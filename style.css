@@ -2947,6 +2947,11 @@ single
   top: 1rem;
   right: 0;
 }
+.product-content .detail-content .num-name-btn {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 2.4rem;
+  margin-bottom: 2.4rem;
+}
 .product-content .detail-content .number {
   font-size: 1.2rem;
   font-weight: 600;
@@ -2961,22 +2966,54 @@ single
   font-size: 3.2rem;
   line-height: 1.5;
   font-weight: 600;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #ccc;
-  margin-bottom: 3rem;
+  margin-bottom: 2.4rem;
 }
 @media screen and (max-width: 768px) {
   .product-content .detail-content .name {
+    font-size: 2.4rem;
+  }
+}
+.product-content .detail-content .download .btn-wrap .btn,
+.product-content .detail-content .contact-maker .btn-wrap .btn {
+  position: relative;
+  justify-content: flex-start;
+  padding-left: 2.6rem;
+}
+.product-content .detail-content .download .btn-wrap .btn svg,
+.product-content .detail-content .contact-maker .btn-wrap .btn svg {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 2rem;
+}
+.product-content .detail-content .contact-maker {
+  max-width: 32rem;
+}
+@media screen and (max-width: 768px) {
+  .product-content .detail-content .contact-maker {
+    margin: 0 auto;
+  }
+}
+.product-content .detail-content .contact-maker .btn {
+  font-size: 2.4rem;
+  aspect-ratio: 1/0.17;
+}
+@media screen and (max-width: 768px) {
+  .product-content .detail-content .contact-maker .btn {
     font-size: 2rem;
   }
 }
+.product-content .detail-content .contact-maker .btn svg {
+  width: 2.4rem;
+  height: 2.4rem;
+}
 .product-content .detail-content .download {
-  max-width: 32rem;
-  margin-bottom: 4rem;
+  max-width: 30rem;
+  margin-bottom: 2.4rem;
 }
 @media screen and (max-width: 768px) {
   .product-content .detail-content .download {
-    margin: 0 auto 4rem;
+    margin: 0 auto 3rem;
   }
 }
 .product-content .detail-content .download .btn-wrap {
@@ -2986,11 +3023,8 @@ single
   margin-bottom: 0;
 }
 .product-content .detail-content .download .btn-wrap .btn {
-  position: relative;
-  justify-content: flex-start;
-  aspect-ratio: 1/0.14;
-  padding-left: 4rem;
   font-size: 1.7rem;
+  aspect-ratio: 1/0.14;
 }
 @media screen and (max-width: 768px) {
   .product-content .detail-content .download .btn-wrap .btn {
@@ -2998,10 +3032,8 @@ single
   }
 }
 .product-content .detail-content .download .btn-wrap .btn svg {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 2rem;
+  width: 3rem;
+  height: 3rem;
 }
 .product-content .detail-content .txt {
   width: 100%;
@@ -3129,7 +3161,7 @@ single
 }
 @media screen and (max-width: 768px) {
   .single-head-content .head-content .company .ttl .name {
-    font-size: 2rem;
+    font-size: 3.2rem;
   }
 }
 .single-head-content .head-content .company .ttl .region {
@@ -3652,6 +3684,9 @@ conatct
 #pageContact .btn_wrap .btn {
   border-radius: 100vmax;
 }
+#pageContact .wpcf7-spinner {
+  display: none;
+}
 #pageContact .policy {
   text-align: center;
 }
@@ -3847,7 +3882,7 @@ login
 .contents-wrap#login .contents .wpmem_msg {
   width: 100%;
   margin-bottom: 2rem;
-  color: #d93924;
+  padding: 20px 10px;
 }
 .contents-wrap#login .contents label {
   display: block;

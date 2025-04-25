@@ -98,6 +98,11 @@ single
       top: 1rem;
       right: 0;
     }
+    .num-name-btn {
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 2.4rem;
+      margin-bottom: 2.4rem;
+    }
     .number {
       font-size: 1.2rem;
       font-weight: 600;
@@ -112,18 +117,49 @@ single
       font-size: 3.2rem;
       line-height: 1.5;
       font-weight: 600;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid #ccc;
-      margin-bottom: 3rem;
+      margin-bottom: 2.4rem;
       @include c.mq() {
-        font-size: 2rem;
+        font-size: 2.4rem;
+      }
+    }
+    .download,
+    .contact-maker {
+      .btn-wrap {
+        .btn {
+          position: relative;
+          justify-content: flex-start;
+          padding-left: 2.6rem;
+          svg {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 2rem;
+          }
+        }
+      }
+    }
+    .contact-maker {
+      max-width: 32rem;
+      @include c.mq() {
+        margin: 0 auto;
+      }
+      .btn {
+        font-size: 2.4rem;
+        aspect-ratio: 1/0.17;
+        @include c.mq() {
+          font-size: 2rem;
+        }
+        svg {
+          width: 2.4rem;
+          height: 2.4rem;
+        }
       }
     }
     .download {
-      max-width: 32rem;
-      margin-bottom: 4rem;
+      max-width: 30rem;
+      margin-bottom: 2.4rem;
       @include c.mq() {
-        margin: 0 auto 4rem;
+        margin: 0 auto 3rem;
       }
       .btn-wrap {
         margin-bottom: 1.5rem;
@@ -131,19 +167,14 @@ single
           margin-bottom: 0;
         }
         .btn {
-          position: relative;
-          justify-content: flex-start;
-          aspect-ratio: 1/0.14;
-          padding-left: 4rem;
           font-size: 1.7rem;
+          aspect-ratio: 1/0.14;
           @include c.mq() {
             font-size: 1.5rem;
           }
           svg {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            right: 2rem;
+            width: 3rem;
+            height: 3rem;
           }
         }
       }
@@ -262,7 +293,7 @@ single
           font-weight: 700;
           margin-bottom: 15px;
           @include c.mq() {
-            font-size: 2rem;
+            font-size: 3.2rem;
           }
         }
         .region {
